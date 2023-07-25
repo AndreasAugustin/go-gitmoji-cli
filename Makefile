@@ -29,3 +29,11 @@ zsh: ## open dev container with build environment
 .PHONY: prune
 prune: ## delete the whole environment
 	docker-compose down -v --rmi all --remove-orphans
+
+.PHONY: build
+build: ## build the solution
+	go build -o dist/
+
+.PHONY: test
+test:  ## run the tests
+	go test ./... -cover
