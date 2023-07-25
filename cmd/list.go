@@ -1,15 +1,10 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	"github.com/briandowns/spinner"
-	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"io"
-	"log"
-	"net/http"
 	"time"
 )
 
@@ -27,42 +22,10 @@ to quickly create a Cobra application.`,
 		fmt.Println("list called")
 		s := spinner.New(spinner.CharSets[9], 100*time.Millisecond) // Build our new spinner
 		s.Start()                                                   // Start the spinner
-		//time.Sleep(4 * time.Second)                                 // Run for some time to simulate work
-		res, err := http.Get(pkg.ConfigInstance.GitmojisUrl)
-		if err != nil {
-			fmt.Println("error", err)
-		}
-
-		if res.Body != nil {
-			defer func(Body io.ReadCloser) {
-				err := Body.Close()
-				if err != nil {
-
-				}
-			}(res.Body)
-		}
-
-		body, readErr := io.ReadAll(res.Body)
-		if readErr != nil {
-			log.Fatal(readErr)
-		}
-		fmt.Println(body)
-		gitmojis := pkg.Gitmojis{}
-		jsonErr := json.Unmarshal(body, &gitmojis)
-		if jsonErr != nil {
-			log.Fatal(jsonErr)
-		}
-
-		printEmojis(gitmojis)
+		gitmojis := pkg.GetGitmojis()
+		pkg.PrintEmojis(gitmojis)
 		s.Stop()
 	},
-}
-
-func printEmojis(gitmojis pkg.Gitmojis) {
-	for _, gitmoji := range gitmojis.Gitmojis {
-		blue := color.New(color.FgBlue).SprintFunc()
-		fmt.Println(gitmoji.Emoji, blue(gitmoji.Code), gitmoji.Description)
-	}
 }
 
 func init() {
