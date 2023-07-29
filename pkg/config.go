@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+const ProgramName = "go-gitmoji-cli"
 const Version = "v0.1.0"
 
 type ConfigEnum string

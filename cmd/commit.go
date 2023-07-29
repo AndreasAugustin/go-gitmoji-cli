@@ -9,7 +9,7 @@ import (
 // commitCmd represents the commit command
 var commitCmd = &cobra.Command{
 	Use:   "commit",
-	Short: "Interactively commit using the prompts",
+	Short: "Interactively commit using prompts",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	tea "github.com/charmbracelet/bubbletea"
 	log "github.com/sirupsen/logrus"
@@ -10,7 +11,7 @@ import (
 // configCmd represents the config command
 var configCmd = &cobra.Command{
 	Use:   "config",
-	Short: "Setup go-gitmoji-cli preferences.",
+	Short: fmt.Sprintf("Setup %s preferences.", pkg.ProgramName),
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
