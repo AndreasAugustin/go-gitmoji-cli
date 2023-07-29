@@ -52,5 +52,24 @@ func CreateAllHookFiles() error {
 }
 
 func RemoveAllHookFiles() error {
+	hooksDir, hooksErr := utils.GetGitRepoHooksDirectory()
+	if hooksErr != nil {
+		return ErrInvalidGitHooksDirectoryPath
+	}
+
+	var notRemovedHooks []string
+
+	for _, hook := range gitHooks {
+		hookPath := filepath.Join(hooksDir, hook)
+		err := utils.RemoveFile(hookPath)
+		if err != nil {
+			notRemovedHooks = append(notRemovedHooks, hook)
+		}
+	}
+
+	if len(notRemovedHooks) > 0 {
+		return fmt.Errorf("encountered an error while attempting to create one or more hook files. did not create hooks: %v", notRemovedHooks)
+	}
+
 	return nil
 }
