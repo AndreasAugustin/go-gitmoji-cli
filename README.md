@@ -10,7 +10,7 @@
 [Gitmoji][gitmoji] is an emoji guide for GitHub commit messages. Aims to be a standarization cheatsheet - guide for using emojis on GitHub's commit messages.
  is a nice way to standardize commit messages with emojis.
 
-There is already a nice [gitmoji-cli](gitmoji-cli) command line interface available.
+There is already a nice [gitmoji-cli][gitmoji-cli] command line interface available.
 Because I was searching for a nice project to get more into golang this project was created.
 
 ## Configuration
