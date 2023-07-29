@@ -19,7 +19,7 @@ type spinnerModel struct {
 	err      error
 }
 
-func initialModel() spinnerModel {
+func initialSpinnerModel() spinnerModel {
 	s := spinner.New()
 	s.Spinner = spinner.Dot
 	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
@@ -69,7 +69,7 @@ type Spinner struct {
 }
 
 func NewSpinner() Spinner {
-	model := initialModel()
+	model := initialSpinnerModel()
 	return Spinner{
 		model:   &model,
 		program: tea.NewProgram(&model),

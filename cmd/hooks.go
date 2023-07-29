@@ -56,11 +56,6 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks called")
-		//var b = []byte("#!/usr/bin/env bash\n# gitmoji as a commit hook\nif npx -v >&/dev/null\nthen\nexec < /dev/tty\n  npx -c \"gitmoji --hook $1 $2\"\nelse\nexec < /dev/tty\n  gitmoji --hook $1 $2\nfi")
-		//err := os.WriteFile("info.txt", b, 0644)
-		//if err != nil {
-		//	log.Fatal(err)
-		//}
 	},
 }
 
@@ -68,13 +63,4 @@ func init() {
 	rootCmd.AddCommand(hooksCmd)
 	hooksCmd.AddCommand(hooksInitCmd)
 	hooksCmd.AddCommand(hooksRemoveCmd)
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// initCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// initCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
