@@ -4,23 +4,29 @@ import (
 	"os"
 )
 
-var WriteFile = Write
-var readFile = Read
-var IoWrite = os.WriteFile
-var IoRead = os.ReadFile
-var fileExists = Exists
+var WriteFile = write
+var ReadFile = read
+var OsWrite = os.WriteFile
+var OsRead = os.ReadFile
+var FileExists = exists
 var OsStat = os.Stat
 var OsIsNotExist = os.IsNotExist
+var OsRemove = os.Remove
+var RemoveFile = remove
 
-func Write(filePath string, contents []byte) error {
-	return IoWrite(filePath, contents, os.ModePerm)
+func write(filePath string, contents []byte) error {
+	return OsWrite(filePath, contents, os.ModePerm)
 }
 
-func Read(filePath string) ([]byte, error) {
-	return IoRead(filePath)
+func remove(filePath string) error {
+	return OsRemove(filePath)
 }
 
-func Exists(filePath string) bool {
+func read(filePath string) ([]byte, error) {
+	return OsRead(filePath)
+}
+
+func exists(filePath string) bool {
 	if _, err := OsStat(filePath); OsIsNotExist(err) {
 		return false
 	}

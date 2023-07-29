@@ -1,10 +1,15 @@
 package cmd
 
 import (
+	"fmt"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/ui"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
 )
+
+var commitMsg []string
 
 // commitCmd represents the commit command
 var commitCmd = &cobra.Command{
@@ -18,19 +23,27 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("commit called")
+		log.Debug(commitMsg)
+		spin := ui.NewSpinner()
+		spin.Run()
+
+		gitmojis := pkg.GetGitmojis()
+		spin.Stop()
+		selectedGitmoji := ui.ListRun("Gitmojis", gitmojis.Gitmojis)
+		log.Debugf("selected gitmoji %s", selectedGitmoji)
+		scopeAndMessage := ui.TextInputsRun()
+		scope := scopeAndMessage[0]
+		message := scopeAndMessage[1]
+		log.Debugf("scope: %s and message: %s", scope, message)
+		completeMessage := fmt.Sprintf("%s: %s %s", scope, message, selectedGitmoji.Code)
+		log.Debugf("complete message: %s", completeMessage)
+		longMessage := ui.TextAreaRun()
+		log.Debugf("long message %s", longMessage)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(commitCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// commitCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// commitCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	var a []string
+	commitCmd.PersistentFlags().StringSliceVarP(&commitMsg, "message", "m", a, "The commit message. Can be repeated")
 }

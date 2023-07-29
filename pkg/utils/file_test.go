@@ -19,14 +19,14 @@ func TestWriteFileUsesCorrectValues(t *testing.T) {
 	data := []byte("fooBarRoo")
 	expectedData := []byte(data)
 
-	utils.IoWrite = func(filename string, data []byte, perm os.FileMode) error {
+	utils.OsWrite = func(filename string, data []byte, perm os.FileMode) error {
 		actualFileName = filename
 		actualData = data
 		actualPerm = perm
 		return nil
 	}
-	defer func() { utils.IoWrite = os.WriteFile }()
-	actualErr := utils.Write(expectedFileName, data)
+	defer func() { utils.OsWrite = os.WriteFile }()
+	actualErr := utils.WriteFile(expectedFileName, data)
 	assert.Nil(t, actualErr)
 	assert.Equal(t, expectedFileName, actualFileName)
 	assert.Equal(t, expectedData, actualData, "Attempted to write incorrect data file. Expected: %s, but got: %s.", expectedData, actualData)
@@ -38,12 +38,12 @@ func TestReadFileUsesCorrectValues(t *testing.T) {
 	expectedFilePath := path.Join(tmpTestDir, "foo/bar.txt")
 	expectedData := []byte("fooBarRoo")
 
-	utils.IoRead = func(filepath string) ([]byte, error) {
+	utils.OsRead = func(filepath string) ([]byte, error) {
 		actualFilePath = filepath
 		return expectedData, nil
 	}
-	defer func() { utils.IoRead = os.ReadFile }()
-	data, err := utils.Read(expectedFilePath)
+	defer func() { utils.OsRead = os.ReadFile }()
+	data, err := utils.ReadFile(expectedFilePath)
 	assert.Nil(t, err)
 	assert.Equal(t, expectedFilePath, actualFilePath, "Attempted to write to wrong file. Expected: %s, but got: %s.", expectedFilePath, actualFilePath)
 	assert.Equal(t, expectedData, data, "Did not get correct file data. Expected: %s, but got: %s.", expectedData, data)
@@ -54,7 +54,7 @@ func TestFileExistsReturnsFalseWhenErrorIsOsNotExist(t *testing.T) {
 	defer func() { utils.OsStat = os.Stat }()
 	utils.OsIsNotExist = func(err error) bool { return true }
 	defer func() { utils.OsIsNotExist = os.IsNotExist }()
-	assert.False(t, utils.Exists(path.Join(tmpTestDir, "/foo/repos/my-repo/go-gitmoji-cli.json")))
+	assert.False(t, utils.FileExists(path.Join(tmpTestDir, "/foo/repos/my-repo/go-gitmoji-cli.json")))
 }
 
 func TestFileExistsReturnsTrueWhenErrorIsNotOsNotExist(t *testing.T) {
@@ -62,5 +62,5 @@ func TestFileExistsReturnsTrueWhenErrorIsNotOsNotExist(t *testing.T) {
 	defer func() { utils.OsStat = os.Stat }()
 	utils.OsIsNotExist = func(err error) bool { return false }
 	defer func() { utils.OsIsNotExist = os.IsNotExist }()
-	assert.True(t, utils.Exists(path.Join(tmpTestDir, "foo/repos/my-repo/go-gitmoji-cli.json")))
+	assert.True(t, utils.FileExists(path.Join(tmpTestDir, "foo/repos/my-repo/go-gitmoji-cli.json")))
 }

@@ -1,15 +1,23 @@
 # TODO
 
 - [ ] edit the long descriptions for the cmds
-- [ ] git hook wrong command name
+- [x] git hook wrong command name
 - [ ] local cache for list
 - [ ] commands
   - [x] list -> use list bubbles prompt and local cache in homedir
   - [x] search -> remove (merge with list)
   - [ ] commit
+    - [x] gitmoji
+    - [x] scope
+    - [x] message
+    - [ ] prefill with former scopes
+    - [ ] add 2nd message optional
+    - [ ] make some things required
   - [ ] config -> write config as local config file (with prompt)
-  - [ ] init -> creates git hook -> change name
-  - [ ] remove -> remove git hook -> change name
-- bubbletea and bubbles as prompt -> remove current search, use list instead (bubbles). remove spinner, use bubbles
-- remove query cmd -> included into list
-- use viper as cache for the emojis
+  - [x] init -> creates git hook -> change name
+  - [x] remove -> remove git hook -> change name
+- [x] bubbletea and bubbles as prompt -> remove current search, use list instead (bubbles). remove spinner, use bubbles
+- [x] remove query cmd -> included into list
+- [ ] use viper as cache for the emojis
+- [ ] docker
+- [ ] ci/cd
