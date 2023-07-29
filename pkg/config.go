@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+const Version = "v0.1.0"
+
 type ConfigEnum string
 
 const EnvPrefix = "GO_GITMOJI_CLI"

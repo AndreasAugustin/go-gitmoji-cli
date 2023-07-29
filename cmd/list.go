@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
-	"github.com/briandowns/spinner"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/ui"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"time"
 )
@@ -19,12 +19,18 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
-		s := spinner.New(spinner.CharSets[9], 100*time.Millisecond) // Build our new spinner
-		s.Start()                                                   // Start the spinner
+		log.Debug("list called")
+		spin := ui.NewSpinner()
+		spin.Run()
+		time.Sleep(200 * time.Millisecond)
+		//s := spinner.New()
+		//s.Spinner = spinner.Dot
+		//s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
+		//s.View()
 		gitmojis := pkg.GetGitmojis()
-		pkg.PrintEmojis(gitmojis)
-		s.Stop()
+		spin.Stop()
+		//pkg.PrintEmojis(gitmojis)
+		ui.ListRun("Gitmojis", gitmojis.Gitmojis)
 	},
 }
 

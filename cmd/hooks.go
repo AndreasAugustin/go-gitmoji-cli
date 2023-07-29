@@ -1,15 +1,14 @@
 package cmd
 
 import (
-	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"os"
 
 	"github.com/spf13/cobra"
 )
 
-var initCmd = &cobra.Command{
-	Use:   "init",
+var hookCmd = &cobra.Command{
+	Use:   "hook",
 	Short: "Initialize gitmoji as a commit hook",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -18,7 +17,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("init called")
+		log.Debug("init called")
 		var b = []byte("#!/usr/bin/env bash\n# gitmoji as a commit hook\nif npx -v >&/dev/null\nthen\nexec < /dev/tty\n  npx -c \"gitmoji --hook $1 $2\"\nelse\nexec < /dev/tty\n  gitmoji --hook $1 $2\nfi")
 		err := os.WriteFile("info.txt", b, 0644)
 		if err != nil {
@@ -28,7 +27,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(initCmd)
+	rootCmd.AddCommand(hookCmd)
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
