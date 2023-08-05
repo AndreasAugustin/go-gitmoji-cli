@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-type errMsg error
+type errMsgSpinner error
 
 type spinnerModel struct {
 	spinner  spinner.Model
@@ -41,7 +41,7 @@ func (m *spinnerModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, nil
 		}
 
-	case errMsg:
+	case errMsgSpinner:
 		m.err = msg
 		return m, nil
 

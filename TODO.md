@@ -2,7 +2,8 @@
 
 - [ ] edit the long descriptions for the cmds
 - [x] git hook wrong command name
-- [ ] local cache for list
+- [ ] lots of tests missing
+- [ ] local cache for list (user viper with config file)
 - [ ] commands
   - [x] list -> use list bubbles prompt and local cache in homedir
   - [x] search -> remove (merge with list)
@@ -13,11 +14,10 @@
     - [ ] prefill with former scopes
     - [ ] add 2nd message optional
     - [ ] make some things required
-  - [ ] config -> write config as local config file (with prompt)
+  - [x] config -> write config as local config file (with prompt)
   - [x] init -> creates git hook -> change name
   - [x] remove -> remove git hook -> change name
 - [x] bubbletea and bubbles as prompt -> remove current search, use list instead (bubbles). remove spinner, use bubbles
 - [x] remove query cmd -> included into list
-- [ ] use viper as cache for the emojis
 - [ ] docker
 - [ ] ci/cd

@@ -10,6 +10,12 @@ import (
 
 var docStyle = lipgloss.NewStyle().Margin(1, 2)
 
+type ListSettings struct {
+	Title              string
+	IsFilteringEnabled bool
+	IsShowStatusBar    bool
+}
+
 type listModel[K interface{ FilterValue() string }] struct {
 	list     list.Model
 	choice   K
@@ -49,15 +55,18 @@ func (m *listModel[K]) View() string {
 	return docStyle.Render(m.list.View())
 }
 
-func ListRun[K interface{ FilterValue() string }](listTitle string, input []K) K {
+func ListRun[K interface{ FilterValue() string }](settings ListSettings, input []K) K {
 	mapped := make([]list.Item, len(input))
 
 	for i, e := range input {
 		mapped[i] = list.Item(e)
 	}
 
-	m := listModel[K]{list: list.New(mapped, list.NewDefaultDelegate(), 0, 0)}
-	m.list.Title = listTitle
+	_list := list.New(mapped, list.NewDefaultDelegate(), 0, 0)
+	_list.SetFilteringEnabled(settings.IsFilteringEnabled)
+	_list.SetShowStatusBar(settings.IsShowStatusBar)
+	m := listModel[K]{list: _list}
+	m.list.Title = settings.Title
 
 	p := tea.NewProgram(&m, tea.WithAltScreen())
 

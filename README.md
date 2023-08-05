@@ -10,7 +10,7 @@
 
 ## Abstract
 
-[Gitmoji][gitmoji] is an emoji guide for GitHub commit messages. Aims to be a standarization cheatsheet - guide for using emojis on GitHub's commit messages.
+[Gitmoji][gitmoji] is an emoji guide for GitHub commit messages. Aims to be a standardization cheatsheet - guide for using emojis on GitHub's commit messages.
  is a nice way to standardize commit messages with emojis.
 
 There is already a nice [gitmoji-cli][gitmoji-cli] command line interface available.
@@ -20,15 +20,16 @@ Because I was searching for a nice project to get more into golang this project 
 
 It is possible to configure the cli either with a `.go-gitmoji-cli.json` file within the repo directory
 or with command line flags.
+Environment variables are supported (case insetive). The key is the same like the parameter.
 
-| **parameter**   | **description**                     | **default**                        |
-|-----------------|-------------------------------------|------------------------------------|
-| autoAdd         | perform automatically a `git add .` | `false`                            |
-| emojiFormat     | format of emojis `code/emoji`       | `code`                             |
-| scopePrompt     |                                     | `false`                            |
-| messagePrompt   |                                     | `true`                             |
-| capitalizeTitle |                                     | `true`                             |
-| gitmojisUrl     | The URL of the gitmojis database    | `https://gitmoji.dev/api/gitmojis` |
+| **parameter**    | **description**                     | **default**                        |
+|------------------|-------------------------------------|------------------------------------|
+| auto_add         | perform automatically a `git add .` | `false`                            |
+| emoji_format     | format of emojis `code/emoji`       | `code`                             |
+| scope_prompt     |                                     | `false`                            |
+| message_prompt   |                                     | `true`                             |
+| capitalize_title |                                     | `true`                             |
+| gitmojis_url     | The URL of the gitmojis database    | `https://gitmoji.dev/api/gitmojis` |
 
 ## DEV
 

@@ -29,7 +29,8 @@ to quickly create a Cobra application.`,
 
 		gitmojis := pkg.GetGitmojis()
 		spin.Stop()
-		selectedGitmoji := ui.ListRun("Gitmojis", gitmojis.Gitmojis)
+		listSettings := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
+		selectedGitmoji := ui.ListRun(listSettings, gitmojis.Gitmojis)
 		log.Debugf("selected gitmoji %s", selectedGitmoji)
 		scopeAndMessage := ui.TextInputsRun()
 		scope := scopeAndMessage[0]

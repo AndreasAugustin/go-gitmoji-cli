@@ -14,7 +14,7 @@ type textAreaModel struct {
 	err      error
 }
 
-func initialModel() textAreaModel {
+func initialTextAreaModel() textAreaModel {
 	ti := textarea.New()
 	ti.Placeholder = "Once upon a time..."
 	ti.Focus()
@@ -69,7 +69,7 @@ func (m *textAreaModel) View() string {
 }
 
 func TextAreaRun() string {
-	model := initialModel()
+	model := initialTextAreaModel()
 	p := tea.NewProgram(&model)
 
 	if _, err := p.Run(); err != nil {

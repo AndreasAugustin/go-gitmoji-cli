@@ -14,7 +14,6 @@ func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
 }
 
 func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
-	t.Skipf("env variables not supported yet")
 	var autoadd = true
 	var emojiFormat = pkg.EMOJI
 	var scopePrompt = true

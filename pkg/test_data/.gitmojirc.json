@@ -1,8 +1,8 @@
 {
-  "autoAdd": true,
-  "emojiFormat": "emoji",
-  "scopePrompt": true,
-  "messagePrompt": false,
-  "capitalizeTitle": false,
-  "gitmojisUrl": "http://from.file"
+  "auto_add": true,
+  "emoji_format": "emoji",
+  "scope_prompt": true,
+  "message_prompt": false,
+  "capitalize_title": false,
+  "gitmojis_url": "http://from.file"
 }
