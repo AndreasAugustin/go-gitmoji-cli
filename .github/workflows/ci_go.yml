@@ -15,4 +15,5 @@ jobs:
         with:
           go-version: ${{ matrix.go_version }}
       - run: go build -o dist/
+      - run: go vet ./...
       - run: go test ./... -cover

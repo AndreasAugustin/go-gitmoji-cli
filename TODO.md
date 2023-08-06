@@ -21,3 +21,4 @@
 - [x] remove query cmd -> included into list
 - [ ] docker
 - [ ] ci/cd
+- [x] bug in config -> gitmoji url is not shown properly

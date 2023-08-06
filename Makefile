@@ -37,3 +37,12 @@ build: ## build the solution
 .PHONY: test
 test:  ## run the tests
 	go test ./... -cover
+
+.PHONY: lint
+lint:
+	go vet ./...
+
+.PHONY: format
+format:  ## format the files
+	go fmt ./...
+	go fix ./...
