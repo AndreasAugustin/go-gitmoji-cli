@@ -19,6 +19,6 @@
   - [x] remove -> remove git hook -> change name
 - [x] bubbletea and bubbles as prompt -> remove current search, use list instead (bubbles). remove spinner, use bubbles
 - [x] remove query cmd -> included into list
-- [ ] docker
-- [ ] ci/cd
+- [ ] docker for dev  and release a example image
+- [ ] ci/cd -> releaser action https://goreleaser.com/ci/actions/
 - [x] bug in config -> gitmoji url is not shown properly
