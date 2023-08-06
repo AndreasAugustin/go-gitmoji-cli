@@ -18,3 +18,20 @@ func (i Gitmoji) Description() string { return i.Desc }
 type Gitmojis struct {
 	Gitmojis []Gitmoji `json:"gitmojis"`
 }
+
+type YesNo string
+
+const (
+	YES YesNo = "Yes"
+	NO  YesNo = "NO"
+)
+
+func (i YesNo) FilterValue() string { return string(i) }
+func (i YesNo) Title() string       { return string(i) }
+func (i YesNo) Description() string {
+	if i == YES {
+		return "Accept"
+	} else {
+		return "Deny"
+	}
+}

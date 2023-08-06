@@ -33,6 +33,28 @@ const (
 	EMOJI EmojiCommitFormats = "emoji"
 )
 
+func (i EmojiCommitFormats) FilterValue() string {
+	if i == CODE {
+		return "shortcode"
+	} else {
+		return "unicode"
+	}
+}
+func (i EmojiCommitFormats) Title() string {
+	if i == CODE {
+		return "shortcode"
+	} else {
+		return "unicode"
+	}
+}
+func (i EmojiCommitFormats) Description() string {
+	if i == CODE {
+		return "shortcode format e.g. :smile:"
+	} else {
+		return "unicode format e.g. 😄"
+	}
+}
+
 type Config struct {
 	Autoadd         bool               `mapstructure:"AUTO_ADD" json:"AUTO_ADD"`
 	EmojiFormat     EmojiCommitFormats `mapstructure:"EMOJI_FORMAT" json:"EMOJI_FORMAT"`
@@ -66,11 +88,7 @@ func LoadConfig(configPath string) (config Config, err error) {
 	viper.SetDefault(string(GITMOJIS_URL), "https://gitmoji.dev/api/gitmojis")
 
 	viper.SetEnvPrefix(EnvPrefix)
-	//viper.BindEnv(AddEnvPrefix(string(AUTO_ADD)))
-	//viper.BindEnv(AddEnvPrefix(string(EMOJI_FORMAT)))
-	//viper.BindEnv(AddEnvPrefix())
 
-	//viper.SetConfigType("env")
 	viper.SetConfigType("json")
 	if configPath != "" {
 		viper.AddConfigPath(configPath)
@@ -84,7 +102,6 @@ func LoadConfig(configPath string) (config Config, err error) {
 		}
 	}
 
-	//viper.EnvKeyReplacer(strings.NewReplacer("_", ""))
 	viper.AutomaticEnv()
 
 	err = viper.Unmarshal(&config)

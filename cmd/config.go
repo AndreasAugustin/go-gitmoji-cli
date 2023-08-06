@@ -3,13 +3,10 @@ package cmd
 import (
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/ui"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/erikgeiser/promptkit/confirmation"
-	"github.com/erikgeiser/promptkit/selection"
-	"github.com/erikgeiser/promptkit/textinput"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 var (
@@ -38,12 +35,12 @@ to quickly create a Cobra application.`,
 		log.Debug("config called")
 		config := pkg.ConfigInstance
 		autoAdd := runConfigConfirmationPrompt("Enable automatic 'git add .'", config.Autoadd)
-		emojiStyle := runConfigSelectionPrompt("Select how emojis should be used in commits", []string{":smile:", "😄"})
+		emojiFormat := runEmojiSelectionPrompt("Select how emojis should be used in commits. For a comparison please visit https://gitmoji.dev/specification")
 		scopePrompt := runConfigConfirmationPrompt("Enable scope prompt", config.ScopePrompt)
 		messagePrompt := runConfigConfirmationPrompt("Enable message prompt", config.MessagePrompt)
 		capitalizeTitle := runConfigConfirmationPrompt("Capitalize title", config.CapitalizeTitle)
-		gitmojisApiUrl := runTextInputPrompt("Set gitmojis api url", "https://gitmoji.dev/api/gitmojis")
-		config = pkg.Config{Autoadd: autoAdd, EmojiFormat: getEmojiFormat(emojiStyle), ScopePrompt: scopePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisApiUrl, MessagePrompt: messagePrompt}
+		gitmojisApiUrl := runGitmojiUrlInputPrompt("Set gitmojis api url", "https://gitmoji.dev/api/gitmojis")
+		config = pkg.Config{Autoadd: autoAdd, EmojiFormat: emojiFormat, ScopePrompt: scopePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisApiUrl, MessagePrompt: messagePrompt}
 		pkg.UpdateConfig(config)
 	},
 }
@@ -52,51 +49,21 @@ func init() {
 	rootCmd.AddCommand(configCmd)
 }
 
-func getEmojiFormat(input string) pkg.EmojiCommitFormats {
-	if input == ":smile:" {
-		return pkg.CODE
-	} else {
-		return pkg.EMOJI
-	}
+func runEmojiSelectionPrompt(title string) pkg.EmojiCommitFormats {
+
+	listSettings := ui.ListSettings{Title: title, IsFilteringEnabled: false, IsShowStatusBar: true}
+	res := ui.ListRun(listSettings, []pkg.EmojiCommitFormats{pkg.CODE, pkg.EMOJI})
+
+	return res
 }
 
-func runConfigSelectionPrompt[T any](title string, input []T) T {
-	sp := selection.New(title, input)
-	sp.PageSize = 3
+func runGitmojiUrlInputPrompt(title string, initialValue string) string {
+	input := ui.TextInputRun(title, initialValue)
 
-	choice, err := sp.RunPrompt()
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-
-		os.Exit(1)
-	}
-	return choice
-}
-
-func runTextInputPrompt(title string, initialValue string) string {
-	input := textinput.New(title)
-	input.InitialValue = initialValue
-	input.Placeholder = "cannot be empty"
-	input.InputCursorStyle = cursorStyle
-	input.InputTextStyle = focusedStyle
-
-	val, err := input.RunPrompt()
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-
-		os.Exit(1)
-	}
-	return val
+	return input
 }
 
 func runConfigConfirmationPrompt(title string, isCurrentlyEnabled bool) bool {
-	prompt := confirmation.New(title, confirmation.NewValue(isCurrentlyEnabled))
-
-	ready, err := prompt.RunPrompt()
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-
-		os.Exit(1)
-	}
-	return ready
+	res := ui.ConfirmationRun(fmt.Sprintf("%s , is currently enabled : %t", title, isCurrentlyEnabled))
+	return res
 }

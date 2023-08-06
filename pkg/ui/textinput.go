@@ -17,12 +17,12 @@ type textInputModel struct {
 	err       error
 }
 
-func initialTextInputModel(label string) textInputModel {
+func initialTextInputModel(label string, initialValue string) textInputModel {
 	ti := textinput.New()
-	ti.Placeholder = "Pikachu"
+	ti.SetValue(initialValue)
 	ti.Focus()
 	ti.CharLimit = 156
-	ti.Width = 20
+	ti.Width = 100
 
 	return textInputModel{
 		textInput: ti,
@@ -32,7 +32,7 @@ func initialTextInputModel(label string) textInputModel {
 }
 
 func (m *textInputModel) Init() tea.Cmd {
-	return textinput.Blink
+	return nil
 }
 
 func (m *textInputModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -57,18 +57,19 @@ func (m *textInputModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m *textInputModel) View() string {
 	return fmt.Sprintf(
-		"Message?\n\n%s\n\n%s",
+		"%s\n\n%s\n\n%s\n",
+		m.label,
 		m.textInput.View(),
 		"(esc to quit)",
-	) + "\n"
+	)
 }
 
-func TextInputRun(label string) string {
-	model := initialTextInputModel(label)
+func TextInputRun(label string, initialValue string) string {
+	model := initialTextInputModel(label, initialValue)
 	p := tea.NewProgram(&model)
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
 	}
 
-	return model.textInput.View()
+	return model.textInput.Value()
 }
