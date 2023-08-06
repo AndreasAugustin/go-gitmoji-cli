@@ -3,10 +3,15 @@
 - [ ] edit the long descriptions for the cmds
 - [x] git hook wrong command name
 - [ ] lots of tests missing
-- [ ] local cache for list (user viper with config file)
+- [x] local cache for list (use viper with config file)
 - [ ] commands
   - [x] list -> use list bubbles prompt and local cache in homedir
   - [x] search -> remove (merge with list)
+  - [ ] update
+    - [x] gitmojis cache
+    - [ ] cli
+  - [x] info -> get infos like cache dir
+  - [ ] check all config parameters implemented
   - [ ] commit
     - [x] gitmoji
     - [x] scope
@@ -15,10 +20,12 @@
     - [ ] add 2nd message optional
     - [ ] make some things required
   - [x] config -> write config as local config file (with prompt)
+    - [x] possibility to use env variables
+    - [x] add -g --global flag for global configuration
   - [x] init -> creates git hook -> change name
   - [x] remove -> remove git hook -> change name
 - [x] bubbletea and bubbles as prompt -> remove current search, use list instead (bubbles). remove spinner, use bubbles
 - [x] remove query cmd -> included into list
 - [ ] docker for dev  and release a example image
-- [ ] ci/cd -> releaser action https://goreleaser.com/ci/actions/
+- [x] ci/cd -> releaser action https://goreleaser.com/ci/actions/
 - [x] bug in config -> gitmoji url is not shown properly

@@ -4,22 +4,11 @@ import (
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/ui"
-	"github.com/charmbracelet/lipgloss"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-var (
-	focusedStyle        = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
-	blurredStyle        = lipgloss.NewStyle().Foreground(lipgloss.Color("240"))
-	cursorStyle         = focusedStyle.Copy()
-	noStyle             = lipgloss.NewStyle()
-	helpStyle           = blurredStyle.Copy()
-	cursorModeHelpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("244"))
-
-	focusedButton = focusedStyle.Copy().Render("[ Submit ]")
-	blurredButton = fmt.Sprintf("[ %s ]", blurredStyle.Render("Submit"))
-)
+var isConfigGlobal bool
 
 // configCmd represents the config command
 var configCmd = &cobra.Command{
@@ -41,12 +30,15 @@ to quickly create a Cobra application.`,
 		capitalizeTitle := runConfigConfirmationPrompt("Capitalize title", config.CapitalizeTitle)
 		gitmojisApiUrl := runGitmojiUrlInputPrompt("Set gitmojis api url", "https://gitmoji.dev/api/gitmojis")
 		config = pkg.Config{Autoadd: autoAdd, EmojiFormat: emojiFormat, ScopePrompt: scopePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisApiUrl, MessagePrompt: messagePrompt}
-		pkg.UpdateConfig(config)
+		pkg.UpdateConfig(config, isConfigGlobal)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(configCmd)
+
+	configCmd.PersistentFlags().BoolVarP(&isConfigGlobal, "global", "g", false, "set configuration values globally within ")
+
 }
 
 func runEmojiSelectionPrompt(title string) pkg.EmojiCommitFormats {

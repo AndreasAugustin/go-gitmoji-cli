@@ -2,13 +2,11 @@ package cmd
 
 import (
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"io"
 	"os"
 )
 
-var verbose string
+var debug bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -30,23 +28,11 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(pkg.InitConfig)
 
+	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "verbose logging")
+
 	rootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
-		if err := setupLogs(os.Stdout, verbose); err != nil {
-			return err
-		}
+		pkg.ToggleDebug(debug)
 		return nil
 	}
 
-	rootCmd.PersistentFlags().StringVarP(&verbose, "verbosity", "v", logrus.WarnLevel.String(), "Log level (debug, info, warn, error, fatal, panic)")
-}
-
-func setupLogs(out io.Writer, level string) error {
-	logrus.SetOutput(out)
-	lvl, err := logrus.ParseLevel(level)
-	if err != nil {
-		return err
-	}
-	logrus.SetLevel(lvl)
-	logrus.Debugf("Set log level to %s", lvl)
-	return nil
 }

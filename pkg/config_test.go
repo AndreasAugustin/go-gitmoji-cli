@@ -8,7 +8,7 @@ import (
 )
 
 func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
-	config, _ := pkg.LoadConfig("")
+	config, _ := pkg.LoadConfig([]string{})
 	expected := pkg.Config{EmojiFormat: pkg.CODE, Autoadd: false, ScopePrompt: false, MessagePrompt: true, CapitalizeTitle: true, GitmojisUrl: "https://gitmoji.dev/api/gitmojis"}
 	assert.Equal(t, expected, config)
 }
@@ -27,13 +27,17 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 	t.Setenv(pkg.AddEnvPrefix("MESSAGE_PROMPT"), strconv.FormatBool(messagePrompt))
 	t.Setenv(pkg.AddEnvPrefix("CAPITALIZE_TITLE"), strconv.FormatBool(capitalizeTitle))
 	t.Setenv(pkg.AddEnvPrefix("GITMOJIS_URL"), gitmojisUrl)
-	config, _ := pkg.LoadConfig("")
+	config, _ := pkg.LoadConfig([]string{})
 	expected := pkg.Config{EmojiFormat: emojiFormat, Autoadd: autoadd, ScopePrompt: scopePrompt, MessagePrompt: messagePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisUrl}
 	assert.Equal(t, expected, config)
 }
 
 func TestConfigConfigFileEqualsExpected(t *testing.T) {
-	config, _ := pkg.LoadConfig("./test_data")
+	config, _ := pkg.LoadConfig([]string{"./test_data"})
 	expected := pkg.Config{EmojiFormat: pkg.EMOJI, Autoadd: true, ScopePrompt: true, MessagePrompt: false, CapitalizeTitle: false, GitmojisUrl: "http://from.file"}
 	assert.Equal(t, expected, config)
 }
+
+//func TestWriteCoVnfig(t *testing.T) {
+//	config, _ := pkg.UpdateConfig
+//}

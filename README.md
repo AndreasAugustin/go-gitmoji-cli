@@ -20,7 +20,7 @@ Because I was searching for a nice project to get more into golang this project 
 
 It is possible to configure the cli either with a `.go-gitmoji-cli.json` file within the repo directory
 or with command line flags.
-Environment variables are supported (case insetive). The key is the same like the parameter.
+Environment variables are supported (case insensitive). The key is the same like the parameter with a prefix **GO_GITMOJI_CLI_**.
 
 | **parameter**    | **description**                     | **default**                        |
 |------------------|-------------------------------------|------------------------------------|
@@ -30,6 +30,24 @@ Environment variables are supported (case insetive). The key is the same like th
 | message_prompt   |                                     | `true`                             |
 | capitalize_title |                                     | `true`                             |
 | gitmojis_url     | The URL of the gitmojis database    | `https://gitmoji.dev/api/gitmojis` |
+
+The configuration values can be changed with
+
+```bash
+go-gitmoji-cli config [-g]
+```
+
+This will create a file within the local directory or within the OS related config directory (when `-g` flag is enabled).
+Reading will follow the following order:
+
+- default values
+- global config if exists
+- local config if exists
+- environment variables
+
+## Debugging
+
+There is a flag `--debug` enabling **verbose** logging
 
 ## DEV
 

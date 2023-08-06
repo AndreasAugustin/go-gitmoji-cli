@@ -3,72 +3,33 @@ package pkg
 import (
 	"errors"
 	"fmt"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"os"
+	"path"
 )
 
 const ProgramName = "go-gitmoji-cli"
 const Version = "v0.1.0"
 
-type ConfigEnum string
-
 const EnvPrefix = "GO_GITMOJI_CLI"
 const configName = ".gitmojirc"
 const configPath = "."
 
-const (
-	AUTO_ADD         ConfigEnum = "AUTO_ADD"
-	EMOJI_FORMAT     ConfigEnum = "EMOJI_FORMAT"
-	SCOPE_PROMPT     ConfigEnum = "SCOPE_PROMPT"
-	GITMOJIS_URL     ConfigEnum = "GITMOJIS_URL"
-	MESSAGE_PROMPT   ConfigEnum = "MESSAGE_PROMPT"
-	CAPITALIZE_TITLE ConfigEnum = "CAPITALIZE_TITLE"
-)
-
-type EmojiCommitFormats string
-
-const (
-	CODE  EmojiCommitFormats = "code"
-	EMOJI EmojiCommitFormats = "emoji"
-)
-
-func (i EmojiCommitFormats) FilterValue() string {
-	if i == CODE {
-		return "shortcode"
-	} else {
-		return "unicode"
-	}
-}
-func (i EmojiCommitFormats) Title() string {
-	if i == CODE {
-		return "shortcode"
-	} else {
-		return "unicode"
-	}
-}
-func (i EmojiCommitFormats) Description() string {
-	if i == CODE {
-		return "shortcode format e.g. :smile:"
-	} else {
-		return "unicode format e.g. 😄"
-	}
-}
-
-type Config struct {
-	Autoadd         bool               `mapstructure:"AUTO_ADD" json:"AUTO_ADD"`
-	EmojiFormat     EmojiCommitFormats `mapstructure:"EMOJI_FORMAT" json:"EMOJI_FORMAT"`
-	ScopePrompt     bool               `mapstructure:"SCOPE_PROMPT" json:"SCOPE_PROMPT"`
-	MessagePrompt   bool               `mapstructure:"MESSAGE_PROMPT" json:"MESSAGE_PROMPT"`
-	CapitalizeTitle bool               `mapstructure:"CAPITALIZE_TITLE" json:"CAPITALIZE_TITLE"`
-	GitmojisUrl     string             `mapstructure:"GITMOJIS_URL" json:"GITMOJIS_URL"`
-}
-
 var ConfigInstance Config
 
+func getGlobalConfigPath() (string, error) {
+	return utils.GetUserConfigDirCreateIfNotExists(ProgramName)
+}
+
 func InitConfig() {
-	var err error
-	ConfigInstance, err = LoadConfig(configPath)
+
+	globalConfigPath, err := getGlobalConfigPath()
+	if err != nil {
+		log.Fatalf("No global config path found")
+	}
+	ConfigInstance, err = LoadConfig([]string{configPath, globalConfigPath})
 	if err != nil {
 		fmt.Println("Error:", err)
 		os.Exit(1)
@@ -79,7 +40,7 @@ func AddEnvPrefix(suffix string) string {
 	return fmt.Sprintf("%s_%s", EnvPrefix, suffix)
 }
 
-func LoadConfig(configPath string) (config Config, err error) {
+func LoadConfig(configPaths []string) (config Config, err error) {
 	viper.SetDefault(string(AUTO_ADD), false)
 	viper.SetDefault(string(EMOJI_FORMAT), string(CODE))
 	viper.SetDefault(string(SCOPE_PROMPT), false)
@@ -90,8 +51,11 @@ func LoadConfig(configPath string) (config Config, err error) {
 	viper.SetEnvPrefix(EnvPrefix)
 
 	viper.SetConfigType("json")
-	if configPath != "" {
-		viper.AddConfigPath(configPath)
+	if len(configPaths) != 0 {
+		for _, val := range configPaths {
+			viper.AddConfigPath(val)
+		}
+
 		viper.SetConfigName(configName)
 		if err = viper.ReadInConfig(); err != nil {
 			// It's okay if there isn't a config file
@@ -105,10 +69,10 @@ func LoadConfig(configPath string) (config Config, err error) {
 	viper.AutomaticEnv()
 
 	err = viper.Unmarshal(&config)
-	return config, err
+	return
 }
 
-func UpdateConfig(config Config) {
+func UpdateConfig(config Config, isGlobalConfig bool) {
 	viper.Set(string(AUTO_ADD), config.Autoadd)
 	viper.Set(string(EMOJI_FORMAT), string(config.EmojiFormat))
 	viper.Set(string(SCOPE_PROMPT), config.ScopePrompt)
@@ -116,17 +80,24 @@ func UpdateConfig(config Config) {
 	viper.Set(string(CAPITALIZE_TITLE), config.CapitalizeTitle)
 	viper.Set(string(GITMOJIS_URL), config.GitmojisUrl)
 
-	err := viper.WriteConfig()
+	pathToWrite := configFilePath(isGlobalConfig)
+
+	err := viper.WriteConfigAs(pathToWrite)
 	if err != nil {
-		var configFileNotFoundError viper.ConfigFileNotFoundError
-		if errors.As(err, &configFileNotFoundError) {
-			log.Info("config file not present yet. Writting config file")
-			err = viper.SafeWriteConfig()
-			if err == nil {
-				log.Info("Config file written")
-				return
-			}
-		}
 		log.Fatalf("writting config did not work %s", err)
+	}
+	log.Debugf("Write to path %s finished", pathToWrite)
+}
+
+func configFilePath(isGlobalConfig bool) string {
+	name := fmt.Sprintf("%s.json", configName)
+	if isGlobalConfig {
+		globalConfigPath, err := getGlobalConfigPath()
+		if err != nil {
+			log.Fatalf("No global config path found")
+		}
+		return path.Join(globalConfigPath, name)
+	} else {
+		return path.Join(configPath, name)
 	}
 }
