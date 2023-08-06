@@ -6,7 +6,7 @@ on:
     tags:
       - '*'
 
-permissions:
+permissions:
   contents: write
   # packages: write
   # issues: write
