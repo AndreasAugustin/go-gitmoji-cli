@@ -28,5 +28,7 @@
 - [x] bubbletea and bubbles as prompt -> remove current search, use list instead (bubbles). remove spinner, use bubbles
 - [x] remove query cmd -> included into list
 - [ ] docker for dev  and release a example image
-- [x] ci/cd -> releaser action https://goreleaser.com/ci/actions/
+- [x] ci/cd -> releaser action [gorealeaser][goreleaser]
 - [x] bug in config -> gitmoji url is not shown properly
+
+[goreleaser]: https://goreleaser.com/ci/actions/
