@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var updateGitmojisCmd = &cobra.Command{
+var UpdateGitmojisCmd = &cobra.Command{
 	Use:   "gitmojis",
 	Short: fmt.Sprintf("update the local gitmoji database %s", pkg.ProgramName),
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -38,6 +38,6 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(updateCmd)
-	updateCmd.AddCommand(updateGitmojisCmd)
+	RootCmd.AddCommand(updateCmd)
+	updateCmd.AddCommand(UpdateGitmojisCmd)
 }

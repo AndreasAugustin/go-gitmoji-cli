@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	"github.com/spf13/cobra"
 	"os"
@@ -8,18 +9,15 @@ import (
 
 var debug bool
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
+var RootCmd = &cobra.Command{
 	Use:     pkg.ProgramName,
 	Version: pkg.Version,
 	Short:   "Cli to help managing gitmoji commit messages",
-	Long:    `See https://gitmoji.dev/ for more information about Gitmoji`,
+	Long:    fmt.Sprintf(`See %s for more information about Gitmoji`, pkg.DefaultGitmojiUrl),
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	err := rootCmd.Execute()
+	err := RootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
 	}
@@ -28,9 +26,9 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(pkg.InitConfig)
 
-	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "verbose logging")
+	RootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "verbose logging")
 
-	rootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+	RootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		pkg.ToggleDebug(debug)
 		return nil
 	}

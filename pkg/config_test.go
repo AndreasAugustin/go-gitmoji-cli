@@ -2,10 +2,19 @@ package pkg_test
 
 import (
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
 	"github.com/stretchr/testify/assert"
+	"os"
+	"path"
 	"strconv"
 	"testing"
 )
+
+func getTestConfigPath(T *testing.T) string {
+	wDir, err := os.Getwd()
+	assert.NoError(T, err)
+	return path.Join(wDir, "tmp", "test")
+}
 
 func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
 	config, _ := pkg.LoadConfig([]string{})
@@ -38,6 +47,24 @@ func TestConfigConfigFileEqualsExpected(t *testing.T) {
 	assert.Equal(t, expected, config)
 }
 
-//func TestWriteCoVnfig(t *testing.T) {
-//	config, _ := pkg.UpdateConfig
-//}
+func TestWriteGlobalConfigAndReadEqualsExpected(t *testing.T) {
+	config, err := pkg.LoadConfig([]string{"./test_data"})
+
+	assert.NoError(t, err)
+	getGlobalConfigDirPersist := utils.GetGlobalConfigDir
+
+	utils.GetGlobalConfigDir = func(programName string) (string, error) {
+		testConfigPath := getTestConfigPath(t)
+		return path.Join(testConfigPath, programName), nil
+	}
+
+	pkg.UpdateConfig(config, true)
+	globalConfigPath := path.Join(getTestConfigPath(t), pkg.ProgramName)
+	configFromGlobal, err := pkg.LoadConfig([]string{globalConfigPath})
+	defer func() {
+		utils.GetGlobalConfigDir = getGlobalConfigDirPersist
+		os.RemoveAll(getTestCacheProgramPath(t))
+	}()
+	assert.NoError(t, err)
+	assert.Equal(t, config, configFromGlobal)
+}

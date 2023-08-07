@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var infoCmd = &cobra.Command{
+var InfoCmd = &cobra.Command{
 	Use:   "info",
 	Short: "Get some relevant information",
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -31,5 +31,5 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(infoCmd)
+	RootCmd.AddCommand(InfoCmd)
 }

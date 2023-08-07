@@ -11,8 +11,8 @@ import (
 
 var commitMsg []string
 
-// commitCmd represents the commit command
-var commitCmd = &cobra.Command{
+// CommitCmd represents the commit command
+var CommitCmd = &cobra.Command{
 	Use:   "commit",
 	Short: "Interactively commit using prompts",
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -44,7 +44,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(commitCmd)
+	RootCmd.AddCommand(CommitCmd)
 	var a []string
-	commitCmd.PersistentFlags().StringSliceVarP(&commitMsg, "message", "m", a, "The commit message. Can be repeated")
+	CommitCmd.PersistentFlags().StringSliceVarP(&commitMsg, "message", "m", a, "The commit message. Can be repeated")
 }

@@ -10,8 +10,7 @@ import (
 
 var isConfigGlobal bool
 
-// configCmd represents the config command
-var configCmd = &cobra.Command{
+var ConfigCmd = &cobra.Command{
 	Use:   "config",
 	Short: fmt.Sprintf("Setup %s preferences.", pkg.ProgramName),
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -35,9 +34,9 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(configCmd)
+	RootCmd.AddCommand(ConfigCmd)
 
-	configCmd.PersistentFlags().BoolVarP(&isConfigGlobal, "global", "g", false, "set configuration values globally within ")
+	ConfigCmd.PersistentFlags().BoolVarP(&isConfigGlobal, "global", "g", false, "set configuration values globally within ")
 
 }
 

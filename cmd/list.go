@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// listCmd represents the list command
-var listCmd = &cobra.Command{
+// ListCmd represents the list command
+var ListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all the available gitmojis",
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -30,5 +30,5 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(listCmd)
+	RootCmd.AddCommand(ListCmd)
 }

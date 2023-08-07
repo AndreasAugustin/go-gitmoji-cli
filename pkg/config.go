@@ -46,7 +46,7 @@ func LoadConfig(configPaths []string) (config Config, err error) {
 	viper.SetDefault(string(SCOPE_PROMPT), false)
 	viper.SetDefault(string(MESSAGE_PROMPT), true)
 	viper.SetDefault(string(CAPITALIZE_TITLE), true)
-	viper.SetDefault(string(GITMOJIS_URL), "https://gitmoji.dev/api/gitmojis")
+	viper.SetDefault(string(GITMOJIS_URL), DefaultGitmojiApiUrl)
 
 	viper.SetEnvPrefix(EnvPrefix)
 

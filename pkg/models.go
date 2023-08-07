@@ -2,6 +2,12 @@ package pkg
 
 import "fmt"
 
+// DefaultGitmojiUrl The URL to reach the gitmoji website
+const DefaultGitmojiUrl = "https://gitmoji.dev/"
+
+// DefaultGitmojiApiUrl The Url to reach the grimoji API
+const DefaultGitmojiApiUrl = "https://gitmoji.dev/api/gitmojis"
+
 type Gitmoji struct {
 	Emoji  string `mapstructure:"emoji" json:"emoji"`
 	Entity string `mapstructure:"entity" json:"entity"`

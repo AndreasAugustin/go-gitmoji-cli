@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var hooksRemoveCmd = &cobra.Command{
+var HooksRemoveCmd = &cobra.Command{
 	Use:   "rm",
 	Short: fmt.Sprintf("remove git hooks for %s", pkg.ProgramName),
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -26,7 +26,7 @@ to quickly create a Cobra application.`,
 	},
 }
 
-var hooksInitCmd = &cobra.Command{
+var HooksInitCmd = &cobra.Command{
 	Use:   "init",
 	Short: fmt.Sprintf("initialize git hooks for %s", pkg.ProgramName),
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -45,7 +45,7 @@ to quickly create a Cobra application.`,
 	},
 }
 
-var hooksCmd = &cobra.Command{
+var HooksCmd = &cobra.Command{
 	Use:   "hooks",
 	Short: fmt.Sprintf("Manage %s commit hooks", pkg.ProgramName),
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -60,7 +60,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(hooksCmd)
-	hooksCmd.AddCommand(hooksInitCmd)
-	hooksCmd.AddCommand(hooksRemoveCmd)
+	RootCmd.AddCommand(HooksCmd)
+	HooksCmd.AddCommand(HooksInitCmd)
+	HooksCmd.AddCommand(HooksRemoveCmd)
 }
