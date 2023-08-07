@@ -37,7 +37,6 @@ func init() {
 	RootCmd.AddCommand(ConfigCmd)
 
 	ConfigCmd.PersistentFlags().BoolVarP(&isConfigGlobal, "global", "g", false, "set configuration values globally within ")
-
 }
 
 func runEmojiSelectionPrompt(title string) pkg.EmojiCommitFormats {
@@ -49,9 +48,9 @@ func runEmojiSelectionPrompt(title string) pkg.EmojiCommitFormats {
 }
 
 func runGitmojiUrlInputPrompt(title string, initialValue string) string {
-	input := ui.TextInputRun(title, initialValue)
+	input := ui.TextInputsRun("Gitmoji API url", []ui.TextInputData{{Placeholder: title, InitialValue: initialValue, Charlimit: 156}})
 
-	return input
+	return input[0]
 }
 
 func runConfigConfirmationPrompt(title string, isCurrentlyEnabled bool) bool {

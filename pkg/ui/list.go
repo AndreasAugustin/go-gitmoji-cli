@@ -4,11 +4,8 @@ import (
 	"fmt"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
 	"os"
 )
-
-var docStyle = lipgloss.NewStyle().Margin(1, 2)
 
 type ListSettings struct {
 	Title              string

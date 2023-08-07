@@ -9,47 +9,44 @@ import (
 	"github.com/charmbracelet/bubbles/cursor"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
-)
-
-var (
-	focusedStyle        = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
-	blurredStyle        = lipgloss.NewStyle().Foreground(lipgloss.Color("240"))
-	cursorStyle         = focusedStyle.Copy()
-	noStyle             = lipgloss.NewStyle()
-	helpStyle           = blurredStyle.Copy()
-	cursorModeHelpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("244"))
-
-	focusedButton = focusedStyle.Copy().Render("[ Submit ]")
-	blurredButton = fmt.Sprintf("[ %s ]", blurredStyle.Render("Submit"))
 )
 
 type textInputsModel struct {
 	focusIndex int
+	title      string
 	inputs     []textinput.Model
 	cursorMode cursor.Mode
 }
 
-func initialTextInputsModel() textInputsModel {
+type TextInputData struct {
+	Placeholder  string
+	Charlimit    int
+	InitialValue string
+	Label        string
+}
+
+func initialTextInputsModel(title string, textInputsData []TextInputData) textInputsModel {
 	m := textInputsModel{
-		inputs: make([]textinput.Model, 2),
+		title:  title,
+		inputs: make([]textinput.Model, len(textInputsData)),
 	}
 
 	var t textinput.Model
 	for i := range m.inputs {
 		t = textinput.New()
-		t.Cursor.Style = cursorStyle
-		t.CharLimit = 32
+		t.Cursor.Style = textInputsCursorStyle
+		t.Placeholder = textInputsData[i].Placeholder
+		t.CharLimit = textInputsData[i].Charlimit
+		t.Prompt = fmt.Sprintf("%s >", textInputsData[i].Label)
 
-		switch i {
-		case 0:
-			t.Placeholder = "Scope"
+		if textInputsData[i].InitialValue != "" {
+			t.SetValue(textInputsData[i].InitialValue)
+		}
+
+		if i == 0 {
 			t.Focus()
-			t.PromptStyle = focusedStyle
-			t.TextStyle = focusedStyle
-		case 1:
-			t.Placeholder = "Message"
-			t.CharLimit = 64
+			t.PromptStyle = textInputFocusedStyle
+			t.TextStyle = textInputFocusedStyle
 		}
 
 		m.inputs[i] = t
@@ -109,8 +106,8 @@ func (m *textInputsModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if i == m.focusIndex {
 					// Set focused state
 					cmds[i] = m.inputs[i].Focus()
-					m.inputs[i].PromptStyle = focusedStyle
-					m.inputs[i].TextStyle = focusedStyle
+					m.inputs[i].PromptStyle = textInputFocusedStyle
+					m.inputs[i].TextStyle = textInputFocusedStyle
 					continue
 				}
 				// Remove focused state
@@ -143,7 +140,8 @@ func (m *textInputsModel) updateInputs(msg tea.Msg) tea.Cmd {
 
 func (m *textInputsModel) View() string {
 	var b strings.Builder
-
+	b.WriteString(m.title)
+	b.WriteRune('\n')
 	for i := range m.inputs {
 		b.WriteString(m.inputs[i].View())
 		if i < len(m.inputs)-1 {
@@ -164,8 +162,11 @@ func (m *textInputsModel) View() string {
 	return b.String()
 }
 
-func TextInputsRun() []string {
-	model := initialTextInputsModel()
+func TextInputsRun(title string, textInputsData []TextInputData) []string {
+	if len(textInputsData) == 0 {
+		return []string{}
+	}
+	model := initialTextInputsModel(title, textInputsData)
 	if _, err := tea.NewProgram(&model).Run(); err != nil {
 		log.Errorf("could not start program: %s\n", err)
 		os.Exit(1)
@@ -173,7 +174,7 @@ func TextInputsRun() []string {
 	mapped := make([]string, len(model.inputs))
 
 	for i, e := range model.inputs {
-		mapped[i] = e.View()
+		mapped[i] = e.Value()
 	}
 	return mapped
 }

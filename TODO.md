@@ -4,6 +4,7 @@
 - [x] git hook wrong command name
 - [ ] lots of tests missing
 - [x] local cache for list (use viper with config file)
+- [ ] add check for hook and disable commit if hook is created
 - [ ] commands
   - [x] list -> use list bubbles prompt and local cache in homedir
   - [x] search -> remove (merge with list)
@@ -11,14 +12,14 @@
     - [x] gitmojis cache
     - [ ] cli
   - [x] info -> get infos like cache dir
-  - [ ] check all config parameters implemented
+  - [x] check all config parameters implemented
   - [ ] commit
+    - [x] add dryrun
     - [x] gitmoji
     - [x] scope
     - [x] message
-    - [ ] prefill with former scopes
     - [ ] add 2nd message optional
-    - [ ] make some things required
+    - [ ] add flags for message, scope,.. and prefill
   - [x] config -> write config as local config file (with prompt)
     - [x] possibility to use env variables
     - [x] add -g --global flag for global configuration
