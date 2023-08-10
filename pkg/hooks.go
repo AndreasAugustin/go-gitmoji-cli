@@ -73,3 +73,22 @@ func RemoveAllHookFiles() error {
 
 	return nil
 }
+
+func HookFilesExistent() ([]string, error) {
+	hooksDir, hooksErr := utils.GetGitRepoHooksDirectory()
+	if hooksErr != nil {
+		return []string{}, ErrInvalidGitHooksDirectoryPath
+	}
+
+	var existentHooks []string
+
+	for _, hook := range gitHooks {
+		hookPath := filepath.Join(hooksDir, hook)
+		exists := utils.FileExists(hookPath)
+		if exists {
+			existentHooks = append(existentHooks, hook)
+		}
+	}
+
+	return existentHooks, nil
+}

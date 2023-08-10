@@ -4,7 +4,7 @@
 - [x] git hook wrong command name
 - [ ] lots of tests missing
 - [x] local cache for list (use viper with config file)
-- [ ] add check for hook and disable commit if hook is created
+- [x] add check for hook and disable commit if hook is created
 - [ ] commands
   - [x] list -> use list bubbles prompt and local cache in homedir
   - [x] search -> remove (merge with list)
@@ -20,6 +20,7 @@
     - [x] message
     - [ ] add 2nd message optional
     - [ ] add flags for message, scope,.. and prefill
+    - [ ] config option for commit message formats
   - [x] config -> write config as local config file (with prompt)
     - [x] possibility to use env variables
     - [x] add -g --global flag for global configuration

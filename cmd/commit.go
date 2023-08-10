@@ -28,7 +28,16 @@ to quickly create a Cobra application.`,
 		log.Debug(commitMsg)
 		spin := ui.NewSpinner()
 		spin.Run()
-
+		existentHookFiles, err := pkg.HookFilesExistent()
+		if err != nil {
+			log.Fatalf("Error checking if hook files existent")
+		}
+		if len(existentHookFiles) > 0 {
+			log.Infof("There are hook files existen for %s", existentHookFiles)
+			log.Infof("Please use git commit command or remove the hooks with %s hooks rm", pkg.ProgramName)
+			spin.Stop()
+			return
+		}
 		gitmojis := pkg.GetGitmojis()
 		spin.Stop()
 		listSettings := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}

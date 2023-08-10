@@ -1,7 +1,7 @@
 #######################################
 # image for dev build environment
 ######################################
-FROM alpine:3.18.2 as DEV
+FROM golang:1.21-alpine3.18 as DEV
 # install packages
 RUN apk add --update --no-cache bash make git zsh curl tmux
 
