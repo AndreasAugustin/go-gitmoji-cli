@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
+	"github.com/common-nighthawk/go-figure"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"os"
@@ -12,6 +13,12 @@ import (
 
 const ProgramName = "go-gitmoji-cli"
 const Version = "v0.1.0"
+
+func ProgramNameFigure() {
+	programNameFigure := figure.NewColorFigure(ProgramName, "cybermedium", "purple", true)
+
+	programNameFigure.Print()
+}
 
 const EnvPrefix = "GO_GITMOJI_CLI"
 const configName = ".gitmojirc"

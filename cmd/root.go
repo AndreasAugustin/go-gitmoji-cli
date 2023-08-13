@@ -24,6 +24,7 @@ func Execute() {
 }
 
 func init() {
+	pkg.ProgramNameFigure()
 	cobra.OnInitialize(pkg.InitConfig)
 
 	RootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "verbose logging")
