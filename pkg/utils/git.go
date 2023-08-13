@@ -37,14 +37,12 @@ func getHooksDirectory() (string, error) {
 	return hooksDir, nil
 }
 
-func applyGitAddAll() error {
-	_, err := RunCommand("git add .")
-	return err
-}
-
-func BuildGitCommitCommandStr(isSignCommit bool, title string, body string) (string, error) {
+func BuildGitCommitCommandStr(isAutoAdd bool, isSignCommit bool, title string, body string) (string, error) {
 	var str strings.Builder
 	str.WriteString("git commit ")
+	if isAutoAdd {
+		str.WriteString("-a ")
+	}
 	if isSignCommit {
 		str.WriteString("-S ")
 	}

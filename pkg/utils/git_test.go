@@ -88,20 +88,38 @@ func TestGetHooksDirectoryUsesCorrectCommand(t *testing.T) {
 	assert.Equal(t, expGitHooksCommand, actualCmd, "Used incorrect command. Expected: %s, but got: %s", expGitHooksCommand, actualCmd)
 }
 
-func TestBuildGitCommitCommandStrNoSigningEqualsExpected(t *testing.T) {
+func TestBuildGitCommitCommandStrNoAutoAddNoSigningEqualsExpected(t *testing.T) {
 	commitTitle := "feat(test): :smile: this is my title"
 	commitBody := "this is just the body\njust for testing"
-	res, err := utils.BuildGitCommitCommandStr(false, commitTitle, commitBody)
+	res, err := utils.BuildGitCommitCommandStr(false, false, commitTitle, commitBody)
 	assert.NoError(t, err)
 	expected := fmt.Sprintf("git commit -m %s -m %s", commitTitle, commitBody)
 	assert.Equal(t, expected, res)
 }
 
-func TestBuildGitCommitCommandStrSigningEqualsExpected(t *testing.T) {
+func TestBuildGitCommitCommandStrAutoAddNoSigningEqualsExpected(t *testing.T) {
 	commitTitle := "feat(test): :smile: this is my title"
 	commitBody := "this is just the body\njust for testing"
-	res, err := utils.BuildGitCommitCommandStr(true, commitTitle, commitBody)
+	res, err := utils.BuildGitCommitCommandStr(true, false, commitTitle, commitBody)
+	assert.NoError(t, err)
+	expected := fmt.Sprintf("git commit -a -m %s -m %s", commitTitle, commitBody)
+	assert.Equal(t, expected, res)
+}
+
+func TestBuildGitCommitCommandStrNoAutoAddSigningEqualsExpected(t *testing.T) {
+	commitTitle := "feat(test): :smile: this is my title"
+	commitBody := "this is just the body\njust for testing"
+	res, err := utils.BuildGitCommitCommandStr(false, true, commitTitle, commitBody)
 	assert.NoError(t, err)
 	expected := fmt.Sprintf("git commit -S -m %s -m %s", commitTitle, commitBody)
+	assert.Equal(t, expected, res)
+}
+
+func TestBuildGitCommitCommandStrAutoAddSigningEqualsExpected(t *testing.T) {
+	commitTitle := "feat(test): :smile: this is my title"
+	commitBody := "this is just the body\njust for testing"
+	res, err := utils.BuildGitCommitCommandStr(true, true, commitTitle, commitBody)
+	assert.NoError(t, err)
+	expected := fmt.Sprintf("git commit -a -S -m %s -m %s", commitTitle, commitBody)
 	assert.Equal(t, expected, res)
 }
