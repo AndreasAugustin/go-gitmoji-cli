@@ -59,10 +59,11 @@ var CommitCmd = &cobra.Command{
 			extractMessageForFlagName(DESC, inputsRes),
 			selectedGitmoji,
 			pkg.ConfigInstance)
-
+		_body := extractMessageForFlagName(BODY, inputsRes)
 		log.Debugf("complete title: %s", title)
 		if isDryRun {
 			log.Infof("The commit title: %s", title)
+			log.Infof("The commit body: %s", _body)
 		}
 		// TODO(anau) autosign and autoadd
 

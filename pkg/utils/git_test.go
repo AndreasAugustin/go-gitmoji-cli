@@ -1,7 +1,10 @@
-package utils
+package utils_test
 
 import (
 	"errors"
+	"fmt"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
+
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -12,75 +15,93 @@ const expGitHooksCommand = "git rev-parse --git-path hooks"
 func TestGetRootDirectoryPathHandlesErrorCorrectly(t *testing.T) {
 	errMsgDetails := "not a git repo"
 	expectedErrMsg := "unexpected error encountered while trying to determine the git repo root directory. Error details: " + errMsgDetails
-	origRunCommand := runCommand
-	runCommand = func(cmd string) (string, error) {
+	origRunCommand := utils.RunCommand
+	utils.RunCommand = func(cmd string) (string, error) {
 		return "", errors.New(errMsgDetails)
 	}
-	defer func() { runCommand = origRunCommand }()
+	defer func() { utils.RunCommand = origRunCommand }()
 
-	_, err := getRootDirectoryPath()
+	_, err := utils.GetGitRepoRootDirectoryPath()
 	assert.Error(t, err, expectedErrMsg)
 }
 
 func TestGetRootDirectoryPathHandlesEmptyDirectoryCorrectly(t *testing.T) {
 	expectedErrMsg := "got an unexpected result for the git repo root directory."
-	origRunCommand := runCommand
-	runCommand = func(cmd string) (string, error) {
+	origRunCommand := utils.RunCommand
+	utils.RunCommand = func(cmd string) (string, error) {
 		return "", nil
 	}
-	defer func() { runCommand = origRunCommand }()
+	defer func() { utils.RunCommand = origRunCommand }()
 
-	gitDir, err := getRootDirectoryPath()
+	gitDir, err := utils.GetGitRepoRootDirectoryPath()
 	assert.Error(t, err, expectedErrMsg)
 	assert.Equal(t, "", gitDir)
 }
 
 func TestGetGitRepoRootDirectoryPathReturnsDirectoryCorrectly(t *testing.T) {
 	expectedGitDir := "/usr/repos/go-gitmoji-cli"
-	origRunCommand := runCommand
-	runCommand = func(cmd string) (string, error) {
+	origRunCommand := utils.RunCommand
+	utils.RunCommand = func(cmd string) (string, error) {
 		return expectedGitDir, nil
 	}
-	defer func() { runCommand = origRunCommand }()
+	defer func() { utils.RunCommand = origRunCommand }()
 
-	gitDir, err := getGitRepoRootDirectoryPath()
+	gitDir, err := utils.GetGitRepoRootDirectoryPath()
 	assert.Nil(t, err)
 	assert.Equal(t, expectedGitDir, gitDir)
 }
 
 func TestGetGitRepoRootDirectoryUsesCorrectCommand(t *testing.T) {
 	var actualCmd string
-	origRunCommand := runCommand
-	runCommand = func(cmd string) (string, error) {
+	origRunCommand := utils.RunCommand
+	utils.RunCommand = func(cmd string) (string, error) {
 		actualCmd = cmd
 		return "", nil
 	}
-	defer func() { runCommand = origRunCommand }()
-	getGitRepoRootDirectoryPath()
+	defer func() { utils.RunCommand = origRunCommand }()
+	utils.GetGitRepoRootDirectoryPath()
 	assert.Equal(t, expGitRootCommand, actualCmd, "Used incorrect command. Expected: %s, but got: %s", expGitRootCommand, actualCmd)
 }
 
 func TestGetHooksDirectoryReturnsErrorWhenCommandFails(t *testing.T) {
 	errMsgDetails := "ouch"
 	expectedErrMsg := "unexpected error encountered while trying to determine the git repo hooks directory. Error details: " + errMsgDetails
-	origRunCommand := runCommand
-	runCommand = func(cmd string) (string, error) {
+	origRunCommand := utils.RunCommand
+	utils.RunCommand = func(cmd string) (string, error) {
 		return "", errors.New(errMsgDetails)
 	}
-	defer func() { runCommand = origRunCommand }()
+	defer func() { utils.RunCommand = origRunCommand }()
 
-	_, err := getHooksDirectory()
+	_, err := utils.GetGitRepoRootDirectoryPath()
 	assert.Error(t, err, expectedErrMsg)
 }
 
 func TestGetHooksDirectoryUsesCorrectCommand(t *testing.T) {
 	var actualCmd string
-	origRunCommand := runCommand
-	runCommand = func(cmd string) (string, error) {
+	origRunCommand := utils.RunCommand
+	utils.RunCommand = func(cmd string) (string, error) {
 		actualCmd = cmd
 		return "", nil
 	}
-	defer func() { runCommand = origRunCommand }()
-	getHooksDirectory()
+	defer func() { utils.RunCommand = origRunCommand }()
+	utils.GetGitRepoHooksDirectory()
 	assert.Equal(t, expGitHooksCommand, actualCmd, "Used incorrect command. Expected: %s, but got: %s", expGitHooksCommand, actualCmd)
+}
+
+func TestBuildGitCommitCommandStrNoSigningEqualsExpected(t *testing.T) {
+	commitTitle := "feat(test): :smile: this is my title"
+	commitBody := "this is just the body\njust for testing"
+	res, err := utils.BuildGitCommitCommandStr(false, commitTitle, commitBody)
+	assert.NoError(t, err)
+	expected := fmt.Sprintf("git commit -m %s -m %s", commitTitle, commitBody)
+	assert.Equal(t, expected, res)
+}
+
+func TestBuildGitCommitCommandStrSigningEqualsExpected(t *testing.T) {
+	commitTitle := "feat(test): :smile: this is my title"
+	commitBody := "this is just the body\njust for testing"
+	res, err := utils.BuildGitCommitCommandStr(true, commitTitle, commitBody)
+	assert.NoError(t, err)
+	expected := fmt.Sprintf("git commit -S -m %s -m %s", commitTitle, commitBody)
+	assert.Equal(t, expected, res)
 }

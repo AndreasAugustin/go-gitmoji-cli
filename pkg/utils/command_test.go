@@ -56,7 +56,7 @@ func TestNewCommandUsesDirectoryWhenSpecified(t *testing.T) {
 		return mockCmd
 	}
 	defer func() { utils.OsCommand = exec.Command }()
-	assert.NotNil(t, utils.NewCommand(dir, echoScript))
+	assert.NotNil(t, utils.CreateCommand(dir, echoScript))
 	assert.Equal(t, dir, mockCmd.Dir, "Target directory for command was incorrect. Expected: %s, but got: %s.", dir, mockCmd.Dir)
 	numArgs := len(mockCmd.Args)
 	assert.Equal(t, expNumArgs, numArgs, "Did not get correct number of command args. Expected: %d, but got: %d", expNumArgs, numArgs)
@@ -71,7 +71,7 @@ func TestNewCommandUsesCallingProcDirectoryWhenNotSpecified(t *testing.T) {
 		return mockCmd
 	}
 	defer func() { utils.OsCommand = exec.Command }()
-	assert.NotNil(t, utils.NewCommand(dir, echoScript))
+	assert.NotNil(t, utils.CreateCommand(dir, echoScript))
 	assert.Equal(t, dir, mockCmd.Dir, "Target directory for command was incorrect. Expected: %s, but got: %s.", dir, mockCmd.Dir)
 	numArgs := len(mockCmd.Args)
 	assert.Equal(t, expNumArgs, numArgs, "Did not get correct number of command args. Expected: %d, but got: %d", expNumArgs, numArgs)
@@ -79,14 +79,15 @@ func TestNewCommandUsesCallingProcDirectoryWhenNotSpecified(t *testing.T) {
 
 func TestRunReturnsCorrectResults(t *testing.T) {
 	mockBytes := []byte("foobar")
+	createCommand := utils.CreateCommand
 	utils.CreateCommand = func(directory, script string) utils.Command {
 		return &MockCommand{CombinedOutputFunc: func() ([]byte, error) {
 			return mockBytes, nil
 		}}
 	}
-	defer func() { utils.CreateCommand = utils.NewCommand }()
+	defer func() { utils.CreateCommand = createCommand }()
 
-	result, err := utils.Run("")
+	result, err := utils.RunCommand("")
 	assert.Nil(t, err)
 	assert.Equal(t, string(mockBytes), result, "Result from run was incorrect. Expected: %s, but got: %s.", result, string(mockBytes))
 }

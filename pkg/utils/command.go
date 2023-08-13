@@ -5,16 +5,17 @@ import (
 	"runtime"
 )
 
+var GetRunnerInfo = getRunnerInfo
 var OsCommand = exec.Command
-var CreateCommand = NewCommand
-var runCommand = Run
-var runCommandInDir = runInDir
+var CreateCommand = newCommand
+var RunCommand = run
+var RunCommandInDir = runInDir
 
 type Command interface {
 	CombinedOutput() ([]byte, error)
 }
 
-func GetRunnerInfo(operatingSystem string) (runner, runnerArg string) {
+func getRunnerInfo(operatingSystem string) (runner, runnerArg string) {
 	if operatingSystem == "windows" {
 		runner = "cmd.exe"
 		runnerArg = "/C"
@@ -26,8 +27,8 @@ func GetRunnerInfo(operatingSystem string) (runner, runnerArg string) {
 	return runner, runnerArg
 }
 
-func NewCommand(directory, command string) Command {
-	runner, runnerArg := GetRunnerInfo(runtime.GOOS)
+func newCommand(directory, command string) Command {
+	runner, runnerArg := getRunnerInfo(runtime.GOOS)
 	cmdArgs := []string{runnerArg, command}
 	cmd := OsCommand(runner, cmdArgs...)
 
@@ -38,7 +39,7 @@ func NewCommand(directory, command string) Command {
 	return cmd
 }
 
-func Run(command string) (resultOutput string, err error) {
+func run(command string) (resultOutput string, err error) {
 	return runInDir("", command)
 }
 

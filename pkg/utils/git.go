@@ -5,18 +5,18 @@ import (
 	"strings"
 )
 
-var getGitRepoRootDirectoryPath = getRootDirectoryPath
+var GetGitRepoRootDirectoryPath = getRootDirectoryPath
 var GetGitRepoHooksDirectory = getHooksDirectory
 
 func getRootDirectoryPath() (gitDirPath string, err error) {
-	result, err := runCommand("git rev-parse --show-toplevel")
+	result, err := RunCommand("git rev-parse --show-toplevel")
 
 	if err != nil {
 		baseErr := err.Error()
 		errMsg := "unexpected error encountered while trying to determine the git repo root directory. Error details: " + baseErr
 		return result, errors.New(errMsg)
 	} else if len(result) == 0 {
-		errMsg := "got an unexpected result for the git repo root directory."
+		errMsg := "got an unexpected result for the git repo root directory"
 		return result, errors.New(errMsg)
 	}
 	gitDirPath = strings.TrimSuffix(result, "\n")
@@ -24,7 +24,7 @@ func getRootDirectoryPath() (gitDirPath string, err error) {
 }
 
 func getHooksDirectory() (string, error) {
-	hooksDir, err := runCommand("git rev-parse --git-path hooks")
+	hooksDir, err := RunCommand("git rev-parse --git-path hooks")
 	if err != nil {
 		baseErr := err.Error()
 		errMsg := "unexpected error encountered while trying to determine the git repo hooks directory. Error details: " + baseErr
@@ -35,4 +35,28 @@ func getHooksDirectory() (string, error) {
 	hooksDir = strings.TrimSuffix(hooksDir, "\n")
 
 	return hooksDir, nil
+}
+
+func applyGitAddAll() error {
+	_, err := RunCommand("git add .")
+	return err
+}
+
+func BuildGitCommitCommandStr(isSignCommit bool, title string, body string) (string, error) {
+	var str strings.Builder
+	str.WriteString("git commit ")
+	if isSignCommit {
+		str.WriteString("-S ")
+	}
+	if title == "" {
+		return "", errors.New("the title must not be empty")
+	}
+	str.WriteString("-m ")
+	str.WriteString(title)
+	str.WriteString(" ")
+	if body != "" {
+		str.WriteString("-m ")
+		str.WriteString(body)
+	}
+	return str.String(), nil
 }
