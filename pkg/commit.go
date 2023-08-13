@@ -2,8 +2,19 @@ package pkg
 
 import (
 	"fmt"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
+	log "github.com/sirupsen/logrus"
 	"strings"
 )
+
+func ExecuteCommit(title string, body string, config Config) {
+	commitCmd, err := utils.BuildGitCommitCommandStr(config.AutoAdd, config.AutoSign, title, body)
+	if err != nil {
+		log.Fatalf("error building commit message: %s", err)
+	}
+	log.Debugf("commit cmd: %s", commitCmd)
+	utils.Commit(commitCmd)
+}
 
 func BuildCommitTitle(_type string, scope string, isBreaking bool, desc string, gitmoji Gitmoji, config Config) string {
 

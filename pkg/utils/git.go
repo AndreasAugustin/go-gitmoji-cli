@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	log "github.com/sirupsen/logrus"
 	"strings"
 )
 
@@ -35,6 +36,13 @@ func getHooksDirectory() (string, error) {
 	hooksDir = strings.TrimSuffix(hooksDir, "\n")
 
 	return hooksDir, nil
+}
+
+func Commit(commitCommand string) {
+	_, err := RunCommand(commitCommand)
+	if err != nil {
+		log.Fatalf("Error while commiting %s", err)
+	}
 }
 
 func BuildGitCommitCommandStr(isAutoAdd bool, isSignCommit bool, title string, body string) (string, error) {

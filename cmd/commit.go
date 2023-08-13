@@ -64,10 +64,10 @@ var CommitCmd = &cobra.Command{
 		if isDryRun {
 			log.Infof("The commit title: %s", title)
 			log.Infof("The commit body: %s", _body)
+		} else {
+			pkg.ExecuteCommit(title, _body, pkg.ConfigInstance)
 		}
-		// TODO(anau) autosign and autoadd
 
-		//TODO(anau) do the commit
 	},
 }
 
