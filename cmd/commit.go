@@ -18,12 +18,7 @@ var _type string
 var CommitCmd = &cobra.Command{
 	Use:   "commit",
 	Short: "Interactively commit using prompts",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  `Do the commit. This command is disabled when you are using commit hooks`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("commit called")
 		log.Debug(commitMsg)
@@ -51,6 +46,7 @@ to quickly create a Cobra application.`,
 		if isDryRun {
 			log.Infof("The commit message: %s", msg)
 		}
+		// TODO(anau) autosign and autoadd
 		//longMessage := ui.TextAreaRun()
 		// TODO(anau) check if message prompt enabled
 		//log.Debugf("long message %s", longMessage)

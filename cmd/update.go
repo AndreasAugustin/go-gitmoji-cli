@@ -10,12 +10,7 @@ import (
 var UpdateGitmojisCmd = &cobra.Command{
 	Use:   "gitmojis",
 	Short: fmt.Sprintf("update the local gitmoji database %s", pkg.ProgramName),
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  fmt.Sprintf(`Update the gitmojis local cache from %s.`, pkg.DefaultGitmojiApiUrl),
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("update gitmojis called")
 		gitmojis := pkg.GetGitmojis()
@@ -26,12 +21,7 @@ to quickly create a Cobra application.`,
 var updateCmd = &cobra.Command{
 	Use:   "update",
 	Short: fmt.Sprintf("Manage %s updates", pkg.ProgramName),
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  `Update command for the cli.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("update called")
 	},

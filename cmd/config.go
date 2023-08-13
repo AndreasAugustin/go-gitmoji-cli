@@ -13,22 +13,20 @@ var isConfigGlobal bool
 var ConfigCmd = &cobra.Command{
 	Use:   "config",
 	Short: fmt.Sprintf("Setup %s preferences.", pkg.ProgramName),
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long: `Configure the cli.
+			There are default options available which are overwritten
+			by the local configuration file or a global configuration file within your OS config folder (use the info command to get the information where it is stored)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("config called")
 		config := pkg.ConfigInstance
-		autoAdd := runConfigConfirmationPrompt("Enable automatic 'git add .'", config.Autoadd)
+		autoAdd := runConfigConfirmationPrompt("Enable automatic 'git add .'", config.AutoAdd)
+		autoSign := runConfigConfirmationPrompt("Automatically sign commits (add '-S' flag)", config.AutoSign)
 		emojiFormat := runEmojiSelectionPrompt("Select how emojis should be used in commits. For a comparison please visit https://gitmoji.dev/specification")
 		scopePrompt := runConfigConfirmationPrompt("Enable scope prompt", config.ScopePrompt)
 		messagePrompt := runConfigConfirmationPrompt("Enable message prompt", config.MessagePrompt)
 		capitalizeTitle := runConfigConfirmationPrompt("Capitalize title", config.CapitalizeTitle)
 		gitmojisApiUrl := runGitmojiUrlInputPrompt("Set gitmojis api url", "https://gitmoji.dev/api/gitmojis")
-		config = pkg.Config{Autoadd: autoAdd, EmojiFormat: emojiFormat, ScopePrompt: scopePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisApiUrl, MessagePrompt: messagePrompt}
+		config = pkg.Config{AutoAdd: autoAdd, AutoSign: autoSign, EmojiFormat: emojiFormat, ScopePrompt: scopePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisApiUrl, MessagePrompt: messagePrompt}
 		pkg.UpdateConfig(config, isConfigGlobal)
 	},
 }

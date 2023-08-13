@@ -10,12 +10,7 @@ import (
 var HooksRemoveCmd = &cobra.Command{
 	Use:   "rm",
 	Short: fmt.Sprintf("remove git hooks for %s", pkg.ProgramName),
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  `Delete the commit hooks which are created by the cli`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks rm called")
 		err := pkg.RemoveAllHookFiles()
@@ -29,12 +24,7 @@ to quickly create a Cobra application.`,
 var HooksInitCmd = &cobra.Command{
 	Use:   "init",
 	Short: fmt.Sprintf("initialize git hooks for %s", pkg.ProgramName),
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  `Install the commit hooks into the local .git/hooks/ directory.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks init called")
 		err := pkg.CreateAllHookFiles()
@@ -48,12 +38,7 @@ to quickly create a Cobra application.`,
 var HooksCmd = &cobra.Command{
 	Use:   "hooks",
 	Short: fmt.Sprintf("Manage %s commit hooks", pkg.ProgramName),
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  `Manage git hooks for the cli`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks called")
 	},

@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] edit the long descriptions for the cmds
+- [x] edit the long descriptions for the cmds
 - [x] git hook wrong command name
 - [ ] lots of tests missing
 - [x] local cache for list (use viper with config file)

@@ -46,6 +46,7 @@ type ConfigEnum string
 
 const (
 	AUTO_ADD         ConfigEnum = "AUTO_ADD"
+	AUTO_SIGN        ConfigEnum = "AUTO_SIGN"
 	EMOJI_FORMAT     ConfigEnum = "EMOJI_FORMAT"
 	SCOPE_PROMPT     ConfigEnum = "SCOPE_PROMPT"
 	GITMOJIS_URL     ConfigEnum = "GITMOJIS_URL"
@@ -83,10 +84,11 @@ func (i EmojiCommitFormats) Description() string {
 }
 
 type Config struct {
-	Autoadd         bool               `mapstructure:"AUTO_ADD" json:"AUTO_ADD"`
-	EmojiFormat     EmojiCommitFormats `mapstructure:"EMOJI_FORMAT" json:"EMOJI_FORMAT"`
-	ScopePrompt     bool               `mapstructure:"SCOPE_PROMPT" json:"SCOPE_PROMPT"`
-	MessagePrompt   bool               `mapstructure:"MESSAGE_PROMPT" json:"MESSAGE_PROMPT"`
-	CapitalizeTitle bool               `mapstructure:"CAPITALIZE_TITLE" json:"CAPITALIZE_TITLE"`
-	GitmojisUrl     string             `mapstructure:"GITMOJIS_URL" json:"GITMOJIS_URL"`
+	AutoAdd         bool               `mapstructure:"AUTO_ADD" json:"auto_add"`
+	AutoSign        bool               `mapstructure:"AUTO_SIGN" json:"auto_sign"`
+	EmojiFormat     EmojiCommitFormats `mapstructure:"EMOJI_FORMAT" json:"emoji_format"`
+	ScopePrompt     bool               `mapstructure:"SCOPE_PROMPT" json:"scope_prompt"`
+	MessagePrompt   bool               `mapstructure:"MESSAGE_PROMPT" json:"message_prompt"`
+	CapitalizeTitle bool               `mapstructure:"CAPITALIZE_TITLE" json:"capitalize_title"`
+	GitmojisUrl     string             `mapstructure:"GITMOJIS_URL" json:"gitmojis_url"`
 }

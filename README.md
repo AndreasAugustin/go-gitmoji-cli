@@ -27,14 +27,15 @@ It is possible to configure the cli either with a `.go-gitmoji-cli.json` file wi
 or with command line flags.
 Environment variables are supported (case insensitive). The key is the same like the parameter with a prefix **GO_GITMOJI_CLI_**.
 
-| **parameter**    | **description**                     | **default**                        |
-|------------------|-------------------------------------|------------------------------------|
-| auto_add         | perform automatically a `git add .` | `false`                            |
-| emoji_format     | format of emojis `code/emoji`       | `code`                             |
-| scope_prompt     |                                     | `false`                            |
-| message_prompt   |                                     | `true`                             |
-| capitalize_title |                                     | `true`                             |
-| gitmojis_url     | The URL of the gitmojis database    | `https://gitmoji.dev/api/gitmojis` |
+| **parameter**    | **description**                                                                                 | **default**                        |
+|------------------|-------------------------------------------------------------------------------------------------|------------------------------------|
+| auto_add         | perform automatically a `git add .`                                                             | `false`                            |
+| auto_sign        | automatically sign commits (can also be configured with git `git config -g commit.gpgsign=true` | `false`                            |
+| emoji_format     | format of emojis `code/emoji`                                                                   | `code`                             |
+| scope_prompt     |                                                                                                 | `false`                            |
+| message_prompt   |                                                                                                 | `true`                             |
+| capitalize_title |                                                                                                 | `true`                             |
+| gitmojis_url     | The URL of the gitmojis database                                                                | `https://gitmoji.dev/api/gitmojis` |
 
 The configuration values can be changed with
 

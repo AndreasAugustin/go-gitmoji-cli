@@ -49,6 +49,7 @@ func AddEnvPrefix(suffix string) string {
 
 func LoadConfig(configPaths []string) (config Config, err error) {
 	viper.SetDefault(string(AUTO_ADD), false)
+	viper.SetDefault(string(AUTO_SIGN), false)
 	viper.SetDefault(string(EMOJI_FORMAT), string(CODE))
 	viper.SetDefault(string(SCOPE_PROMPT), false)
 	viper.SetDefault(string(MESSAGE_PROMPT), true)
@@ -80,7 +81,7 @@ func LoadConfig(configPaths []string) (config Config, err error) {
 }
 
 func UpdateConfig(config Config, isGlobalConfig bool) {
-	viper.Set(string(AUTO_ADD), config.Autoadd)
+	viper.Set(string(AUTO_ADD), config.AutoAdd)
 	viper.Set(string(EMOJI_FORMAT), string(config.EmojiFormat))
 	viper.Set(string(SCOPE_PROMPT), config.ScopePrompt)
 	viper.Set(string(MESSAGE_PROMPT), config.MessagePrompt)
