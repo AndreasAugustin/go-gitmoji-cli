@@ -19,7 +19,7 @@ func ExecuteCommit(title string, body string, config Config) {
 func BuildCommitTitle(_type string, scope string, isBreaking bool, desc string, gitmoji Gitmoji, config Config) string {
 
 	var s strings.Builder
-
+	s.WriteString("\"")
 	s.WriteString(_type)
 
 	if scope != "" {
@@ -32,7 +32,7 @@ func BuildCommitTitle(_type string, scope string, isBreaking bool, desc string, 
 
 	s.WriteString(fmt.Sprintf(": %s ", gitmojiToString(gitmoji, config)))
 	s.WriteString(eventualCapitalizeTitle(desc, config))
-
+	s.WriteString("\"")
 	return s.String()
 }
 

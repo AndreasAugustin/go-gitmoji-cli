@@ -46,3 +46,12 @@ lint:
 format:  ## format the files
 	go fmt ./...
 	go fix ./...
+
+.PHONY: clean
+clean:  ## clean
+	go clean
+	go mod tidy
+
+.PHONY: install
+install: ## install the package
+	go install

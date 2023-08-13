@@ -18,9 +18,8 @@
     - [x] gitmoji
     - [x] scope
     - [x] message
-    - [ ] add 2nd message optional
-    - [ ] add flags for message, scope,.. and prefill
-    - [ ] config option for commit message formats
+    - [x] add 2nd message optional
+    - [x] add flags for message, scope,.. and prefill
   - [x] config -> write config as local config file (with prompt)
     - [x] possibility to use env variables
     - [x] add -g --global flag for global configuration
@@ -32,5 +31,7 @@
 - [x] ci/cd -> releaser action [gorealeaser][goreleaser]
 - [x] bug in config -> gitmoji url is not shown properly
 - [ ] viper config params also as cli flags
+- [ ] issue with ctrl+c -> will get to next command
+- [ ] add hook functionality
 
 [goreleaser]: https://goreleaser.com/ci/actions/

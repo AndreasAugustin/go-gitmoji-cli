@@ -68,7 +68,7 @@ func TestBuildCommitTitleEmojiFormatIsNotBreakingWithScopeEqualsExp(t *testing.T
 	desc := "test description"
 	config := buildCommitTestConfig(pkg.EMOJI)
 	title := pkg.BuildCommitTitle(_type, scope, isBreaking, desc, gitmoji, config)
-	exp := fmt.Sprintf("feat(test): %s test description", "🍻")
+	exp := fmt.Sprintf("\"feat(test): %s test description\"", "🍻")
 	assert.Equal(t, exp, title)
 }
 

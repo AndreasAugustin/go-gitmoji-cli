@@ -7,6 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var hook bool
+
 var HooksRemoveCmd = &cobra.Command{
 	Use:   "rm",
 	Short: fmt.Sprintf("remove git hooks for %s", pkg.ProgramName),
@@ -39,6 +41,10 @@ var HooksCmd = &cobra.Command{
 	Use:   "hooks",
 	Short: fmt.Sprintf("Manage %s commit hooks", pkg.ProgramName),
 	Long:  `Manage git hooks for the cli`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		log.Infof("args: %v", args)
+		return nil
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks called")
 	},
@@ -48,4 +54,5 @@ func init() {
 	RootCmd.AddCommand(HooksCmd)
 	HooksCmd.AddCommand(HooksInitCmd)
 	HooksCmd.AddCommand(HooksRemoveCmd)
+	HooksCmd.PersistentFlags().BoolVar(&hook, "hook", false, "used when the git hook is installed")
 }
