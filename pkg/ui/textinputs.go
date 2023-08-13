@@ -25,6 +25,11 @@ type TextInputData struct {
 	Label        string
 }
 
+type TextInputRes struct {
+	Value string
+	Label string
+}
+
 func initialTextInputsModel(title string, textInputsData []TextInputData) textInputsModel {
 	m := textInputsModel{
 		title:  title,
@@ -162,19 +167,20 @@ func (m *textInputsModel) View() string {
 	return b.String()
 }
 
-func TextInputsRun(title string, textInputsData []TextInputData) []string {
+func TextInputsRun(title string, textInputsData []TextInputData) []TextInputRes {
 	if len(textInputsData) == 0 {
-		return []string{}
+		return []TextInputRes{}
 	}
 	model := initialTextInputsModel(title, textInputsData)
 	if _, err := tea.NewProgram(&model).Run(); err != nil {
 		log.Errorf("could not start program: %s\n", err)
 		os.Exit(1)
 	}
-	mapped := make([]string, len(model.inputs))
+	mapped := make([]TextInputRes, len(textInputsData))
 
-	for i, e := range model.inputs {
-		mapped[i] = e.Value()
+	for i, e := range textInputsData {
+		mapped[i].Value = model.inputs[i].Value()
+		mapped[i].Label = e.Label
 	}
 	return mapped
 }

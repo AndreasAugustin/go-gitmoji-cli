@@ -32,9 +32,9 @@ Environment variables are supported (case insensitive). The key is the same like
 | auto_add         | perform automatically a `git add .`                                                             | `false`                            |
 | auto_sign        | automatically sign commits (can also be configured with git `git config -g commit.gpgsign=true` | `false`                            |
 | emoji_format     | format of emojis `code/emoji`                                                                   | `code`                             |
-| scope_prompt     |                                                                                                 | `false`                            |
-| message_prompt   |                                                                                                 | `true`                             |
-| capitalize_title |                                                                                                 | `true`                             |
+| scope_prompt     | Prompt for adding the commit scope                                                              | `false`                            |
+| body_prompt      | Prompt for adding the commit message body                                                       | `false`                            |
+| capitalize_title | If set to true the commit title description will be capitalized                                 | `false`                            |
 | gitmojis_url     | The URL of the gitmojis database                                                                | `https://gitmoji.dev/api/gitmojis` |
 
 The configuration values can be changed with

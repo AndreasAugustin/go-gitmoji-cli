@@ -7,12 +7,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type CommitFlagName string
+
+const (
+	SCOPE       CommitFlagName = "scope"
+	DESC        CommitFlagName = "desc"
+	TYPE        CommitFlagName = "type"
+	BODY        CommitFlagName = "body"
+	IS_BREAKING CommitFlagName = "is-breaking"
+)
+
 var commitMsg []string
 var isDryRun bool
 var scope string
 var desc string
 var isBreaking bool
 var _type string
+var body string
 
 // CommitCmd represents the commit command
 var CommitCmd = &cobra.Command{
@@ -41,15 +52,20 @@ var CommitCmd = &cobra.Command{
 		log.Debugf("selected gitmoji %s", selectedGitmoji)
 		textInputsData := buildTextInputsData()
 		inputsRes := ui.TextInputsRun("please add", textInputsData)
-		msg := pkg.BuildCommitTitle(extractType(inputsRes), extractScope(inputsRes), isBreaking, extractDesc(inputsRes), selectedGitmoji, pkg.ConfigInstance)
-		log.Debugf("complete message: %s", msg)
+		title := pkg.BuildCommitTitle(
+			extractMessageForFlagName(TYPE, inputsRes),
+			extractMessageForFlagName(SCOPE, inputsRes),
+			isBreaking,
+			extractMessageForFlagName(DESC, inputsRes),
+			selectedGitmoji,
+			pkg.ConfigInstance)
+
+		log.Debugf("complete title: %s", title)
 		if isDryRun {
-			log.Infof("The commit message: %s", msg)
+			log.Infof("The commit title: %s", title)
 		}
 		// TODO(anau) autosign and autoadd
-		//longMessage := ui.TextAreaRun()
-		// TODO(anau) check if message prompt enabled
-		//log.Debugf("long message %s", longMessage)
+
 		//TODO(anau) do the commit
 	},
 }
@@ -59,38 +75,35 @@ func init() {
 	var a []string
 	CommitCmd.PersistentFlags().StringSliceVarP(&commitMsg, "message", "m", a, "The commit message. Can be repeated")
 	CommitCmd.PersistentFlags().BoolVarP(&isDryRun, "dry-run", "n", false, "dry run: just output the commit message without doing a commit")
-	CommitCmd.PersistentFlags().StringVar(&_type, "type", "", "add the type")
-	CommitCmd.PersistentFlags().StringVar(&scope, "scope", "", "add a scope")
-	CommitCmd.PersistentFlags().StringVar(&desc, "desc", "", "add a description")
-	CommitCmd.PersistentFlags().BoolVar(&isBreaking, "is-breaking", false, "set if the commit is a breaking change")
+	CommitCmd.PersistentFlags().StringVar(&_type, string(TYPE), "", "add the type")
+	CommitCmd.PersistentFlags().StringVar(&scope, string(SCOPE), "", "add a scope")
+	CommitCmd.PersistentFlags().StringVar(&desc, string(DESC), "", "add a description")
+	CommitCmd.PersistentFlags().StringVar(&body, string(BODY), "", "add the commit message body")
+	CommitCmd.PersistentFlags().BoolVar(&isBreaking, string(IS_BREAKING), false, "set if the commit is a breaking change")
 }
 
-func extractType(inputsRes []string) string {
-	return inputsRes[0]
-}
-
-func extractScope(inputsRes []string) string {
-	if len(inputsRes) > 2 {
-		return inputsRes[1]
-	} else {
-		return scope
+func extractMessageForFlagName(flagName CommitFlagName, inputsRes []ui.TextInputRes) string {
+	for _, res := range inputsRes {
+		if res.Label == string(flagName) {
+			return res.Value
+		}
 	}
-}
-
-func extractDesc(inputsRes []string) string {
-	if len(inputsRes) > 2 {
-		return inputsRes[2]
-	} else {
-		return inputsRes[1]
-	}
+	return ""
+	//return CommitCmd.PersistentFlags().Lookup(string(flagName)).Value.String()
 }
 
 func buildTextInputsData() []ui.TextInputData {
-	var textInputsData = []ui.TextInputData{{Placeholder: "type", Charlimit: 64, Label: "type", InitialValue: _type}}
+	var textInputsData = []ui.TextInputData{{Placeholder: "type", Charlimit: 64, Label: string(TYPE), InitialValue: _type}}
 
 	if pkg.ConfigInstance.ScopePrompt {
-		textInputsData = append(textInputsData, ui.TextInputData{Placeholder: "scope", Charlimit: 64, Label: "scope", InitialValue: scope})
+		textInputsData = append(textInputsData, ui.TextInputData{Placeholder: "scope", Charlimit: 64, Label: string(SCOPE), InitialValue: scope})
 	}
 
-	return append(textInputsData, ui.TextInputData{Placeholder: "description", Charlimit: 64, Label: "description", InitialValue: desc})
+	textInputsData = append(textInputsData, ui.TextInputData{Placeholder: "description", Charlimit: 64, Label: string(DESC), InitialValue: desc})
+
+	if pkg.ConfigInstance.BodyPrompt {
+		textInputsData = append(textInputsData, ui.TextInputData{Placeholder: "body", Charlimit: 250, Label: string(BODY), InitialValue: body})
+	}
+
+	return textInputsData
 }

@@ -31,5 +31,6 @@
 - [ ] docker for dev  and release a example image
 - [x] ci/cd -> releaser action [gorealeaser][goreleaser]
 - [x] bug in config -> gitmoji url is not shown properly
+- [ ] viper config params also as cli flags
 
 [goreleaser]: https://goreleaser.com/ci/actions/

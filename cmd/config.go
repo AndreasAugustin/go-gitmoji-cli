@@ -23,10 +23,10 @@ var ConfigCmd = &cobra.Command{
 		autoSign := runConfigConfirmationPrompt("Automatically sign commits (add '-S' flag)", config.AutoSign)
 		emojiFormat := runEmojiSelectionPrompt("Select how emojis should be used in commits. For a comparison please visit https://gitmoji.dev/specification")
 		scopePrompt := runConfigConfirmationPrompt("Enable scope prompt", config.ScopePrompt)
-		messagePrompt := runConfigConfirmationPrompt("Enable message prompt", config.MessagePrompt)
+		bodyPrompt := runConfigConfirmationPrompt("Enable body prompt", config.BodyPrompt)
 		capitalizeTitle := runConfigConfirmationPrompt("Capitalize title", config.CapitalizeTitle)
 		gitmojisApiUrl := runGitmojiUrlInputPrompt("Set gitmojis api url", "https://gitmoji.dev/api/gitmojis")
-		config = pkg.Config{AutoAdd: autoAdd, AutoSign: autoSign, EmojiFormat: emojiFormat, ScopePrompt: scopePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisApiUrl, MessagePrompt: messagePrompt}
+		config = pkg.Config{AutoAdd: autoAdd, AutoSign: autoSign, EmojiFormat: emojiFormat, ScopePrompt: scopePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisApiUrl, BodyPrompt: bodyPrompt}
 		pkg.UpdateConfig(config, isConfigGlobal)
 	},
 }
@@ -48,7 +48,7 @@ func runEmojiSelectionPrompt(title string) pkg.EmojiCommitFormats {
 func runGitmojiUrlInputPrompt(title string, initialValue string) string {
 	input := ui.TextInputsRun("Gitmoji API url", []ui.TextInputData{{Placeholder: title, InitialValue: initialValue, Charlimit: 156}})
 
-	return input[0]
+	return input[0].Value
 }
 
 func runConfigConfirmationPrompt(title string, isCurrentlyEnabled bool) bool {

@@ -52,8 +52,8 @@ func LoadConfig(configPaths []string) (config Config, err error) {
 	viper.SetDefault(string(AUTO_SIGN), false)
 	viper.SetDefault(string(EMOJI_FORMAT), string(CODE))
 	viper.SetDefault(string(SCOPE_PROMPT), false)
-	viper.SetDefault(string(MESSAGE_PROMPT), true)
-	viper.SetDefault(string(CAPITALIZE_TITLE), true)
+	viper.SetDefault(string(BODY_PROMPT), false)
+	viper.SetDefault(string(CAPITALIZE_TITLE), false)
 	viper.SetDefault(string(GITMOJIS_URL), DefaultGitmojiApiUrl)
 
 	viper.SetEnvPrefix(EnvPrefix)
@@ -84,7 +84,7 @@ func UpdateConfig(config Config, isGlobalConfig bool) {
 	viper.Set(string(AUTO_ADD), config.AutoAdd)
 	viper.Set(string(EMOJI_FORMAT), string(config.EmojiFormat))
 	viper.Set(string(SCOPE_PROMPT), config.ScopePrompt)
-	viper.Set(string(MESSAGE_PROMPT), config.MessagePrompt)
+	viper.Set(string(BODY_PROMPT), config.BodyPrompt)
 	viper.Set(string(CAPITALIZE_TITLE), config.CapitalizeTitle)
 	viper.Set(string(GITMOJIS_URL), config.GitmojisUrl)
 
