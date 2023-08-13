@@ -35,7 +35,7 @@ func TestBuildCommitTitleCodeFormatIsNotBreakingNoScopeEqualsExp(t *testing.T) {
 	desc := "test description"
 	config := buildCommitTestConfig(pkg.CODE)
 	title := pkg.BuildCommitTitle(_type, scope, isBreaking, desc, gitmoji, config)
-	exp := "feat: :beers: test description"
+	exp := "\"feat: :beers: test description\""
 	assert.Equal(t, exp, title)
 }
 
@@ -46,7 +46,7 @@ func TestBuildCommitTitleEmojiFormatIsNotBreakingNoScopeEqualsExp(t *testing.T) 
 	desc := "test description"
 	config := buildCommitTestConfig(pkg.EMOJI)
 	title := pkg.BuildCommitTitle(_type, scope, isBreaking, desc, gitmoji, config)
-	exp := fmt.Sprintf("feat: %s test description", "🍻")
+	exp := fmt.Sprintf("\"feat: %s test description\"", "🍻")
 	assert.Equal(t, exp, title)
 }
 
@@ -57,7 +57,7 @@ func TestBuildCommitTitleCodeFormatIsNotBreakingWithScopeEqualsExp(t *testing.T)
 	desc := "test description"
 	config := buildCommitTestConfig(pkg.CODE)
 	title := pkg.BuildCommitTitle(_type, scope, isBreaking, desc, gitmoji, config)
-	exp := fmt.Sprintf("feat(test): %s test description", ":beers:")
+	exp := fmt.Sprintf("\"feat(test): %s test description\"", ":beers:")
 	assert.Equal(t, exp, title)
 }
 
@@ -79,7 +79,7 @@ func TestBuildCommitTitleCodeFormatIsBreakingWithScopeEqualsExp(t *testing.T) {
 	desc := "test description"
 	config := buildCommitTestConfig(pkg.CODE)
 	title := pkg.BuildCommitTitle(_type, scope, isBreaking, desc, gitmoji, config)
-	exp := fmt.Sprintf("feat(test)!: %s test description", ":beers:")
+	exp := fmt.Sprintf("\"feat(test)!: %s test description\"", ":beers:")
 	assert.Equal(t, exp, title)
 }
 
@@ -90,6 +90,6 @@ func TestBuildCommitTitleEmojiFormatIsBreakingWithScopeEqualsExp(t *testing.T) {
 	desc := "test description"
 	config := buildCommitTestConfig(pkg.EMOJI)
 	title := pkg.BuildCommitTitle(_type, scope, isBreaking, desc, gitmoji, config)
-	exp := fmt.Sprintf("feat(test)!: %s test description", "🍻")
+	exp := fmt.Sprintf("\"feat(test)!: %s test description\"", "🍻")
 	assert.Equal(t, exp, title)
 }

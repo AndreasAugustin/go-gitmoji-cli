@@ -3,11 +3,14 @@ package cmd
 import (
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/ui"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
 var hook bool
+var hookCommitMessageFile string
 
 var HooksRemoveCmd = &cobra.Command{
 	Use:   "rm",
@@ -42,11 +45,17 @@ var HooksCmd = &cobra.Command{
 	Short: fmt.Sprintf("Manage %s commit hooks", pkg.ProgramName),
 	Long:  `Manage git hooks for the cli`,
 	Args: func(cmd *cobra.Command, args []string) error {
-		log.Infof("args: %v", args)
+		log.Debugf("args: %v", args)
+		if hook {
+			hookCommitMessageFile = args[0]
+		}
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks called")
+		if hook {
+			hookCommit()
+		}
 	},
 }
 
@@ -55,4 +64,36 @@ func init() {
 	HooksCmd.AddCommand(HooksInitCmd)
 	HooksCmd.AddCommand(HooksRemoveCmd)
 	HooksCmd.PersistentFlags().BoolVar(&hook, "hook", false, "used when the git hook is installed")
+}
+
+func hookCommit() {
+	log.Debug("hook --hooks called")
+	log.Debug(commitMsg)
+	spin := ui.NewSpinner()
+	spin.Run()
+	existentHookFiles, err := pkg.HookFilesExistent()
+	if err != nil {
+		log.Fatalf("Error checking if hook files existent")
+	}
+	if len(existentHookFiles) == 0 {
+		log.Infof("There are no hook files existent for %s", existentHookFiles)
+		log.Infof("Please use commit command or create hooks with %s hooks init", pkg.ProgramName)
+		spin.Stop()
+		return
+	}
+	gitmojis := pkg.GetGitmojis()
+	spin.Stop()
+	initialCommitValues := pkg.InitialCommitValues{}
+	listSettings := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
+	selectedGitmoji := ui.ListRun(listSettings, gitmojis.Gitmojis)
+	log.Debugf("selected gitmoji %s", selectedGitmoji)
+	textInputsData := initialCommitValues.BuildTextInputsData(pkg.ConfigInstance)
+	inputsRes := ui.TextInputsRun("please add", textInputsData)
+
+	commitValues := pkg.CreateMessage(inputsRes, selectedGitmoji, initialCommitValues, pkg.ConfigInstance, isBreaking)
+
+	log.Debugf("complete title: %s", commitValues.Title)
+
+	commitMsg := fmt.Sprintf("%s \n \n %s", commitValues.Title, commitValues.Body)
+	utils.WriteFile(hookCommitMessageFile, []byte(commitMsg))
 }

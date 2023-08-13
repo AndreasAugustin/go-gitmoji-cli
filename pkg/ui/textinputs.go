@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"strings"
@@ -18,19 +19,7 @@ type textInputsModel struct {
 	cursorMode cursor.Mode
 }
 
-type TextInputData struct {
-	Placeholder  string
-	Charlimit    int
-	InitialValue string
-	Label        string
-}
-
-type TextInputRes struct {
-	Value string
-	Label string
-}
-
-func initialTextInputsModel(title string, textInputsData []TextInputData) textInputsModel {
+func initialTextInputsModel(title string, textInputsData []pkg.TextInputData) textInputsModel {
 	m := textInputsModel{
 		title:  title,
 		inputs: make([]textinput.Model, len(textInputsData)),
@@ -167,16 +156,16 @@ func (m *textInputsModel) View() string {
 	return b.String()
 }
 
-func TextInputsRun(title string, textInputsData []TextInputData) []TextInputRes {
+func TextInputsRun(title string, textInputsData []pkg.TextInputData) []pkg.TextInputRes {
 	if len(textInputsData) == 0 {
-		return []TextInputRes{}
+		return []pkg.TextInputRes{}
 	}
 	model := initialTextInputsModel(title, textInputsData)
 	if _, err := tea.NewProgram(&model).Run(); err != nil {
 		log.Errorf("could not start program: %s\n", err)
 		os.Exit(1)
 	}
-	mapped := make([]TextInputRes, len(textInputsData))
+	mapped := make([]pkg.TextInputRes, len(textInputsData))
 
 	for i, e := range textInputsData {
 		mapped[i].Value = model.inputs[i].Value()

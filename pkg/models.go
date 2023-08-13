@@ -92,3 +92,10 @@ type Config struct {
 	CapitalizeTitle bool               `mapstructure:"CAPITALIZE_TITLE" json:"capitalize_title"`
 	GitmojisUrl     string             `mapstructure:"GITMOJIS_URL" json:"gitmojis_url"`
 }
+
+type TextInputData struct {
+	Placeholder  string
+	Charlimit    int
+	InitialValue string
+	Label        string
+}

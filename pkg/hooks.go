@@ -19,7 +19,7 @@ hookName=` + "`basename \"$0\"`" + `
 gitParams="$*"
 
 if command -v go-gitmoji-cli >/dev/null 2>&1; then
-  go-gitmoji-cli hooks "$gitParams"
+  go-gitmoji-cli hooks --hook "$gitParams"
 else
   echo "Can't find go-gitmoji-cli, skipping $hookName hook"
   echo "You can reinstall it using 'go get -u github.com/AndreasAugustin/go-gitmoji-cli' or delete this hook"

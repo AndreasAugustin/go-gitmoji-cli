@@ -46,7 +46,7 @@ func runEmojiSelectionPrompt(title string) pkg.EmojiCommitFormats {
 }
 
 func runGitmojiUrlInputPrompt(title string, initialValue string) string {
-	input := ui.TextInputsRun("Gitmoji API url", []ui.TextInputData{{Placeholder: title, InitialValue: initialValue, Charlimit: 156}})
+	input := ui.TextInputsRun("Gitmoji API url", []pkg.TextInputData{{Placeholder: title, InitialValue: initialValue, Charlimit: 156}})
 
 	return input[0].Value
 }
