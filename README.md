@@ -8,9 +8,15 @@
 
 ![Lint](https://github.com/AndreasAugustin/go-gitmoji-cli/workflows/Lint/badge.svg)
 
-## Abstract
+```bash
+  ____ ____    ____ _ ___ _  _ ____  _ _    ____ _    _
+  | __ |  | __ | __ |  |  |\/| |  |  | | __ |    |    |
+  |__] |__|    |__] |  |  |  | |__| _| |    |___ |___ |
+```
 
-![tmp](out.gif)
+![commit](docs/assets/commit.gif)
+
+## Abstract
 
 [Gitmoji][gitmoji] is an emoji guide for GitHub commit messages. Aims to be a standardization cheatsheet - guide for using emojis on GitHub's commit messages.
  is a nice way to standardize commit messages with emojis.
@@ -44,6 +50,8 @@ The configuration values can be changed with
 go-gitmoji-cli config [-g]
 ```
 
+![config](docs/assets/config.gif)
+
 This will create a file within the local directory or within the OS related config directory (when `-g` flag is enabled).
 Reading will follow the following order:
 
@@ -51,6 +59,45 @@ Reading will follow the following order:
 - global config if exists
 - local config if exists
 - environment variables
+
+## Usage
+
+### basic commands
+
+```bash
+# show available commands
+go-gitmoji-cli --help
+```
+
+![help](docs/assets/help.gif)
+
+```bash
+# show the version
+go-gitmoji-cli --version
+```
+
+![version](docs/assets/version.gif)
+
+```bash
+# list the available gitmojis
+go-gitmoji-cli list
+```
+
+![list](docs/assets/list.gif)
+
+### Commit
+
+There are 2 ways making commits with the tool
+
+- hooks `go-gitmoji-cli hooks --help`. This will install a commit hook.
+- commit `go-gitmoji-cli commit --help`
+
+```bash
+# doing a commit with dry-run
+go-gitmoji-cli commit --dry-run
+```
+
+![commit-dry-run](docs/assets/commit.gif)
 
 ## Debugging
 
@@ -64,9 +111,27 @@ The development environment targets are located in the [Makefile](Makefile)
 make help
 ```
 
+## Used libraries and tools
+
+- [cobra][cobra]
+- [viper][viper]
+- [logrus][logrus]
+- [bubbletea][bubbletea]
+- [lipgloss][lipgloss]
+- [go-figure][go-figure]
+- [vhs][vhs]
+
 [gitmoji]: https://gitmoji.dev/
 [gitmoji-cli]: https://github.com/carloscuesta/gitmoji-cli
 [conventional-commits]: https://www.conventionalcommits.org/en/v1.0.0/
+[cobra]: https://github.com/spf13/cobra
+[viper]: https://github.com/spf13/viper
+[logrus]: https://github.com/sirupsen/logrus
+[bubbletea]: https://github.com/charmbracelet/bubbletea
+[bubbles]: https://github.com/charmbracelet/bubbles
+[lipgloss]: https://github.com/charmbracelet/lipgloss
+[go-figure]: https://github.com/common-nighthawk/go-figure
+[vhs]: https://github.com/charmbracelet/vhs
 
 ## Contributors ✨
 

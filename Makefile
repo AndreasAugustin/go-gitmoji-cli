@@ -59,3 +59,7 @@ clean:  ## clean
 .PHONY: install
 install: ## install the package
 	go install
+
+.PHONY: create-gifs
+create-gifs: ## create the gifs
+	$(MAKE) -C docs/ vhs
