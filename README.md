@@ -117,6 +117,7 @@ make help
 - [viper][viper]
 - [logrus][logrus]
 - [bubbletea][bubbletea]
+- [bubbles][bubbles]
 - [lipgloss][lipgloss]
 - [go-figure][go-figure]
 - [vhs][vhs]

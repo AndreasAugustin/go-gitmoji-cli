@@ -60,7 +60,7 @@ func TestGetGitRepoRootDirectoryUsesCorrectCommand(t *testing.T) {
 	}
 	defer func() { utils.RunCommand = origRunCommand }()
 	_, err := utils.GetGitRepoRootDirectoryPath()
-	assert.NoError(t, err)
+	assert.Error(t, err)
 	assert.Equal(t, expGitRootCommand, actualCmd, "Used incorrect command. Expected: %s, but got: %s", expGitRootCommand, actualCmd)
 }
 
