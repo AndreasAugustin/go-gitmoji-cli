@@ -25,7 +25,7 @@ There is already a nice [gitmoji-cli][gitmoji-cli] command line interface availa
 Because I was searching for a nice project to get more into golang this project was created.
 
 It is possible to use different commit message formats.
-Per default the format is [conventional-commits[conventional-commits] with emoji
+Per default the format is [conventional-commits][conventional-commits] with emoji
 `<type>[optional scope]: :smile: <description>`
 
 ## Configuration
