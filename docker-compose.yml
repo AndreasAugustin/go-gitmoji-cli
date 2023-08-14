@@ -17,7 +17,7 @@ services:
   golangci-lint:
     image: golangci/golangci-lint:v1.54.1
     working_dir: /app/
-#    environment:
-#      - GOVCS=github.com:git
+    environment:
+      - GOFLAGS=-buildvcs=false
     volumes:
       - .:/app/

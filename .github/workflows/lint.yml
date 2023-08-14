@@ -34,3 +34,5 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           only-new-issues: true
+        env:
+          GOFLAGS: “-buildvcs=false”
