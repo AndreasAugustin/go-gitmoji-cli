@@ -32,6 +32,7 @@
 - [x] bug in config -> gitmoji url is not shown properly
 - [ ] viper config params also as cli flags
 - [ ] issue with ctrl+c -> will get to next command
-- [ ] add hook functionality
+- [x] add hook functionality
+- [ ] update basic readme with nice terminal gifs
 
 [goreleaser]: https://goreleaser.com/ci/actions/

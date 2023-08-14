@@ -59,7 +59,8 @@ func TestGetGitRepoRootDirectoryUsesCorrectCommand(t *testing.T) {
 		return "", nil
 	}
 	defer func() { utils.RunCommand = origRunCommand }()
-	utils.GetGitRepoRootDirectoryPath()
+	_, err := utils.GetGitRepoRootDirectoryPath()
+	assert.NoError(t, err)
 	assert.Equal(t, expGitRootCommand, actualCmd, "Used incorrect command. Expected: %s, but got: %s", expGitRootCommand, actualCmd)
 }
 
@@ -84,7 +85,8 @@ func TestGetHooksDirectoryUsesCorrectCommand(t *testing.T) {
 		return "", nil
 	}
 	defer func() { utils.RunCommand = origRunCommand }()
-	utils.GetGitRepoHooksDirectory()
+	_, err := utils.GetGitRepoHooksDirectory()
+	assert.NoError(t, err)
 	assert.Equal(t, expGitHooksCommand, actualCmd, "Used incorrect command. Expected: %s, but got: %s", expGitHooksCommand, actualCmd)
 }
 

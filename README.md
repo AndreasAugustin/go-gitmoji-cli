@@ -10,6 +10,8 @@
 
 ## Abstract
 
+![tmp](out.gif)
+
 [Gitmoji][gitmoji] is an emoji guide for GitHub commit messages. Aims to be a standardization cheatsheet - guide for using emojis on GitHub's commit messages.
  is a nice way to standardize commit messages with emojis.
 

@@ -56,7 +56,7 @@ func TestCreateAllHookFilesReturnsCorrectErrorWhenSomeHooksNotCreated(t *testing
 	defer func() { utils.WriteFile = originalWriteFile }()
 	utils.WriteFile = func(filePath string, contents []byte) error {
 		hook := strings.TrimPrefix(filePath, filepath.Join(gitHooksPath))
-		hook = hook[1:len(hook)]
+		hook = hook[1:]
 
 		if hook == "prepare-commit-msg" {
 			return errors.New("")
@@ -80,13 +80,15 @@ func TestCreateAllHookFilesCreatesCorrectHooks(t *testing.T) {
 	utils.WriteFile = func(filePath string, contents []byte) error {
 		if !bytes.Equal(contents, expHookFileContents) {
 			hook := strings.TrimPrefix(filePath, filepath.Join(gitHooksPath))
-			hook = hook[1:len(hook)]
+			hook = hook[1:]
 			t.Errorf("Incorrect script contents used for hook '%s'. Expected: %s, but got: %s", hook, string(expHookFileContents), string(contents))
 		}
 		actHookPaths = append(actHookPaths, filePath)
 		return nil
 	}
-	pkg.CreateAllHookFiles()
+	err := pkg.CreateAllHookFiles()
+
+	assert.NoError(t, err)
 	assert.Equal(t, len(actHookPaths), len(expGitHooks))
 	for i, actHookPath := range actHookPaths {
 		expHookPath := filepath.Join(gitHooksPath, expGitHooks[i])

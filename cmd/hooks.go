@@ -95,5 +95,8 @@ func hookCommit() {
 	log.Debugf("complete title: %s", commitValues.Title)
 
 	commitMsg := fmt.Sprintf("%s \n \n %s", commitValues.Title, commitValues.Body)
-	utils.WriteFile(hookCommitMessageFile, []byte(commitMsg))
+	err = utils.WriteFile(hookCommitMessageFile, []byte(commitMsg))
+	if err != nil {
+		log.Fatalf("error writing commit hook file %s", err)
+	}
 }

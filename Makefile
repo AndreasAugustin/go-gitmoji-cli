@@ -22,6 +22,10 @@ markdownlint: ## Validate markdown files
 	docker-compose run docs markdownlint .github/ --ignore node_modules
 	docker-compose run docs markdownlint . --ignore node_modules
 
+.PHONY: golangci-lint
+golangci-lint:  ## run golangci-lint https://golangci-lint.run/
+	docker-compose run golangci-lint golangci-lint run -v
+
 .PHONY: zsh
 zsh: ## open dev container with build environment
 	docker-compose run --service-ports dev /bin/zsh

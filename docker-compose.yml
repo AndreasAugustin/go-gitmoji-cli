@@ -13,3 +13,11 @@ services:
       target: DOCS
     volumes:
       - .:/app/
+
+  golangci-lint:
+    image: golangci/golangci-lint:v1.54.1
+    working_dir: /app/
+#    environment:
+#      - GOVCS=github.com:git
+    volumes:
+      - .:/app/
