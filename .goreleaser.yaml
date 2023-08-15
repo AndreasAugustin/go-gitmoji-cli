@@ -8,10 +8,10 @@ before:
     - mkdir completions
     - rm -rf manpages
     - mkdir manpages
-    - sh -c 'go run main.go completion "bash" >./completions/{{ .ProjectName }}.bash'
-    - sh -c 'go run main.go completion "zsh" >./completions/{{ .ProjectName }}.zsh'
-    - sh -c 'go run main.go completion "fish" >./completions/{{ .ProjectName }}.fish'
-#    - sh -c 'go run main.go man | gzip -c >./manpages/{{ .ProjectName }}.1.gz'
+    - sh -c 'go run . completion "bash" >./completions/{{ .ProjectName }}.bash'
+    - sh -c 'go run . completion "zsh" >./completions/{{ .ProjectName }}.zsh'
+    - sh -c 'go run . completion "fish" >./completions/{{ .ProjectName }}.fish'
+#    - sh -c 'go run . man | gzip -c >./manpages/{{ .ProjectName }}.1.gz'
 
 #gomod:
 #  proxy: true
@@ -20,7 +20,7 @@ builds:
   - binary: "{{ .ProjectName }}"
     env:
       - CGO_ENABLED=0
-    main: "main.go"
+    main: "."
     ldflags: -s -w -X main.Version=v{{ .Version }} -X main.CommitSHA={{ .Commit }} -X main.CommitDate={{ .CommitDate }}
     goos:
       - linux
@@ -83,7 +83,7 @@ release:
 
 dockers:
   - image_templates:
-    - "docker.io/andyaugustin/{{ .ProjectName }}:v{{ .Version }}-amd64"
+#    - "docker.io/andyaugustin/{{ .ProjectName }}:v{{ .Version }}-amd64"
     - "ghcr.io/andreasaugustin/{{ .ProjectName }}:v{{ .Version }}-amd64"
     goarch: amd64
     build_flag_templates:
