@@ -144,6 +144,9 @@ brews:
       owner: "AndreasAugustin"
       name: go-gitmoji-cli
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+      branch: homebrew-tap
+      pull_request:
+        enabled: true
     commit_author:
       name: "Andy Augustin"
       email: "dev@andreas-augustin.org"
