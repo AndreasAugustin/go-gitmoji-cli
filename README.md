@@ -113,6 +113,8 @@ make help
 
 ## Used libraries and tools
 
+Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
+
 - [cobra][cobra]
 - [viper][viper]
 - [logrus][logrus]
