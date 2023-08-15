@@ -123,6 +123,7 @@ Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
 - [lipgloss][lipgloss]
 - [go-figure][go-figure]
 - [vhs][vhs]
+- [goreleaser][goreleaser]
 
 [gitmoji]: https://gitmoji.dev/
 [gitmoji-cli]: https://github.com/carloscuesta/gitmoji-cli
@@ -135,6 +136,7 @@ Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
 [lipgloss]: https://github.com/charmbracelet/lipgloss
 [go-figure]: https://github.com/common-nighthawk/go-figure
 [vhs]: https://github.com/charmbracelet/vhs
+[goreleaser]: https://goreleaser.com/
 
 ## Contributors ✨
 

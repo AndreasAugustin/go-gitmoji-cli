@@ -2,4 +2,4 @@ dist/
 tmp/
 .idea/
 .gitmojirc.json
-.idea/
+completions/
