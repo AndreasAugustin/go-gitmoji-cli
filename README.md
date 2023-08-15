@@ -43,8 +43,10 @@ brew install https://github.com/AndreasAugustin/go-gitmoji-cli/Formula
 
 ### Aur
 
+The package is located [here][go-gitmoji-cli-aur]
+
 ```bash
-pamac install go-gitmoji-cli
+pamac install go-gitmoji-cli-bin
 ```
 
 ### Docker
@@ -171,7 +173,7 @@ Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
 [go-gitmoji-cli-releases]: https://github.com/AndreasAugustin/go-gitmoji-cli/releases
 [go-gitmoji-cli-docker-hub]: https://hub.docker.com/repository/docker/andyaugustin/go-gitmoji-cli/general
 [go-gitmoji-cli-docker-ghcr]: https://github.com/AndreasAugustin/go-gitmoji-cli/pkgs/container/go-gitmoji-cli
-
+[go-gitmoji-cli-aur]: https://aur.archlinux.org/packages/go-gitmoji-cli-bin
 
 ## Contributors ✨
 
