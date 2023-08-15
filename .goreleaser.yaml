@@ -96,7 +96,7 @@ dockers:
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
       - --label=org.opencontainers.image.licenses=MIT
     dockerfile: Dockerfile
-    skip_push: auto
+    skip_push: false
 #    use: buildx
 
 aurs:
@@ -161,4 +161,4 @@ brews:
 #     man1.install "manpages/{{ .ProjectName }}.1.gz"
     folder: Formula
     license: "MIT"
-    skip_upload: true
+    skip_upload: false
