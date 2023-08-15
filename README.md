@@ -30,6 +30,35 @@ It is possible to use different commit message formats.
 Per default the format is [conventional-commits][conventional-commits] with emoji
 `<type>[optional scope]: :smile: <description>`
 
+## Installation
+
+:warning: not all installation methods are tested (yet).
+Currently all is experimental. Will be updated when the first release has been done.
+
+### brew
+
+```bash
+brew install https://github.com/AndreasAugustin/go-gitmoji-cli/Formula
+```
+
+### Aur
+
+```bash
+pamac install go-gitmoji-cli
+```
+
+### Docker
+
+There are 2 docker registries available. Just pull the image to have a local test setup available.
+To use it, mount the current dir into the working dir.
+
+- [dockerhub][go-gitmoji-cli-docker-hub]
+- [ghcr][go-gitmoji-cli-docker-ghcr]
+
+### Manual
+
+Download the related release [here][go-gitmoji-cli-releases] and unpack the related binary into your path
+
 ## Configuration
 
 It is possible to configure the cli either with a `.go-gitmoji-cli.json` file within the repo directory
@@ -139,6 +168,10 @@ Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
 [go-figure]: https://github.com/common-nighthawk/go-figure
 [vhs]: https://github.com/charmbracelet/vhs
 [goreleaser]: https://goreleaser.com/
+[go-gitmoji-cli-releases]: https://github.com/AndreasAugustin/go-gitmoji-cli/releases
+[go-gitmoji-cli-docker-hub]: https://hub.docker.com/repository/docker/andyaugustin/go-gitmoji-cli/general
+[go-gitmoji-cli-docker-ghcr]: https://github.com/AndreasAugustin/go-gitmoji-cli/pkgs/container/go-gitmoji-cli
+
 
 ## Contributors ✨
 

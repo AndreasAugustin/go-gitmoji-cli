@@ -137,13 +137,12 @@ aurs:
       # man pages
 #      install -Dm644 "./manpages/{{ .ProjectName }}.1.gz" "${pkgdir}/usr/share/man/man1/{{ .ProjectName }}.1.gz"
 
-    skip_upload: true
+    skip_upload: false
 
 brews:
   - repository:
       owner: "AndreasAugustin"
       name: go-gitmoji-cli
-      branch: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
     commit_author:
       name: "Andy Augustin"
