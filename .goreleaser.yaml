@@ -1,48 +1,162 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
+project_name: go-gitmoji-cli
+
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod tidy
-    # you may remove this if you don't need go generate
-    - go generate ./...
+    - rm -rf completions
+    - mkdir completions
+    - rm -rf manpages
+    - mkdir manpages
+    - sh -c 'go run main.go completion "bash" >./completions/{{ .ProjectName }}.bash'
+    - sh -c 'go run main.go completion "zsh" >./completions/{{ .ProjectName }}.zsh'
+    - sh -c 'go run main.go completion "fish" >./completions/{{ .ProjectName }}.fish'
+#    - sh -c 'go run main.go man | gzip -c >./manpages/{{ .ProjectName }}.1.gz'
+
+gomod:
+  proxy: true
+
 builds:
-  - env:
+  - binary: "{{ .ProjectName }}"
+    env:
       - CGO_ENABLED=0
+    main: "main.go"
+    ldflags: -s -w -X main.Version=v{{ .Version }} -X main.CommitSHA={{ .Commit }} -X main.CommitDate={{ .CommitDate }}
     goos:
       - linux
-      - windows
       - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+      - "386"
+      - arm
+    goarm:
+      - "7"
+    ignore:
+      - goos: windows
+        goarch: arm64
+      - goos: windows
+        goarm: "7"
 
 archives:
-  - format: tar.gz
-    # this name template makes the OS and Arch compatible with the results of uname.
+  - format_overrides:
+      - goos: windows
+        format: zip
     name_template: >-
       {{ .ProjectName }}_
+      {{- .Version }}_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
-    # use zip for windows archives
-    format_overrides:
-    - goos: windows
-      format: zip
+    files:
+      - README*
+      - LICENSE*
+      - manpages/*
+      - completions/*
+
 checksum:
   name_template: 'checksums.txt'
+
+source:
+  enabled: true
+
+sboms:
+  - artifacts: archive
+  - id: source
+    artifacts: source
+
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
+
 changelog:
   sort: asc
+  use: github
   filters:
     exclude:
       - '^docs:'
       - '^test:'
 
-# The lines beneath this are called `modelines`. See `:help modeline`
-# Feel free to remove those if you don't want/use them.
-# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
-# vim: set ts=2 sw=2 tw=0 fo=cnqoj
-
 release:
   prerelease: auto
+
+dockers:
+  - image_templates:
+    - "docker.io/andyaugustin/{{ .ProjectName }}:v{{ .Version }}-amd64"
+    - "ghcr.io/andreasaugustin/{{ .ProjectName }}:v{{ .Version }}-amd64"
+    goarch: amd64
+    build_flag_templates:
+      - --platform=linux/amd64
+      - --label=org.opencontainers.image.title={{ .ProjectName }}
+      - --label=org.opencontainers.image.description=CLI tool for managing conventional commits with gitmoji
+      - --label=org.opencontainers.image.source={{ .GitURL }}
+      - --label=org.opencontainers.image.version=v{{ .Version }}
+      - --label=org.opencontainers.image.created={{ .Date }}
+      - --label=org.opencontainers.image.revision={{ .FullCommit }}
+      - --label=org.opencontainers.image.licenses=MIT
+    dockerfile: Dockerfile
+#    use: buildx
+
+aurs:
+  - name: "{{ .ProjectName }}-bin"
+
+    homepage: "https://github.com/AndreasAugustin/go-gitmoji-cli"
+
+    description: "CLI supporting gitmoji with conventional commits"
+
+    maintainers:
+      - 'Andreas Augustin <dev@andreas-augustin.org>'
+
+    contributors:
+      - 'Andreas Augustin <dev@andreas-augustin.org>'
+
+    license: "MIT"
+
+    private_key: '{{ .Env.AUR_KEY }}'
+
+    git_url: "ssh://aur@aur.archlinux.org/{{ .ProjectName }}-bin.git"
+
+    depends:
+      - git
+
+    package: |-
+      # bin
+      install -Dm755 "./{{ .ProjectName }}" "${pkgdir}/usr/bin/{{ .ProjectName }}"
+      # license
+      mkdir -p "${pkgdir}/usr/share/licenses/{{ .ProjectName }}/"
+      install -Dm644 ./LICENSE* "${pkgdir}/usr/share/licenses/{{ .ProjectName }}/"
+      # completions
+      mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
+      mkdir -p "${pkgdir}/usr/share/zsh/site-functions/"
+      mkdir -p "${pkgdir}/usr/share/fish/vendor_completions.d/"
+      install -Dm644 "./completions/{{ .ProjectName }}.bash" "${pkgdir}/usr/share/bash-completion/completions/{{ .ProjectName }}"
+      install -Dm644 "./completions/{{ .ProjectName }}.zsh" "${pkgdir}/usr/share/zsh/site-functions/_{{ .ProjectName }}"
+      install -Dm644 "./completions/{{ .ProjectName }}.fish" "${pkgdir}/usr/share/fish/vendor_completions.d/{{ .ProjectName }}.fish"
+      # man pages
+#      install -Dm644 "./manpages/{{ .ProjectName }}.1.gz" "${pkgdir}/usr/share/man/man1/{{ .ProjectName }}.1.gz"
+
+    skip_upload: true
+
+brews:
+  - repository:
+      owner: "AndreasAugustin"
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    commit_author:
+      name: "Andy Augustin"
+      email: "dev@andreas-augustin.org"
+    homepage: "https://github.com/AndreasAugustin/go-gitmoji-cli"
+    description: "CLI for managing commits gitmoji and conventional commits format"
+    dependencies:
+      - name: git
+    install: |-
+      bin.install "{{ .ProjectName }}"
+      bash_completion.install "completions/{{ .ProjectName }}.bash" => "{{ .ProjectName }}"
+      zsh_completion.install "completions/{{ .ProjectName }}.zsh" => "_{{ .ProjectName }}"
+      fish_completion.install "completions/{{ .ProjectName }}.fish"
+#     man1.install "manpages/{{ .ProjectName }}.1.gz"
+
+    license: "MIT"
+
+    skip_upload: true
