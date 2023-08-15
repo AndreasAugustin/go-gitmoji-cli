@@ -33,6 +33,7 @@
 - [ ] viper config params also as cli flags
 - [ ] issue with ctrl+c -> will get to next command
 - [x] add hook functionality
-- [ ] update basic readme with nice terminal gifs
+- [x] update basic readme with nice terminal gifs
+- [ ] add man pages and markdown docs
 
 [goreleaser]: https://goreleaser.com/ci/actions/
