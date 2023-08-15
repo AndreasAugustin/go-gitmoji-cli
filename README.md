@@ -6,7 +6,9 @@
 
 [![ci_go](https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/ci_go.yml/badge.svg)](https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/ci_go.yml)
 
-![Lint](https://github.com/AndreasAugustin/go-gitmoji-cli/workflows/Lint/badge.svg)
+[![Lint](https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/lint.yml/badge.svg)](https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/lint.yml)
+
+[![goreleaser](https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/release_go.yml/badge.svg)](https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/release_go.yml)
 
 ```bash
   ____ ____    ____ _ ___ _  _ ____  _ _    ____ _    _
