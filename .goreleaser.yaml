@@ -62,10 +62,10 @@ checksum:
 source:
   enabled: true
 
-sboms:
-  - artifacts: archive
-  - id: source
-    artifacts: source
+#sboms:
+#  - artifacts: archive
+#  - id: source
+#    artifacts: source
 
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
@@ -83,7 +83,7 @@ release:
 
 dockers:
   - image_templates:
-#    - "docker.io/andyaugustin/{{ .ProjectName }}:v{{ .Version }}-amd64"
+    - "docker.io/andyaugustin/{{ .ProjectName }}:v{{ .Version }}-amd64"
     - "ghcr.io/andreasaugustin/{{ .ProjectName }}:v{{ .Version }}-amd64"
     goarch: amd64
     build_flag_templates:
@@ -138,25 +138,25 @@ aurs:
 
     skip_upload: true
 
-brews:
-  - repository:
-      owner: "AndreasAugustin"
-      name: homebrew-tap
-      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    commit_author:
-      name: "Andy Augustin"
-      email: "dev@andreas-augustin.org"
-    homepage: "https://github.com/AndreasAugustin/go-gitmoji-cli"
-    description: "CLI for managing commits gitmoji and conventional commits format"
-    dependencies:
-      - name: git
-    install: |-
-      bin.install "{{ .ProjectName }}"
-      bash_completion.install "completions/{{ .ProjectName }}.bash" => "{{ .ProjectName }}"
-      zsh_completion.install "completions/{{ .ProjectName }}.zsh" => "_{{ .ProjectName }}"
-      fish_completion.install "completions/{{ .ProjectName }}.fish"
-#     man1.install "manpages/{{ .ProjectName }}.1.gz"
-
-    license: "MIT"
-
-    skip_upload: true
+#brews:
+#  - repository:
+#      owner: "AndreasAugustin"
+#      name: homebrew-tap
+#      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+#    commit_author:
+#      name: "Andy Augustin"
+#      email: "dev@andreas-augustin.org"
+#    homepage: "https://github.com/AndreasAugustin/go-gitmoji-cli"
+#    description: "CLI for managing commits gitmoji and conventional commits format"
+#    dependencies:
+#      - name: git
+#    install: |-
+#      bin.install "{{ .ProjectName }}"
+#      bash_completion.install "completions/{{ .ProjectName }}.bash" => "{{ .ProjectName }}"
+#      zsh_completion.install "completions/{{ .ProjectName }}.zsh" => "_{{ .ProjectName }}"
+#      fish_completion.install "completions/{{ .ProjectName }}.fish"
+##     man1.install "manpages/{{ .ProjectName }}.1.gz"
+#
+#    license: "MIT"
+#
+#    skip_upload: true
