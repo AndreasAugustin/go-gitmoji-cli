@@ -46,6 +46,7 @@ brew install https://github.com/AndreasAugustin/go-gitmoji-cli/Formula
 The package is located [here][go-gitmoji-cli-aur]
 
 ```bash
+pamac update -a
 pamac install go-gitmoji-cli-bin
 ```
 
