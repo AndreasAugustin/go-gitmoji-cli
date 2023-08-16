@@ -4,7 +4,7 @@ on:
   push:
     # run only against tags
     tags:
-      - '*'
+      - v*.*.*
 
 permissions:
   contents: write
@@ -18,6 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          lfs: true
           fetch-depth: 0
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
@@ -33,6 +34,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: git fetch --force --tags
+      - run: |
+          echo "$NFPM_GPG_KEY" > ${{ runner.temp }}/nfpm_gpg.key
+        env:
+          NFPM_GPG_KEY: ${{ secrets.NFPM_GPG_KEY }}
+      - uses: anchore/sbom-action/download-syft@v0.14.3
       - uses: actions/setup-go@v4
         with:
           go-version: stable
@@ -50,3 +56,5 @@ jobs:
           AUR_KEY: ${{ secrets.AUR_KEY }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          NFPM_GPG_KEY_PATH: ${{ runner.temp }}/nfpm_gpg.key
+          NFPM_DEFAULT_PASSPHRASE: ${{ secrets.NFPM_PASSPHARSE }}
