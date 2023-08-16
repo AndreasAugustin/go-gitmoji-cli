@@ -10,10 +10,10 @@ import (
 var debug bool
 
 var RootCmd = &cobra.Command{
-	Use:     pkg.ProgramName,
-	Version: pkg.Version,
-	Short:   "Cli to help managing gitmoji commit messages",
-	Long:    fmt.Sprintf(`See %s for more information about Gitmoji`, pkg.DefaultGitmojiUrl),
+	Use: pkg.ProgramName,
+	//Version: pkg.Version,
+	Short: "Cli to help managing gitmoji commit messages",
+	Long:  fmt.Sprintf(`See %s for more information about Gitmoji`, pkg.DefaultGitmojiUrl),
 }
 
 func Execute() {
@@ -24,6 +24,16 @@ func Execute() {
 }
 
 func init() {
+	if //goland:noinspection GoBoolExpressions
+	len(pkg.CommitSHA) >= 7 {
+		vt := RootCmd.VersionTemplate()
+		RootCmd.SetVersionTemplate(vt[:len(vt)-1] + " (" + pkg.CommitSHA[0:7] + ")\n")
+	}
+	if pkg.Version == "" {
+		pkg.Version = "unknown (built from source)"
+	}
+	RootCmd.Version = pkg.Version
+
 	pkg.ProgramNameFigure()
 	cobra.OnInitialize(pkg.InitConfig)
 

@@ -73,6 +73,12 @@ docker run -it andyaugustin/go-gitmoji-cli:<tag>
 # docker run -it ghcr.io/andreasaugustin/go-gitmoji-cli:<tag>
 ```
 
+### Go
+
+```bash
+ go install github.com/AndreasAugustin/go-gitmoji-cli@latest
+```
+
 ### Manual
 
 Download the related release [here][go-gitmoji-cli-releases] and unpack the related binary into your path

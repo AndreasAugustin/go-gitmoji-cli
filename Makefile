@@ -4,6 +4,10 @@ SHELL := /bin/bash
 ###########################
 # VARIABLES
 ###########################
+VERSION := v12
+COMMIT_SHA :=
+COMMIT_DATE :=
+LD_FLAGS := -s -w -X github.com/AndreasAugustin/go-gitmoji-cli/pkg.Version=${VERSION} -X github.com/AndreasAugustin/go-gitmoji-cli/pkg.CommitSHA=${COMMIT_SHA} -X github.com/AndreasAugustin/go-gitmoji-cli/pkg.CommitDate=${COMMIT_DATE}
 
 ###########################
 # MAPPINGS
@@ -36,11 +40,11 @@ prune: ## delete the whole environment
 
 .PHONY: build
 build: ## build the solution
-	go build -o dist/
+	go build -ldflags="${LD_FLAGS}" -o out/
 
 .PHONY: test
 test:  ## run the tests
-	go test ./... -cover
+	go test -ldflags="${LD_FLAGS}" ./... -cover
 
 .PHONY: lint
 lint:

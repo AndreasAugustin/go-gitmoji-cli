@@ -21,7 +21,7 @@ builds:
     env:
       - CGO_ENABLED=0
     main: "."
-    ldflags: -s -w -X main.Version=v{{ .Version }} -X main.CommitSHA={{ .Commit }} -X main.CommitDate={{ .CommitDate }}
+    ldflags: -s -w -X github.com/AndreasAugustin/go-gitmoji-cli/pkg.Version=v{{ .Version }} -X github.com/AndreasAugustin/go-gitmoji-cli/pkg.CommitSHA={{ .Commit }} -X github.com/AndreasAugustin/go-gitmoji-cli/pkg.CommitDate={{ .CommitDate }}
     goos:
       - linux
       - darwin

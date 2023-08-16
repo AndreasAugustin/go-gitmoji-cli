@@ -1,5 +1,6 @@
 dist/
 tmp/
+out/
 .idea/
 .gitmojirc.json
 completions/

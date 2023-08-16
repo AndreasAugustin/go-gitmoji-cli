@@ -12,7 +12,12 @@ import (
 )
 
 const ProgramName = "go-gitmoji-cli"
-const Version = "v0.1.0"
+
+// Version as provided by goreleaser.
+var Version = ""
+
+// CommitSHA as provided by goreleaser.
+var CommitSHA = ""
 
 func ProgramNameFigure() {
 	programNameFigure := figure.NewColorFigure(ProgramName, "cybermedium", "purple", true)

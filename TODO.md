@@ -10,7 +10,7 @@
   - [x] search -> remove (merge with list)
   - [ ] update
     - [x] gitmojis cache
-    - [ ] cli
+    - [x] cli -> done with installers
   - [x] info -> get infos like cache dir
   - [x] check all config parameters implemented
   - [ ] commit
@@ -27,13 +27,13 @@
   - [x] remove -> remove git hook -> change name
 - [x] bubbletea and bubbles as prompt -> remove current search, use list instead (bubbles). remove spinner, use bubbles
 - [x] remove query cmd -> included into list
-- [ ] docker for dev  and release a example image
+- [x] docker for dev  and release a example image
 - [x] ci/cd -> releaser action [gorealeaser][goreleaser]
 - [x] bug in config -> gitmoji url is not shown properly
 - [ ] viper config params also as cli flags
 - [ ] issue with ctrl+c -> will get to next command
 - [x] add hook functionality
 - [x] update basic readme with nice terminal gifs
-- [ ] add man pages and markdown docs
+- [x] add man pages
 
 [goreleaser]: https://goreleaser.com/ci/actions/
