@@ -36,10 +36,9 @@ Per default the format is [conventional-commits][conventional-commits] with emoj
 
 ### brew
 
-:warning: **this method is not working (yet). Will be fixed ASAP** `https://github.com/AndreasAugustin/go-gitmoji-cli/issues/14`
-
 ```bash
-brew install https://github.com/AndreasAugustin/go-gitmoji-cli/Formula
+brew tap AndreasAugustin/go-gitmoji-cli https://github.com/AndreasAugustin/go-gitmoji-cli
+brew install AndreasAugustin/go-gitmoji-cli/go-gitmoji-cli
 ```
 
 ### Aur
