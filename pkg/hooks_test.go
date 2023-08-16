@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-const expHookFileScript = `#!/bin/sh
+var expHookFileScript = `#!/bin/sh
 # go-gitmoji-cli
 # version ` + pkg.Version + `
 
