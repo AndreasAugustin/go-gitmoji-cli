@@ -57,4 +57,4 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           NFPM_GPG_KEY_PATH: ${{ runner.temp }}/nfpm_gpg.key
-          NFPM_DEFAULT_PASSPHRASE: ${{ secrets.NFPM_PASSPHARSE }}
+          NFPM_DEFAULT_PASSPHRASE: ${{ secrets.NFPM_DEFAULT_PASSPHARSE }}
