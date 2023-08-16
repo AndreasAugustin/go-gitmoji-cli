@@ -32,10 +32,11 @@ Per default the format is [conventional-commits][conventional-commits] with emoj
 
 ## Installation
 
-:warning: not all installation methods are tested (yet).
-Currently all is experimental. Will be updated when the first release has been done.
+:warning: Currently the package is in state `pre-alpha` please be aware that some functionality may change and some bugs may happen.
 
 ### brew
+
+:warning: **this method is not working (yet). Will be fixed ASAP** `https://github.com/AndreasAugustin/go-gitmoji-cli/issues/14`
 
 ```bash
 brew install https://github.com/AndreasAugustin/go-gitmoji-cli/Formula
