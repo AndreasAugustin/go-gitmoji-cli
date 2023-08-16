@@ -95,7 +95,7 @@ dockers:
       - --label=org.opencontainers.image.created={{ .Date }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
       - --label=org.opencontainers.image.licenses=MIT
-    dockerfile: Dockerfile
+    dockerfile: release.Dockerfile
     skip_push: false
 #    use: buildx
 

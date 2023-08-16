@@ -75,7 +75,7 @@ body:
   - type: input
     id: actions-template-sync-version
     attributes:
-      label: Template sync version Version
-      description: The template sync version you are running.
+      label: go-gitmoji-cli Version
+      description: The version you are running.
     validations:
       required: true
