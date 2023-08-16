@@ -11,7 +11,7 @@ before:
     - sh -c 'go run . completion "bash" >./completions/{{ .ProjectName }}.bash'
     - sh -c 'go run . completion "zsh" >./completions/{{ .ProjectName }}.zsh'
     - sh -c 'go run . completion "fish" >./completions/{{ .ProjectName }}.fish'
-#    - sh -c 'go run . man | gzip -c >./manpages/{{ .ProjectName }}.1.gz'
+    - sh -c 'go run . man | gzip -c >./manpages/{{ .ProjectName }}.1.gz'
 
 #gomod:
 #  proxy: true
@@ -135,7 +135,7 @@ aurs:
       install -Dm644 "./completions/{{ .ProjectName }}.zsh" "${pkgdir}/usr/share/zsh/site-functions/_{{ .ProjectName }}"
       install -Dm644 "./completions/{{ .ProjectName }}.fish" "${pkgdir}/usr/share/fish/vendor_completions.d/{{ .ProjectName }}.fish"
       # man pages
-#      install -Dm644 "./manpages/{{ .ProjectName }}.1.gz" "${pkgdir}/usr/share/man/man1/{{ .ProjectName }}.1.gz"
+      install -Dm644 "./manpages/{{ .ProjectName }}.1.gz" "${pkgdir}/usr/share/man/man1/{{ .ProjectName }}.1.gz"
 
     skip_upload: false
 
@@ -163,7 +163,7 @@ brews:
       bash_completion.install "completions/{{ .ProjectName }}.bash" => "{{ .ProjectName }}"
       zsh_completion.install "completions/{{ .ProjectName }}.zsh" => "_{{ .ProjectName }}"
       fish_completion.install "completions/{{ .ProjectName }}.fish"
-#     man1.install "manpages/{{ .ProjectName }}.1.gz"
+      man1.install "manpages/{{ .ProjectName }}.1.gz"
     folder: Formula
     license: "MIT"
     skip_upload: false
@@ -186,13 +186,13 @@ nfpms:
         dst: /usr/share/fish/vendor_completions.d/{{ .ProjectName }}.fish
       - src: ./completions/{{ .ProjectName }}.zsh
         dst: /usr/share/zsh/site-functions/_{{ .ProjectName }}
-#      - src: ./manpages/{{ .ProjectName }}.1.gz
-#        dst: /usr/share/man/man1/{{ .ProjectName }}.1.gz
+      - src: ./manpages/{{ .ProjectName }}.1.gz
+        dst: /usr/share/man/man1/{{ .ProjectName }}.1.gz
     dependencies:
       - git
     rpm:
       signature:
-        key_file: '{{ .Env.NFPM_GPG_KEY_PATH }}'
+        key_file: '{{ if ne (index .Env "NFPM_GPG_KEY_PATH") "" }}{{ .Env.NFPM_GPG_KEY_PATH }}{{ else }}{{ end }}'
     deb:
       signature:
-        key_file: '{{ .Env.NFPM_GPG_KEY_PATH }}'
+        key_file: '{{ if ne (index .Env "NFPM_GPG_KEY_PATH") "" }}{{ .Env.NFPM_GPG_KEY_PATH }}{{ else }}{{ end }}'
