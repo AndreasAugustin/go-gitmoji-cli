@@ -58,6 +58,21 @@ To use it, mount the current dir into the working dir.
 - [dockerhub][go-gitmoji-cli-docker-hub]
 - [ghcr][go-gitmoji-cli-docker-ghcr]
 
+```bash
+# available <tag> are the git tags
+
+# docker hub
+# pull the image
+docker pull andyaugustin/go-gitmoji-cli:<tag>
+# run the container -> will open a zsh session
+# note: the local volume mount is missing in the sample command
+docker run -it andyaugustin/go-gitmoji-cli:<tag>
+
+# if you prefer ghcr instead of docker hub
+# docker pull ghcr.io/andreasaugustin/go-gitmoji-cli:<tag>
+# docker run -it ghcr.io/andreasaugustin/go-gitmoji-cli:<tag>
+```
+
 ### Manual
 
 Download the related release [here][go-gitmoji-cli-releases] and unpack the related binary into your path
