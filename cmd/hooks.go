@@ -11,6 +11,7 @@ import (
 
 var hook bool
 var hookCommitMessageFile string
+var hooksFromOutside []string
 
 var HooksRemoveCmd = &cobra.Command{
 	Use:   "rm",
@@ -45,14 +46,17 @@ var HooksCmd = &cobra.Command{
 	Short: fmt.Sprintf("Manage %s commit hooks", pkg.ProgramName),
 	Long:  `Manage git hooks for the cli`,
 	Args: func(cmd *cobra.Command, args []string) error {
-		log.Infof("args: %+v", args)
+		log.Infof("args: %v", args)
 		if hook {
 			hookCommitMessageFile = args[0]
+			hooksFromOutside = args
 		}
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks called")
+		log.Infof("run: %v", args)
+		log.Infof("log %v", hooksFromOutside)
 		if hook {
 			hookCommit()
 		}
