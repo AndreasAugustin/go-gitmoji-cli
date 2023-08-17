@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	"github.com/stretchr/testify/assert"
+	"strconv"
 	"testing"
 )
 
@@ -92,4 +93,92 @@ func TestBuildCommitTitleEmojiFormatIsBreakingWithScopeEqualsExp(t *testing.T) {
 	title := pkg.BuildCommitTitle(_type, scope, isBreaking, desc, gitmoji, config)
 	exp := fmt.Sprintf("\"feat(test)!: %s test description\"", "🍻")
 	assert.Equal(t, exp, title)
+}
+
+func TestParseMessagesLenWrongHasError(t *testing.T) {
+	var empty []string
+	var tooHuge = []string{"head", "body", "footer", "not right"}
+	var casesArgs = [][]string{empty, tooHuge}
+
+	var testFkt = func(messages []string) func(t *testing.T) {
+		return func(t *testing.T) {
+			_, err := pkg.ParseMessages(messages)
+			assert.Error(t, err, "the amount of messages is to low or to high")
+		}
+	}
+
+	for i, arg := range casesArgs {
+		t.Run(strconv.Itoa(i), testFkt(arg))
+	}
+}
+
+func TestParseMessagesHasHeaderDescEqualsExp(t *testing.T) {
+	desc := "only have description"
+	exp := pkg.ParsedMessages{Desc: desc}
+	res, err := pkg.ParseMessages([]string{desc})
+	assert.NoError(t, err)
+	assert.Equal(t, exp, *res)
+}
+
+func TestParseMessagesHasHeaderDescBodyFooterEqualsExp(t *testing.T) {
+	desc := "only have description"
+	body := "I am a body"
+	footer := "I am a footer"
+	exp := pkg.ParsedMessages{Desc: desc, Body: body, Footer: footer}
+	res, err := pkg.ParseMessages([]string{desc, body, footer})
+	assert.NoError(t, err)
+	assert.Equal(t, exp, *res)
+}
+
+func TestParseMessagesHasHeaderTypeDescBodyFooterEqualsExp(t *testing.T) {
+	_type := "feat"
+	desc := "feat and description"
+	header := fmt.Sprintf("%s:%s", _type, desc)
+	body := "I am a body"
+	footer := "I am a footer"
+	exp := pkg.ParsedMessages{Desc: desc, Body: body, Footer: footer, Type: _type}
+	res, err := pkg.ParseMessages([]string{header, body, footer})
+	assert.NoError(t, err)
+	assert.Equal(t, exp, *res)
+}
+
+func TestParseMessagesHasHeaderTypeDescIsBreakingBodyFooterEqualsExp(t *testing.T) {
+	_type := "feat"
+	desc := "feat and description"
+	header := fmt.Sprintf("%s!:%s", _type, desc)
+	body := "I am a body"
+	footer := "I am a footer"
+	exp := pkg.ParsedMessages{IsBreaking: true, Desc: desc, Body: body, Footer: footer, Type: _type}
+	res, err := pkg.ParseMessages([]string{header, body, footer})
+	assert.NoError(t, err)
+	assert.Equal(t, exp, *res)
+}
+
+func TestParseMessagesHasHeaderTypeDescIsBreakingScopeBodyFooterEqualsExp(t *testing.T) {
+	_type := "feat"
+	scope := "api"
+	desc := "feat and description"
+	header := fmt.Sprintf("%s(%s)!:%s", _type, scope, desc)
+	body := "I am a body"
+	footer := "I am a footer"
+	exp := pkg.ParsedMessages{Scope: scope, IsBreaking: true, Desc: desc, Body: body, Footer: footer, Type: _type}
+	res, err := pkg.ParseMessages([]string{header, body, footer})
+	assert.NoError(t, err)
+	assert.Equal(t, exp, *res)
+}
+
+func TestParseMessagesHasHeaderTypeDescEmojiIsBreakingScopeBodyFooterEqualsExp(t *testing.T) {
+	_type := "feat"
+	scope := "api"
+	descEmoji := ":rocket:"
+	desc := "(#18) feat and description"
+	descCombined := fmt.Sprintf("%s %s", descEmoji, desc)
+	header := fmt.Sprintf("%s(%s):%s", _type, scope, descCombined)
+	body := "I am a body"
+	footer := "I am a footer"
+	expEmoji := pkg.Gitmoji{Emoji: "🚀", Entity: "&#x1f680;", Code: ":rocket:", Desc: "Deploy stuff.", Name: "rocket", Semver: ""}
+	exp := pkg.ParsedMessages{Scope: scope, IsBreaking: false, Desc: desc, Body: body, Footer: footer, Type: _type, Gitmoji: expEmoji}
+	res, err := pkg.ParseMessages([]string{header, body, footer})
+	assert.NoError(t, err)
+	assert.Equal(t, exp, *res)
 }
