@@ -39,19 +39,6 @@ func getGlobalConfigPath() (string, error) {
 	return utils.GetUserConfigDirCreateIfNotExists(ProgramName)
 }
 
-func InitConfig() {
-
-	globalConfigPath, err := getGlobalConfigPath()
-	if err != nil {
-		log.Fatalf("No global config path found")
-	}
-	err = LoadConfig([]string{configPath, globalConfigPath})
-	if err != nil {
-		fmt.Println("Error:", err)
-		os.Exit(1)
-	}
-}
-
 func LoadConfig(configPaths []string) (err error) {
 	viper.SetDefault(string(AUTO_ADD), false)
 	viper.SetDefault(string(AUTO_SIGN), false)
@@ -112,5 +99,18 @@ func configFilePath(isGlobalConfig bool) string {
 		return path.Join(globalConfigPath, name)
 	} else {
 		return path.Join(configPath, name)
+	}
+}
+
+func init() {
+
+	globalConfigPath, err := getGlobalConfigPath()
+	if err != nil {
+		log.Fatalf("No global config path found")
+	}
+	err = LoadConfig([]string{configPath, globalConfigPath})
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
 	}
 }

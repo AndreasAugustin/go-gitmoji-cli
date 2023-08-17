@@ -54,11 +54,27 @@ func BuildInitialCommitValues(_type string, scope string, desc string, body stri
 		return option
 	}
 
+	log.Debugf("BuildInitialCommitValues, commitMsg: %v", commitMsg)
+
+	if len(commitMsg) == 0 {
+		return InitialCommitValues{
+			Type:  _type,
+			Scope: scope,
+			Desc:  desc,
+			Body:  body,
+		}
+	}
+
 	parsedMessages, err := ParseCommitMessages(commitMsg)
 	if err != nil {
 		log.Fatalf("parsing the messages did not work %s", err)
 	}
-	return InitialCommitValues{Type: stringEmptyOrOption(_type, parsedMessages.Type), Scope: stringEmptyOrOption(scope, parsedMessages.Scope), Desc: stringEmptyOrOption(desc, parsedMessages.Desc), Body: stringEmptyOrOption(body, parsedMessages.Body)}
+	return InitialCommitValues{
+		Type:  stringEmptyOrOption(_type, parsedMessages.Type),
+		Scope: stringEmptyOrOption(scope, parsedMessages.Scope),
+		Desc:  stringEmptyOrOption(desc, parsedMessages.Desc),
+		Body:  stringEmptyOrOption(body, parsedMessages.Body),
+	}
 }
 
 func ParseCommitMessages(messages []string) (*ParsedMessages, error) {
