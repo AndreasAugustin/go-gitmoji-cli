@@ -58,6 +58,7 @@ var HooksCmd = &cobra.Command{
 		log.Infof("run: %v", args)
 		log.Infof("log %v", hooksFromOutside)
 		if hook {
+
 			hookCommit()
 		}
 	},
