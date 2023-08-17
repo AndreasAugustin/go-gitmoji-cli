@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"os"
 )
 
@@ -34,9 +35,10 @@ func init() {
 	}
 	RootCmd.Version = pkg.Version
 
-	pkg.ProgramNameFigure()
-
 	RootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "verbose logging")
+	viper.Set(string(pkg.DEBUG), debug)
+
+	pkg.ProgramNameFigure()
 
 	RootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		pkg.ToggleDebug(debug)
