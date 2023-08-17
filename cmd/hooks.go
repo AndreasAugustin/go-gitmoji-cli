@@ -45,7 +45,7 @@ var HooksCmd = &cobra.Command{
 	Short: fmt.Sprintf("Manage %s commit hooks", pkg.ProgramName),
 	Long:  `Manage git hooks for the cli`,
 	Args: func(cmd *cobra.Command, args []string) error {
-		log.Debugf("args: %+v", args)
+		log.Infof("args: %+v", args)
 		if hook {
 			hookCommitMessageFile = args[0]
 		}
