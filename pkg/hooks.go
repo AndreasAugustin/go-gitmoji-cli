@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
 	"path/filepath"
-	"strings"
+	"regexp"
 )
 
 var gitHooks = [...]string{
@@ -35,7 +35,7 @@ func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
 		return nil, err
 	}
 	fileStr := string(file)
-	lines := strings.Split(fileStr, "\n")
+	lines := regexp.MustCompile("\r?\n").Split(fileStr, -1)
 	var messages []string
 	for _, line := range lines {
 		if line != "" {
