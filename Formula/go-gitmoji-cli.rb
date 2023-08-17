@@ -11,51 +11,55 @@ class GoGitmojiCli < Formula
   depends_on "git"
 
   on_macos do
-    if Hardware::CPU.arm?
-      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.0-pre-alpha/go-gitmoji-cli_0.1.0-pre-alpha_Darwin_arm64.tar.gz"
-      sha256 "dfa1a16ed24c44ead02b23dcf964270876b7d5081516a43ad9c2c2e357a408d1"
-
-      def install
-        bin.install "go-gitmoji-cli"
-        bash_completion.install "completions/go-gitmoji-cli.bash" => "go-gitmoji-cli"
-        zsh_completion.install "completions/go-gitmoji-cli.zsh" => "_go-gitmoji-cli"
-        fish_completion.install "completions/go-gitmoji-cli.fish"
-      end
-    end
     if Hardware::CPU.intel?
       url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.0-pre-alpha/go-gitmoji-cli_0.1.0-pre-alpha_Darwin_x86_64.tar.gz"
-      sha256 "efcf0072810ef54f9597f5fd8103a22a18b16c70816cf1273b5c025d8097e7c3"
+      sha256 "b47e610a9fc746e095fa06d06991f2a1f57057eb3d6eac3689ca6b2bb95b2810"
 
       def install
         bin.install "go-gitmoji-cli"
         bash_completion.install "completions/go-gitmoji-cli.bash" => "go-gitmoji-cli"
         zsh_completion.install "completions/go-gitmoji-cli.zsh" => "_go-gitmoji-cli"
         fish_completion.install "completions/go-gitmoji-cli.fish"
+        man1.install "manpages/go-gitmoji-cli.1.gz"
+      end
+    end
+    if Hardware::CPU.arm?
+      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.0-pre-alpha/go-gitmoji-cli_0.1.0-pre-alpha_Darwin_arm64.tar.gz"
+      sha256 "5741e8d75e43f7be7217df78e6a4c3405970f76999b187fd2d648ede7212aa89"
+
+      def install
+        bin.install "go-gitmoji-cli"
+        bash_completion.install "completions/go-gitmoji-cli.bash" => "go-gitmoji-cli"
+        zsh_completion.install "completions/go-gitmoji-cli.zsh" => "_go-gitmoji-cli"
+        fish_completion.install "completions/go-gitmoji-cli.fish"
+        man1.install "manpages/go-gitmoji-cli.1.gz"
       end
     end
   end
 
   on_linux do
-    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.0-pre-alpha/go-gitmoji-cli_0.1.0-pre-alpha_Linux_arm64.tar.gz"
-      sha256 "0c2d563574aba6815289afcba5870c167f51823d89989eda6fae63f70ba0801a"
-
-      def install
-        bin.install "go-gitmoji-cli"
-        bash_completion.install "completions/go-gitmoji-cli.bash" => "go-gitmoji-cli"
-        zsh_completion.install "completions/go-gitmoji-cli.zsh" => "_go-gitmoji-cli"
-        fish_completion.install "completions/go-gitmoji-cli.fish"
-      end
-    end
     if Hardware::CPU.intel?
       url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.0-pre-alpha/go-gitmoji-cli_0.1.0-pre-alpha_Linux_x86_64.tar.gz"
-      sha256 "e55ea8623045b569c709547b5eba95ac838429c4f8b05290339f3a9d19685bb7"
+      sha256 "b77de07e2036c5a707826c9be0c71cc85337efe20cd62db7f9a4d8e01ad1de39"
 
       def install
         bin.install "go-gitmoji-cli"
         bash_completion.install "completions/go-gitmoji-cli.bash" => "go-gitmoji-cli"
         zsh_completion.install "completions/go-gitmoji-cli.zsh" => "_go-gitmoji-cli"
         fish_completion.install "completions/go-gitmoji-cli.fish"
+        man1.install "manpages/go-gitmoji-cli.1.gz"
+      end
+    end
+    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.0-pre-alpha/go-gitmoji-cli_0.1.0-pre-alpha_Linux_arm64.tar.gz"
+      sha256 "c1dc3cf5b4d4eeff1b083c9560d897a86143be9920a28a595242c0b18462501e"
+
+      def install
+        bin.install "go-gitmoji-cli"
+        bash_completion.install "completions/go-gitmoji-cli.bash" => "go-gitmoji-cli"
+        zsh_completion.install "completions/go-gitmoji-cli.zsh" => "_go-gitmoji-cli"
+        fish_completion.install "completions/go-gitmoji-cli.fish"
+        man1.install "manpages/go-gitmoji-cli.1.gz"
       end
     end
   end
