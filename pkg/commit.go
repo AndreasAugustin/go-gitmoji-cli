@@ -46,7 +46,22 @@ const (
 	IS_BREAKING CommitFlagName = "is-breaking"
 )
 
-func ParseMessages(messages []string) (*ParsedMessages, error) {
+func BuildInitialCommitValues(_type string, scope string, desc string, body string, commitMsg []string) InitialCommitValues {
+	var stringEmptyOrOption = func(input string, option string) string {
+		if input != "" {
+			return input
+		}
+		return option
+	}
+
+	parsedMessages, err := ParseCommitMessages(commitMsg)
+	if err != nil {
+		log.Fatalf("parsing the messages did not work %s", err)
+	}
+	return InitialCommitValues{Type: stringEmptyOrOption(_type, parsedMessages.Type), Scope: stringEmptyOrOption(scope, parsedMessages.Scope), Desc: stringEmptyOrOption(desc, parsedMessages.Desc), Body: stringEmptyOrOption(body, parsedMessages.Body)}
+}
+
+func ParseCommitMessages(messages []string) (*ParsedMessages, error) {
 	if len(messages) == 0 || len(messages) > 3 {
 		return nil, errors.New("the amount of messages is to low or to high")
 	}
@@ -71,8 +86,8 @@ func ParseMessages(messages []string) (*ParsedMessages, error) {
 
 	reScope := regexp.MustCompile(`\((.*?)\)`)
 	matchScope := reScope.FindAllString(typeScope, 1)
-	var _type = ""
-	var scope = ""
+	var _type string
+	var scope string
 	if matchScope == nil {
 		_type = typeScope
 	} else {

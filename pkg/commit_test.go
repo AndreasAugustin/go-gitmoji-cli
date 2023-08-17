@@ -102,7 +102,7 @@ func TestParseMessagesLenWrongHasError(t *testing.T) {
 
 	var testFkt = func(messages []string) func(t *testing.T) {
 		return func(t *testing.T) {
-			_, err := pkg.ParseMessages(messages)
+			_, err := pkg.ParseCommitMessages(messages)
 			assert.Error(t, err, "the amount of messages is to low or to high")
 		}
 	}
@@ -115,7 +115,7 @@ func TestParseMessagesLenWrongHasError(t *testing.T) {
 func TestParseMessagesHasHeaderDescEqualsExp(t *testing.T) {
 	desc := "only have description"
 	exp := pkg.ParsedMessages{Desc: desc}
-	res, err := pkg.ParseMessages([]string{desc})
+	res, err := pkg.ParseCommitMessages([]string{desc})
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -125,7 +125,7 @@ func TestParseMessagesHasHeaderDescBodyFooterEqualsExp(t *testing.T) {
 	body := "I am a body"
 	footer := "I am a footer"
 	exp := pkg.ParsedMessages{Desc: desc, Body: body, Footer: footer}
-	res, err := pkg.ParseMessages([]string{desc, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{desc, body, footer})
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -137,7 +137,7 @@ func TestParseMessagesHasHeaderTypeDescBodyFooterEqualsExp(t *testing.T) {
 	body := "I am a body"
 	footer := "I am a footer"
 	exp := pkg.ParsedMessages{Desc: desc, Body: body, Footer: footer, Type: _type}
-	res, err := pkg.ParseMessages([]string{header, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{header, body, footer})
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -149,7 +149,7 @@ func TestParseMessagesHasHeaderTypeDescIsBreakingBodyFooterEqualsExp(t *testing.
 	body := "I am a body"
 	footer := "I am a footer"
 	exp := pkg.ParsedMessages{IsBreaking: true, Desc: desc, Body: body, Footer: footer, Type: _type}
-	res, err := pkg.ParseMessages([]string{header, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{header, body, footer})
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -162,7 +162,7 @@ func TestParseMessagesHasHeaderTypeDescIsBreakingScopeBodyFooterEqualsExp(t *tes
 	body := "I am a body"
 	footer := "I am a footer"
 	exp := pkg.ParsedMessages{Scope: scope, IsBreaking: true, Desc: desc, Body: body, Footer: footer, Type: _type}
-	res, err := pkg.ParseMessages([]string{header, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{header, body, footer})
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -178,7 +178,7 @@ func TestParseMessagesHasHeaderTypeDescEmojiIsBreakingScopeBodyFooterEqualsExp(t
 	footer := "I am a footer"
 	expEmoji := pkg.Gitmoji{Emoji: "🚀", Entity: "&#x1f680;", Code: ":rocket:", Desc: "Deploy stuff.", Name: "rocket", Semver: ""}
 	exp := pkg.ParsedMessages{Scope: scope, IsBreaking: false, Desc: desc, Body: body, Footer: footer, Type: _type, Gitmoji: expEmoji}
-	res, err := pkg.ParseMessages([]string{header, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{header, body, footer})
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }

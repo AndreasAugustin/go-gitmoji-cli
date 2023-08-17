@@ -40,9 +40,10 @@ var CommitCmd = &cobra.Command{
 			log.Fatalf("get current config issue, %s", err)
 		}
 		gitmojis := pkg.GetGitmojis(config)
-		spin.Stop()
-		initialCommitValues := pkg.InitialCommitValues{Type: _type, Scope: scope, Desc: desc, Body: body}
+
+		initialCommitValues := pkg.BuildInitialCommitValues(_type, scope, desc, body, commitMsg)
 		listSettings := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
+		spin.Stop()
 		selectedGitmoji := ui.ListRun(listSettings, gitmojis.Gitmojis)
 		log.Debugf("selected gitmoji %s", selectedGitmoji)
 		textInputsData := initialCommitValues.BuildTextInputsData(config)

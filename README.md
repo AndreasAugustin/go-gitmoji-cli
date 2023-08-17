@@ -24,9 +24,9 @@
  is a nice way to standardize commit messages with emojis.
 
 There is already a nice [gitmoji-cli][gitmoji-cli] command line interface available.
-Because I was searching for a nice project to get more into golang this project was created.
+Nevertheless, I was searching a nice project to get a bit more into golang so this cli was born.
+There are some feature differences between both projects.
 
-It is possible to use different commit message formats.
 Per default the format is [conventional-commits][conventional-commits] with emoji
 `<type>[optional scope]: :smile: <description>`
 
@@ -144,8 +144,9 @@ go-gitmoji-cli list
 
 There are 2 ways making commits with the tool
 
-- hooks `go-gitmoji-cli hooks --help`. This will install a commit hook.
-- commit `go-gitmoji-cli commit --help`
+- hooks `go-gitmoji-cli hooks --help`. With that command it is possible to install a commit hook. To use the hook, just do a `git commit <options>`.
+This will trigger the cli.
+- commit `go-gitmoji-cli commit --help`. It is not possible to use this command when you have installed a hook.
 
 ```bash
 # doing a commit with dry-run
@@ -153,6 +154,11 @@ go-gitmoji-cli commit --dry-run
 ```
 
 ![commit-dry-run](docs/assets/commit.gif)
+
+Some arguments and flags you know from git will be reused.
+The first message will be parsed and the single parts will be reused.
+E.g. `git commit -S -m "feat(api)!: :smile: also just parts of the message will be reused" -m "this is a message body"`
+This is also true when the `go-gitmoji-cli commit -S -m "..." -m "..."` is used.
 
 ## Debugging
 

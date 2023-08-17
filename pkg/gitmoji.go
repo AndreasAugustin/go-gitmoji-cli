@@ -105,17 +105,11 @@ func getGitmojisHttp(config Config) (gitmojis Gitmojis, err error) {
 
 func FindGitmoji(emojiOrCode string, gitmojis []Gitmoji) *Gitmoji {
 	compareCode := func(code string, gitmoji Gitmoji) bool {
-		if gitmoji.Code == code {
-			return true
-		}
-		return false
+		return gitmoji.Code == code
 	}
 
 	compareEmoji := func(emoji string, gitmoji Gitmoji) bool {
-		if gitmoji.Emoji == emoji {
-			return true
-		}
-		return false
+		return gitmoji.Emoji == emoji
 	}
 
 	re := regexp.MustCompile(`:(.*?):`)

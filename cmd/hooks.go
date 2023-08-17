@@ -66,6 +66,7 @@ func init() {
 	HooksCmd.PersistentFlags().BoolVar(&hook, "hook", false, "used when the git hook is installed")
 }
 
+// TODO(anau) add messages
 func hookCommit() {
 	log.Debug("hook --hooks called")
 	log.Debug(commitMsg)
