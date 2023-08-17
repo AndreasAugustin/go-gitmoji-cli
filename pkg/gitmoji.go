@@ -37,12 +37,12 @@ func CacheGitmojis(gitmojis Gitmojis) {
 	cacheGitmojisTo(gitmojisCachePath, gitmojis)
 }
 
-func GetGitmojis() (gitmojis Gitmojis) {
+func GetGitmojis(config Config) (gitmojis Gitmojis) {
 	gitmojis, err := GetGitmojisCache()
 	if err != nil {
 		log.Info("Haven't been able to read gitmojis from cache")
-		log.Infof("Reading from %s and write to cache", ConfigInstance.GitmojisUrl)
-		gitmojis, err = getGitmojisHttp()
+		log.Infof("Reading from %s and write to cache", config.GitmojisUrl)
+		gitmojis, err = getGitmojisHttp(config)
 		if err != nil {
 			log.Fatalf("Some error happened %s", err)
 		}
@@ -74,8 +74,8 @@ func getGitmojisCacheFrom(cachePath string) (gitmojis Gitmojis, err error) {
 	return
 }
 
-func getGitmojisHttp() (gitmojis Gitmojis, err error) {
-	res, err := http.Get(ConfigInstance.GitmojisUrl)
+func getGitmojisHttp(config Config) (gitmojis Gitmojis, err error) {
+	res, err := http.Get(config.GitmojisUrl)
 	if err != nil {
 		fmt.Println("error", err)
 	}
@@ -98,6 +98,6 @@ func getGitmojisHttp() (gitmojis Gitmojis, err error) {
 	if err != nil {
 		return
 	}
-	log.Debugf("Finished retreiving gitmojis from %s", ConfigInstance.GitmojisUrl)
+	log.Debugf("Finished retreiving gitmojis from %s", config.GitmojisUrl)
 	return
 }

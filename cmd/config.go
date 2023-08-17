@@ -18,7 +18,10 @@ var ConfigCmd = &cobra.Command{
 			by the local configuration file or a global configuration file within your OS config folder (use the info command to get the information where it is stored)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("config called")
-		config := pkg.ConfigInstance
+		config, err := pkg.GetCurrentConfig()
+		if err != nil {
+			log.Fatalf("get current config issue, %s", err)
+		}
 		autoAdd := runConfigConfirmationPrompt("Enable automatic 'git add .'", config.AutoAdd)
 		autoSign := runConfigConfirmationPrompt("Automatically sign commits (add '-S' flag)", config.AutoSign)
 		emojiFormat := runEmojiSelectionPrompt("Select how emojis should be used in commits. For a comparison please visit https://gitmoji.dev/specification")

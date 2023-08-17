@@ -29,7 +29,11 @@ const EnvPrefix = "GO_GITMOJI_CLI"
 const configName = ".gitmojirc"
 const configPath = "."
 
-var ConfigInstance Config
+func GetCurrentConfig() (config Config, err error) {
+	err = viper.Unmarshal(&config)
+	log.Debugf("Config %+v", config)
+	return
+}
 
 func getGlobalConfigPath() (string, error) {
 	return utils.GetUserConfigDirCreateIfNotExists(ProgramName)
@@ -41,18 +45,14 @@ func InitConfig() {
 	if err != nil {
 		log.Fatalf("No global config path found")
 	}
-	ConfigInstance, err = LoadConfig([]string{configPath, globalConfigPath})
+	err = LoadConfig([]string{configPath, globalConfigPath})
 	if err != nil {
 		fmt.Println("Error:", err)
 		os.Exit(1)
 	}
 }
 
-func AddEnvPrefix(suffix string) string {
-	return fmt.Sprintf("%s_%s", EnvPrefix, suffix)
-}
-
-func LoadConfig(configPaths []string) (config Config, err error) {
+func LoadConfig(configPaths []string) (err error) {
 	viper.SetDefault(string(AUTO_ADD), false)
 	viper.SetDefault(string(AUTO_SIGN), false)
 	viper.SetDefault(string(EMOJI_FORMAT), string(CODE))
@@ -70,18 +70,18 @@ func LoadConfig(configPaths []string) (config Config, err error) {
 		}
 
 		viper.SetConfigName(configName)
-		if err = viper.ReadInConfig(); err != nil {
+		if expErr := viper.ReadInConfig(); expErr != nil {
 			// It's okay if there isn't a config file
 			var configFileNotFoundError viper.ConfigFileNotFoundError
-			if !errors.As(err, &configFileNotFoundError) {
+			if !errors.As(expErr, &configFileNotFoundError) {
 				return
 			}
 		}
+		viper.WatchConfig()
 	}
 
 	viper.AutomaticEnv()
 
-	err = viper.Unmarshal(&config)
 	return
 }
 

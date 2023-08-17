@@ -1,6 +1,7 @@
 package pkg_test
 
 import (
+	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
 	"github.com/stretchr/testify/assert"
@@ -10,6 +11,10 @@ import (
 	"testing"
 )
 
+func addEnvPrefix(suffix string) string {
+	return fmt.Sprintf("%s_%s", pkg.EnvPrefix, suffix)
+}
+
 func getTestConfigPath(T *testing.T) string {
 	wDir, err := os.Getwd()
 	assert.NoError(T, err)
@@ -17,7 +22,10 @@ func getTestConfigPath(T *testing.T) string {
 }
 
 func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
-	config, _ := pkg.LoadConfig([]string{})
+	err := pkg.LoadConfig([]string{})
+	assert.NoError(t, err)
+	config, err := pkg.GetCurrentConfig()
+	assert.NoError(t, err)
 	expected := pkg.Config{EmojiFormat: pkg.CODE, AutoAdd: false, ScopePrompt: false, BodyPrompt: false, CapitalizeTitle: false, GitmojisUrl: "https://gitmoji.dev/api/gitmojis"}
 	assert.Equal(t, expected, config)
 }
@@ -31,27 +39,34 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 	var gitmojisUrl = "http://foo.bar"
 	var autoSign = true
 
-	t.Setenv(pkg.AddEnvPrefix(string(pkg.AUTO_ADD)), strconv.FormatBool(autoadd))
-	t.Setenv(pkg.AddEnvPrefix(string(pkg.EMOJI_FORMAT)), string(emojiFormat))
-	t.Setenv(pkg.AddEnvPrefix(string(pkg.SCOPE_PROMPT)), strconv.FormatBool(scopePrompt))
-	t.Setenv(pkg.AddEnvPrefix(string(pkg.BODY_PROMPT)), strconv.FormatBool(bodyPrompt))
-	t.Setenv(pkg.AddEnvPrefix(string(pkg.CAPITALIZE_TITLE)), strconv.FormatBool(capitalizeTitle))
-	t.Setenv(pkg.AddEnvPrefix(string(pkg.GITMOJIS_URL)), gitmojisUrl)
-	t.Setenv(pkg.AddEnvPrefix(string(pkg.AUTO_SIGN)), strconv.FormatBool(autoSign))
-	config, _ := pkg.LoadConfig([]string{})
+	t.Setenv(addEnvPrefix(string(pkg.AUTO_ADD)), strconv.FormatBool(autoadd))
+	t.Setenv(addEnvPrefix(string(pkg.EMOJI_FORMAT)), string(emojiFormat))
+	t.Setenv(addEnvPrefix(string(pkg.SCOPE_PROMPT)), strconv.FormatBool(scopePrompt))
+	t.Setenv(addEnvPrefix(string(pkg.BODY_PROMPT)), strconv.FormatBool(bodyPrompt))
+	t.Setenv(addEnvPrefix(string(pkg.CAPITALIZE_TITLE)), strconv.FormatBool(capitalizeTitle))
+	t.Setenv(addEnvPrefix(string(pkg.GITMOJIS_URL)), gitmojisUrl)
+	t.Setenv(addEnvPrefix(string(pkg.AUTO_SIGN)), strconv.FormatBool(autoSign))
+	err1 := pkg.LoadConfig([]string{})
+	assert.NoError(t, err1)
+	config, err := pkg.GetCurrentConfig()
+	assert.NoError(t, err)
 	expected := pkg.Config{EmojiFormat: emojiFormat, AutoAdd: autoadd, AutoSign: autoSign, ScopePrompt: scopePrompt, BodyPrompt: bodyPrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisUrl}
 	assert.Equal(t, expected, config)
 }
 
 func TestConfigConfigFileEqualsExpected(t *testing.T) {
-	config, _ := pkg.LoadConfig([]string{"./test_data"})
+	err1 := pkg.LoadConfig([]string{"./test_data"})
+	assert.NoError(t, err1)
+	config, err := pkg.GetCurrentConfig()
+	assert.NoError(t, err)
 	expected := pkg.Config{EmojiFormat: pkg.EMOJI, AutoAdd: true, ScopePrompt: true, BodyPrompt: false, CapitalizeTitle: false, GitmojisUrl: "http://from.file"}
 	assert.Equal(t, expected, config)
 }
 
 func TestWriteGlobalConfigAndReadEqualsExpected(t *testing.T) {
-	config, err := pkg.LoadConfig([]string{"./test_data"})
-
+	err1 := pkg.LoadConfig([]string{"./test_data"})
+	assert.NoError(t, err1)
+	config, err := pkg.GetCurrentConfig()
 	assert.NoError(t, err)
 	getGlobalConfigDirPersist := utils.GetGlobalConfigDir
 
@@ -62,7 +77,10 @@ func TestWriteGlobalConfigAndReadEqualsExpected(t *testing.T) {
 
 	pkg.UpdateConfig(config, true)
 	globalConfigPath := path.Join(getTestConfigPath(t), pkg.ProgramName)
-	configFromGlobal, err := pkg.LoadConfig([]string{globalConfigPath})
+	err1 = pkg.LoadConfig([]string{globalConfigPath})
+	assert.NoError(t, err1)
+	configFromGlobal, err := pkg.GetCurrentConfig()
+	assert.NoError(t, err)
 	defer func() {
 		utils.GetGlobalConfigDir = getGlobalConfigDirPersist
 		os.RemoveAll(getTestCacheProgramPath(t))

@@ -13,7 +13,7 @@
     - [x] cli -> done with installers
   - [x] info -> get infos like cache dir
   - [x] check all config parameters implemented
-  - [ ] commit
+  - [x] commit
     - [x] add dryrun
     - [x] gitmoji
     - [x] scope
@@ -30,7 +30,7 @@
 - [x] docker for dev  and release a example image
 - [x] ci/cd -> releaser action [gorealeaser][goreleaser]
 - [x] bug in config -> gitmoji url is not shown properly
-- [ ] viper config params also as cli flags
+- [x] viper config params also as cli flags
 - [ ] issue with ctrl+c -> will get to next command
 - [x] add hook functionality
 - [x] update basic readme with nice terminal gifs

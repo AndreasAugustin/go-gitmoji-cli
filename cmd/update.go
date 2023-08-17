@@ -13,7 +13,11 @@ var UpdateGitmojisCmd = &cobra.Command{
 	Long:  fmt.Sprintf(`Update the gitmojis local cache from %s.`, pkg.DefaultGitmojiApiUrl),
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("update gitmojis called")
-		gitmojis := pkg.GetGitmojis()
+		config, err := pkg.GetCurrentConfig()
+		if err != nil {
+			log.Fatalf("get current config issue, %s", err)
+		}
+		gitmojis := pkg.GetGitmojis(config)
 		pkg.CacheGitmojis(gitmojis)
 	},
 }
