@@ -160,7 +160,6 @@ The first message will be parsed and the single parts will be reused.
 E.g. `git commit -S -m "feat(api)!: :smile: also just parts of the message will be reused" -m "this is a message body"`
 This is also true when the `go-gitmoji-cli commit -S -m "..." -m "..."` is used.
 
-
 ## Debugging
 
 There is a flag `--debug` enabling **verbose** logging
