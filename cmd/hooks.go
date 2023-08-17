@@ -11,7 +11,6 @@ import (
 
 var hook bool
 var hookCommitMessageFile string
-var hooksFromOutside []string
 
 var HooksRemoveCmd = &cobra.Command{
 	Use:   "rm",
@@ -49,16 +48,14 @@ var HooksCmd = &cobra.Command{
 		log.Debugf("args: %v", args)
 		if hook {
 			hookCommitMessageFile = args[0]
-			hooksFromOutside = args
 		}
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks called")
 		log.Debugf("run: %v", args)
-		log.Debugf("log %v", hooksFromOutside)
 		if hook {
-			hookCommit()
+			hookCommit(hookCommitMessageFile)
 		}
 	},
 }
@@ -70,8 +67,7 @@ func init() {
 	HooksCmd.PersistentFlags().BoolVar(&hook, "hook", false, "used when the git hook is installed")
 }
 
-// TODO(anau) add messages
-func hookCommit() {
+func hookCommit(commitMsgFile string) {
 	log.Debug("hook --hooks called")
 	log.Debug(commitMsg)
 	spin := ui.NewSpinner()
@@ -86,13 +82,22 @@ func hookCommit() {
 		spin.Stop()
 		return
 	}
+	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile)
+	if err != nil {
+		log.Fatalf("issue reading and parsing the commit msg file %s", err)
+	}
 	config, err := pkg.GetCurrentConfig()
 	if err != nil {
 		log.Fatalf("get current config issue, %s", err)
 	}
 	gitmojis := pkg.GetGitmojis(config)
 	spin.Stop()
-	initialCommitValues := pkg.InitialCommitValues{}
+	initialCommitValues := pkg.InitialCommitValues{
+		Type:  parsedMessages.Type,
+		Scope: parsedMessages.Scope,
+		Desc:  parsedMessages.Desc,
+		Body:  parsedMessages.Body,
+	}
 	listSettings := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
 	selectedGitmoji := ui.ListRun(listSettings, gitmojis.Gitmojis)
 	log.Debugf("selected gitmoji %s", selectedGitmoji)
