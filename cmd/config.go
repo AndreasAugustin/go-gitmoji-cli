@@ -27,9 +27,19 @@ var ConfigCmd = &cobra.Command{
 		emojiFormat := runEmojiSelectionPrompt("Select how emojis should be used in commits. For a comparison please visit https://gitmoji.dev/specification")
 		scopePrompt := runConfigConfirmationPrompt("Enable scope prompt", config.ScopePrompt)
 		bodyPrompt := runConfigConfirmationPrompt("Enable body prompt", config.BodyPrompt)
+		debug := runConfigConfirmationPrompt("debug mode", config.Debug)
 		capitalizeTitle := runConfigConfirmationPrompt("Capitalize title", config.CapitalizeTitle)
 		gitmojisApiUrl := runGitmojiUrlInputPrompt("Set gitmojis api url", "https://gitmoji.dev/api/gitmojis")
-		config = pkg.Config{AutoAdd: autoAdd, AutoSign: autoSign, EmojiFormat: emojiFormat, ScopePrompt: scopePrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisApiUrl, BodyPrompt: bodyPrompt}
+		config = pkg.Config{
+			AutoAdd:         autoAdd,
+			AutoSign:        autoSign,
+			EmojiFormat:     emojiFormat,
+			ScopePrompt:     scopePrompt,
+			CapitalizeTitle: capitalizeTitle,
+			GitmojisUrl:     gitmojisApiUrl,
+			BodyPrompt:      bodyPrompt,
+			Debug:           debug,
+		}
 		pkg.UpdateConfig(config, isConfigGlobal)
 	},
 }

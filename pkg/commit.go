@@ -1,11 +1,23 @@
 package pkg
 
 import (
+	"errors"
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
 	log "github.com/sirupsen/logrus"
+	"regexp"
 	"strings"
 )
+
+type ParsedMessages struct {
+	Type       string
+	Scope      string
+	Desc       string
+	IsBreaking bool
+	Gitmoji    Gitmoji
+	Body       string
+	Footer     string
+}
 
 type InitialCommitValues struct {
 	Type  string
@@ -33,6 +45,105 @@ const (
 	BODY        CommitFlagName = "body"
 	IS_BREAKING CommitFlagName = "is-breaking"
 )
+
+func BuildInitialCommitValues(_type string, scope string, desc string, body string, commitMsg []string) InitialCommitValues {
+	var stringEmptyOrOption = func(input string, option string) string {
+		if input != "" {
+			return input
+		}
+		return option
+	}
+
+	log.Debugf("BuildInitialCommitValues, commitMsg: %v", commitMsg)
+
+	if len(commitMsg) == 0 {
+		return InitialCommitValues{
+			Type:  _type,
+			Scope: scope,
+			Desc:  desc,
+			Body:  body,
+		}
+	}
+
+	parsedMessages, err := ParseCommitMessages(commitMsg)
+	if err != nil {
+		log.Fatalf("parsing the messages did not work %s", err)
+	}
+	return InitialCommitValues{
+		Type:  stringEmptyOrOption(_type, parsedMessages.Type),
+		Scope: stringEmptyOrOption(scope, parsedMessages.Scope),
+		Desc:  stringEmptyOrOption(desc, parsedMessages.Desc),
+		Body:  stringEmptyOrOption(body, parsedMessages.Body),
+	}
+}
+
+func ParseCommitMessages(messages []string) (*ParsedMessages, error) {
+	if len(messages) == 0 || len(messages) > 3 {
+		return nil, errors.New("the amount of messages is to low or to high")
+	}
+
+	var body = ""
+	if len(messages) >= 2 {
+		body = messages[1]
+	}
+
+	var footer = ""
+	if len(messages) >= 3 {
+		footer = messages[2]
+	}
+
+	splitDesc := strings.SplitN(messages[0], ":", 2)
+	if len(splitDesc) == 1 {
+		return &ParsedMessages{Desc: messages[0], Body: body, Footer: footer}, nil
+	}
+
+	typeScopeEventualBreaking := splitDesc[0]
+	typeScope := strings.ReplaceAll(typeScopeEventualBreaking, "!", "")
+
+	reScope := regexp.MustCompile(`\((.*?)\)`)
+	matchScope := reScope.FindAllString(typeScope, 1)
+	var _type string
+	var scope string
+	if matchScope == nil {
+		_type = typeScope
+	} else {
+		scopeWithBraces := matchScope[0]
+		_type = strings.Replace(typeScope, scopeWithBraces, "", 1)
+		scopeWithBraces = strings.TrimLeft(scopeWithBraces, "(")
+		scope = strings.TrimRight(scopeWithBraces, ")")
+	}
+
+	descEventualEmoji := splitDesc[1]
+	reEmoji := regexp.MustCompile(`:(.*?):`)
+	matchEmoji := reEmoji.FindAllString(descEventualEmoji, 1)
+	var parsedMessage = ParsedMessages{
+		IsBreaking: strings.ContainsAny(typeScopeEventualBreaking, "!"),
+		Type:       _type,
+		Scope:      scope,
+		Body:       body,
+		Footer:     footer,
+	}
+	if matchEmoji == nil {
+		parsedMessage.Desc = descEventualEmoji
+	} else {
+		matchedCode := matchEmoji[0]
+		parsedMessage.Desc = strings.TrimLeft(strings.ReplaceAll(descEventualEmoji, matchedCode, ""), " ")
+		config, err := GetCurrentConfig()
+		if err != nil {
+			log.Warnf("error while getting config %s", err)
+			return &parsedMessage, nil
+		}
+		gitmojis := GetGitmojis(config)
+		foundGitmoji := FindGitmoji(matchedCode, gitmojis.Gitmojis)
+		if foundGitmoji == nil {
+			log.Warnf("no gitmoji for %s has been found", matchedCode)
+			return &parsedMessage, nil
+		}
+		parsedMessage.Gitmoji = *foundGitmoji
+	}
+
+	return &parsedMessage, nil
+}
 
 func CreateMessage(inputsRes []TextInputRes, selectedGitmoji Gitmoji, initialCommitValues InitialCommitValues, config Config, isBreaking bool) CommitValues {
 	title := BuildCommitTitle(

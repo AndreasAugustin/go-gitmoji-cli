@@ -52,6 +52,7 @@ const (
 	GITMOJIS_URL     ConfigEnum = "GITMOJIS_URL"
 	BODY_PROMPT      ConfigEnum = "BODY_PROMPT"
 	CAPITALIZE_TITLE ConfigEnum = "CAPITALIZE_TITLE"
+	DEBUG            ConfigEnum = "DEBUG"
 )
 
 type EmojiCommitFormats string
@@ -91,6 +92,7 @@ type Config struct {
 	BodyPrompt      bool               `mapstructure:"BODY_PROMPT" json:"body_prompt"`
 	CapitalizeTitle bool               `mapstructure:"CAPITALIZE_TITLE" json:"capitalize_title"`
 	GitmojisUrl     string             `mapstructure:"GITMOJIS_URL" json:"gitmojis_url"`
+	Debug           bool               `mapstructure:"DEBUG" json:"debug"`
 }
 
 type TextInputData struct {

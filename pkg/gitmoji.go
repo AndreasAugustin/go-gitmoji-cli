@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"path"
+	"regexp"
 )
 
 var gitmojiPersistFileName = "gitmojis.json"
@@ -100,4 +101,29 @@ func getGitmojisHttp(config Config) (gitmojis Gitmojis, err error) {
 	}
 	log.Debugf("Finished retreiving gitmojis from %s", config.GitmojisUrl)
 	return
+}
+
+func FindGitmoji(emojiOrCode string, gitmojis []Gitmoji) *Gitmoji {
+	compareCode := func(code string, gitmoji Gitmoji) bool {
+		return gitmoji.Code == code
+	}
+
+	compareEmoji := func(emoji string, gitmoji Gitmoji) bool {
+		return gitmoji.Emoji == emoji
+	}
+
+	re := regexp.MustCompile(`:(.*?):`)
+	isCode := re.MatchString(emojiOrCode)
+	var compareFkt func(string, Gitmoji) bool
+	if isCode {
+		compareFkt = compareCode
+	} else {
+		compareFkt = compareEmoji
+	}
+	for _, gitmoji := range gitmojis {
+		if compareFkt(emojiOrCode, gitmoji) {
+			return &gitmoji
+		}
+	}
+	return nil
 }

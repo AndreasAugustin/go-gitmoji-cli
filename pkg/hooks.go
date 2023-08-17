@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
 	"path/filepath"
+	"regexp"
 )
 
 var gitHooks = [...]string{
@@ -27,6 +28,22 @@ fi`
 
 var hookFileContents = []byte(hookFileScript)
 var ErrInvalidGitHooksDirectoryPath = errors.New("invalid git hooks directory path")
+
+func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
+	file, err := utils.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+	fileStr := string(file)
+	lines := regexp.MustCompile("\r?\n").Split(fileStr, -1)
+	var messages []string
+	for _, line := range lines {
+		if line != "" {
+			messages = append(messages, line)
+		}
+	}
+	return ParseCommitMessages(messages)
+}
 
 func CreateAllHookFiles() error {
 	hooksDir, hooksErr := utils.GetGitRepoHooksDirectory()

@@ -11,6 +11,8 @@ import (
 	"path"
 )
 
+var configIsInit = false
+
 const ProgramName = "go-gitmoji-cli"
 
 // Version as provided by goreleaser.
@@ -19,27 +21,20 @@ var Version = ""
 // CommitSHA as provided by goreleaser.
 var CommitSHA = ""
 
+const EnvPrefix = "GO_GITMOJI_CLI"
+const configName = ".gitmojirc"
+const configPath = "."
+
 func ProgramNameFigure() {
 	programNameFigure := figure.NewColorFigure(ProgramName, "cybermedium", "purple", true)
 
 	programNameFigure.Print()
 }
 
-const EnvPrefix = "GO_GITMOJI_CLI"
-const configName = ".gitmojirc"
-const configPath = "."
-
-func GetCurrentConfig() (config Config, err error) {
-	err = viper.Unmarshal(&config)
-	log.Debugf("Config %+v", config)
-	return
-}
-
-func getGlobalConfigPath() (string, error) {
-	return utils.GetUserConfigDirCreateIfNotExists(ProgramName)
-}
-
 func InitConfig() {
+	if configIsInit {
+		return
+	}
 
 	globalConfigPath, err := getGlobalConfigPath()
 	if err != nil {
@@ -50,9 +45,15 @@ func InitConfig() {
 		fmt.Println("Error:", err)
 		os.Exit(1)
 	}
+	configIsInit = true
+}
+
+func getGlobalConfigPath() (string, error) {
+	return utils.GetUserConfigDirCreateIfNotExists(ProgramName)
 }
 
 func LoadConfig(configPaths []string) (err error) {
+	log.Debug("Load config")
 	viper.SetDefault(string(AUTO_ADD), false)
 	viper.SetDefault(string(AUTO_SIGN), false)
 	viper.SetDefault(string(EMOJI_FORMAT), string(CODE))
@@ -60,6 +61,7 @@ func LoadConfig(configPaths []string) (err error) {
 	viper.SetDefault(string(BODY_PROMPT), false)
 	viper.SetDefault(string(CAPITALIZE_TITLE), false)
 	viper.SetDefault(string(GITMOJIS_URL), DefaultGitmojiApiUrl)
+	viper.SetDefault(string(DEBUG), false)
 
 	viper.SetEnvPrefix(EnvPrefix)
 
@@ -85,6 +87,16 @@ func LoadConfig(configPaths []string) (err error) {
 	return
 }
 
+func GetCurrentConfig() (config Config, err error) {
+	log.Debug("Get current config")
+	if !configIsInit {
+		InitConfig()
+	}
+	err = viper.Unmarshal(&config)
+	log.Debugf("Config %+v", config)
+	return
+}
+
 func UpdateConfig(config Config, isGlobalConfig bool) {
 	viper.Set(string(AUTO_ADD), config.AutoAdd)
 	viper.Set(string(EMOJI_FORMAT), string(config.EmojiFormat))
@@ -92,6 +104,7 @@ func UpdateConfig(config Config, isGlobalConfig bool) {
 	viper.Set(string(BODY_PROMPT), config.BodyPrompt)
 	viper.Set(string(CAPITALIZE_TITLE), config.CapitalizeTitle)
 	viper.Set(string(GITMOJIS_URL), config.GitmojisUrl)
+	viper.Set(string(DEBUG), config.Debug)
 
 	pathToWrite := configFilePath(isGlobalConfig)
 
