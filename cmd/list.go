@@ -17,7 +17,11 @@ var ListCmd = &cobra.Command{
 		log.Debug("list called")
 		spin := ui.NewSpinner()
 		spin.Run()
-		gitmojis := pkg.GetGitmojis()
+		config, err := pkg.GetCurrentConfig()
+		if err != nil {
+			log.Fatalf("get current config issue, %s", err)
+		}
+		gitmojis := pkg.GetGitmojis(config)
 		spin.Stop()
 		listSettings := ui.ListSettings{Title: "Gitmojis", IsShowStatusBar: true, IsFilteringEnabled: true}
 		selectedGitmoji := ui.ListRun(listSettings, gitmojis.Gitmojis)

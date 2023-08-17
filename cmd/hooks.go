@@ -81,16 +81,20 @@ func hookCommit() {
 		spin.Stop()
 		return
 	}
-	gitmojis := pkg.GetGitmojis()
+	config, err := pkg.GetCurrentConfig()
+	if err != nil {
+		log.Fatalf("get current config issue, %s", err)
+	}
+	gitmojis := pkg.GetGitmojis(config)
 	spin.Stop()
 	initialCommitValues := pkg.InitialCommitValues{}
 	listSettings := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
 	selectedGitmoji := ui.ListRun(listSettings, gitmojis.Gitmojis)
 	log.Debugf("selected gitmoji %s", selectedGitmoji)
-	textInputsData := initialCommitValues.BuildTextInputsData(pkg.ConfigInstance)
+	textInputsData := initialCommitValues.BuildTextInputsData(config)
 	inputsRes := ui.TextInputsRun("please add", textInputsData)
 
-	commitValues := pkg.CreateMessage(inputsRes, selectedGitmoji, initialCommitValues, pkg.ConfigInstance, isBreaking)
+	commitValues := pkg.CreateMessage(inputsRes, selectedGitmoji, initialCommitValues, config, isBreaking)
 
 	log.Debugf("complete title: %s", commitValues.Title)
 

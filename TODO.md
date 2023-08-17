@@ -13,7 +13,7 @@
     - [x] cli -> done with installers
   - [x] info -> get infos like cache dir
   - [x] check all config parameters implemented
-  - [ ] commit
+  - [x] commit
     - [x] add dryrun
     - [x] gitmoji
     - [x] scope

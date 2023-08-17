@@ -35,23 +35,27 @@ var CommitCmd = &cobra.Command{
 			spin.Stop()
 			return
 		}
-		gitmojis := pkg.GetGitmojis()
+		config, err := pkg.GetCurrentConfig()
+		if err != nil {
+			log.Fatalf("get current config issue, %s", err)
+		}
+		gitmojis := pkg.GetGitmojis(config)
 		spin.Stop()
 		initialCommitValues := pkg.InitialCommitValues{Type: _type, Scope: scope, Desc: desc, Body: body}
 		listSettings := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
 		selectedGitmoji := ui.ListRun(listSettings, gitmojis.Gitmojis)
 		log.Debugf("selected gitmoji %s", selectedGitmoji)
-		textInputsData := initialCommitValues.BuildTextInputsData(pkg.ConfigInstance)
+		textInputsData := initialCommitValues.BuildTextInputsData(config)
 		inputsRes := ui.TextInputsRun("please add", textInputsData)
 
-		commitValues := pkg.CreateMessage(inputsRes, selectedGitmoji, initialCommitValues, pkg.ConfigInstance, isBreaking)
+		commitValues := pkg.CreateMessage(inputsRes, selectedGitmoji, initialCommitValues, config, isBreaking)
 
 		log.Debugf("complete title: %s", commitValues.Title)
 		if isDryRun {
 			log.Infof("The commit title: %s", commitValues.Title)
 			log.Infof("The commit body: %s", commitValues.Body)
 		} else {
-			pkg.ExecuteCommit(commitValues.Title, commitValues.Body, pkg.ConfigInstance)
+			pkg.ExecuteCommit(commitValues.Title, commitValues.Body, config)
 		}
 	},
 }
@@ -66,4 +70,10 @@ func init() {
 	CommitCmd.PersistentFlags().StringVar(&desc, string(pkg.DESC), "", "add a description")
 	CommitCmd.PersistentFlags().StringVar(&body, string(pkg.BODY), "", "add the commit message body")
 	CommitCmd.PersistentFlags().BoolVar(&isBreaking, string(pkg.IS_BREAKING), false, "set if the commit is a breaking change")
+
+	bindAndAddBoolFlagP(CommitCmd, string(pkg.AUTO_ADD), "auto-add", "a", "call git add . before commit")
+	bindAndAddBoolFlagP(CommitCmd, string(pkg.AUTO_SIGN), "auto-sign", "S", "add -S flag to git commit")
+	bindAndAddBoolFlag(CommitCmd, string(pkg.CAPITALIZE_TITLE), "capitalize-title", "capitalize the title")
+	bindAndAddBoolFlag(CommitCmd, string(pkg.SCOPE_PROMPT), "scope-prompt", "enable scope prompt")
+	bindAndAddBoolFlag(CommitCmd, string(pkg.BODY_PROMPT), "body-prompt", "enable body prompt")
 }
