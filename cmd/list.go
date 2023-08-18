@@ -8,13 +8,28 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// ListCmd represents the list command
-var ListCmd = &cobra.Command{
-	Use:   "list",
+var ListCommitTypesCmd = &cobra.Command{
+	Use:   "commit-types",
+	Short: "List all the available commit types",
+	Long:  "The list from conventional commits is used",
+	Run: func(cmd *cobra.Command, args []string) {
+		log.Debug("list commit-types called")
+		spin := ui.NewSpinner()
+		spin.Run()
+		defaultTypes := pkg.DefaultCommitTypes()
+		spin.Stop()
+		listSettings := ui.ListSettings{Title: "Commit types", IsShowStatusBar: true, IsFilteringEnabled: true}
+		selectedDefaultType := ui.ListRun(listSettings, defaultTypes)
+		log.Debugf("selected %s", selectedDefaultType)
+	},
+}
+
+var ListGitmojisCmd = &cobra.Command{
+	Use:   "gitmojis",
 	Short: "List all the available gitmojis",
 	Long:  fmt.Sprintf(`The list is queried from the api %s.`, pkg.DefaultGitmojiApiUrl),
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Debug("list called")
+		log.Debug("list gitmojis called")
 		spin := ui.NewSpinner()
 		spin.Run()
 		config, err := pkg.GetCurrentConfig()
@@ -29,6 +44,17 @@ var ListCmd = &cobra.Command{
 	},
 }
 
+var ListCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List all the available gitmojis",
+	Long:  fmt.Sprintf(`The list is queried from the api %s.`, pkg.DefaultGitmojiApiUrl),
+	Run: func(cmd *cobra.Command, args []string) {
+		log.Debug("list called")
+	},
+}
+
 func init() {
 	RootCmd.AddCommand(ListCmd)
+	ListCmd.AddCommand(ListGitmojisCmd)
+	ListCmd.AddCommand(ListCommitTypesCmd)
 }

@@ -22,11 +22,24 @@ func getTestConfigPath(T *testing.T) string {
 }
 
 func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
+	var configIsInitPers = pkg.ConfigIsInit
+	pkg.ConfigIsInit = true
+	defer func() {
+		pkg.ConfigIsInit = configIsInitPers
+	}()
 	err := pkg.LoadConfig([]string{})
+
 	assert.NoError(t, err)
 	config, err := pkg.GetCurrentConfig()
 	assert.NoError(t, err)
-	expected := pkg.Config{EmojiFormat: pkg.CODE, AutoAdd: false, ScopePrompt: false, BodyPrompt: false, CapitalizeTitle: false, GitmojisUrl: "https://gitmoji.dev/api/gitmojis"}
+	expected := pkg.Config{
+		EmojiFormat:     pkg.CODE,
+		AutoAdd:         false,
+		ScopePrompt:     false,
+		BodyPrompt:      false,
+		CapitalizeTitle: false,
+		GitmojisUrl:     "https://gitmoji.dev/api/gitmojis",
+	}
 	assert.Equal(t, expected, config)
 }
 
@@ -39,6 +52,12 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 	var gitmojisUrl = "http://foo.bar"
 	var autoSign = true
 
+	var configIsInitPers = pkg.ConfigIsInit
+	pkg.ConfigIsInit = true
+	defer func() {
+		pkg.ConfigIsInit = configIsInitPers
+	}()
+
 	t.Setenv(addEnvPrefix(string(pkg.AUTO_ADD)), strconv.FormatBool(autoadd))
 	t.Setenv(addEnvPrefix(string(pkg.EMOJI_FORMAT)), string(emojiFormat))
 	t.Setenv(addEnvPrefix(string(pkg.SCOPE_PROMPT)), strconv.FormatBool(scopePrompt))
@@ -50,20 +69,46 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 	assert.NoError(t, err1)
 	config, err := pkg.GetCurrentConfig()
 	assert.NoError(t, err)
-	expected := pkg.Config{EmojiFormat: emojiFormat, AutoAdd: autoadd, AutoSign: autoSign, ScopePrompt: scopePrompt, BodyPrompt: bodyPrompt, CapitalizeTitle: capitalizeTitle, GitmojisUrl: gitmojisUrl}
+	expected := pkg.Config{
+		EmojiFormat:     emojiFormat,
+		AutoAdd:         autoadd,
+		AutoSign:        autoSign,
+		ScopePrompt:     scopePrompt,
+		BodyPrompt:      bodyPrompt,
+		CapitalizeTitle: capitalizeTitle,
+		GitmojisUrl:     gitmojisUrl,
+	}
 	assert.Equal(t, expected, config)
 }
 
 func TestConfigConfigFileEqualsExpected(t *testing.T) {
+	var configIsInitPers = pkg.ConfigIsInit
+	pkg.ConfigIsInit = true
+	defer func() {
+		pkg.ConfigIsInit = configIsInitPers
+	}()
 	err1 := pkg.LoadConfig([]string{"./test_data"})
 	assert.NoError(t, err1)
+
 	config, err := pkg.GetCurrentConfig()
 	assert.NoError(t, err)
-	expected := pkg.Config{EmojiFormat: pkg.EMOJI, AutoAdd: true, ScopePrompt: true, BodyPrompt: false, CapitalizeTitle: false, GitmojisUrl: "http://from.file"}
+	expected := pkg.Config{
+		EmojiFormat:     pkg.EMOJI,
+		AutoAdd:         true,
+		ScopePrompt:     true,
+		BodyPrompt:      false,
+		CapitalizeTitle: false,
+		GitmojisUrl:     "http://from.file",
+	}
 	assert.Equal(t, expected, config)
 }
 
 func TestWriteGlobalConfigAndReadEqualsExpected(t *testing.T) {
+	var configIsInitPers = pkg.ConfigIsInit
+	pkg.ConfigIsInit = true
+	defer func() {
+		pkg.ConfigIsInit = configIsInitPers
+	}()
 	err1 := pkg.LoadConfig([]string{"./test_data"})
 	assert.NoError(t, err1)
 	config, err := pkg.GetCurrentConfig()
