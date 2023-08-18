@@ -66,18 +66,35 @@ Type "go-gitmoji-cli config"
 Sleep 500ms
 Enter
 Sleep 1s
+# auto git add
 Type "[B"
 Sleep 500ms
 Enter
+# auto git sign
 Type "[B"
 Sleep 1s
 Enter
+# emoji format
 Sleep 1.5s
 Enter
+# scope prompt
 Sleep 2s
 Enter
+# body prompt
 Sleep 2.5s
 Enter
+# debug mode
 Sleep 1s
 Type "[B"
 Enter
+# capitalize title
+Sleep 1s
+Enter
+# gitmoji  api url
+Sleep 1s
+Enter
+# Submit
+Sleep 1s
+Enter
+# done
+Sleep 1s
