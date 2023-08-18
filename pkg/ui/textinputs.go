@@ -17,6 +17,7 @@ type textInputsModel struct {
 	title      string
 	inputs     []textinput.Model
 	cursorMode cursor.Mode
+	quitting   bool
 }
 
 func initialTextInputsModel(title string, textInputsData []pkg.TextInputData) textInputsModel {
@@ -58,6 +59,9 @@ func (m *textInputsModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c", "esc":
+			m.quitting = true
+			log.Warn("ctrl + c -> quitting")
+			os.Exit(0)
 			return m, tea.Quit
 
 		// Change cursor mode
@@ -164,6 +168,11 @@ func TextInputsRun(title string, textInputsData []pkg.TextInputData) []pkg.TextI
 	if _, err := tea.NewProgram(&model).Run(); err != nil {
 		log.Errorf("could not start program: %s\n", err)
 		os.Exit(1)
+	}
+
+	if model.quitting {
+		log.Warn("ctrl + c -> quitting")
+		os.Exit(0)
 	}
 	mapped := make([]pkg.TextInputRes, len(textInputsData))
 

@@ -1,9 +1,9 @@
 package ui
 
 import (
-	"fmt"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
+	log "github.com/sirupsen/logrus"
 	"os"
 )
 
@@ -29,6 +29,8 @@ func (m *listModel[K]) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch keypress := msg.String(); keypress {
 		case "ctrl+c":
 			m.quitting = true
+			log.Warn("ctrl + c pressed -> quitting")
+			os.Exit(0)
 			return m, tea.Quit
 
 		case "enter":
@@ -68,7 +70,7 @@ func ListRun[K interface{ FilterValue() string }](settings ListSettings, input [
 	p := tea.NewProgram(&m, tea.WithAltScreen())
 
 	if _, err := p.Run(); err != nil {
-		fmt.Println("Error running program:", err)
+		log.Errorf("Error running program:", err)
 		os.Exit(1)
 	}
 	return m.choice
