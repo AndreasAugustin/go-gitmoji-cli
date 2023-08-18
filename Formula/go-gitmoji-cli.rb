@@ -5,15 +5,15 @@
 class GoGitmojiCli < Formula
   desc "CLI for managing commits gitmoji and conventional commits format"
   homepage "https://github.com/AndreasAugustin/go-gitmoji-cli"
-  version "0.1.1-pre-alpha"
+  version "0.1.2-pre-alpha"
   license "MIT"
 
   depends_on "git"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.1-pre-alpha/go-gitmoji-cli_0.1.1-pre-alpha_Darwin_x86_64.tar.gz"
-      sha256 "2aea1ebc5dc2d5fbd2764ef318ae77efa5db9d7c5d0cc7b146ac6708d5c0a7cb"
+      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.2-pre-alpha/go-gitmoji-cli_0.1.2-pre-alpha_Darwin_x86_64.tar.gz"
+      sha256 "bd0d49924100047a4c78d16b3e5829eca3c736d8a6eb5d52c4e313ba96160216"
 
       def install
         bin.install "go-gitmoji-cli"
@@ -24,8 +24,8 @@ class GoGitmojiCli < Formula
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.1-pre-alpha/go-gitmoji-cli_0.1.1-pre-alpha_Darwin_arm64.tar.gz"
-      sha256 "1278a7e3dddc75acd3b84c053a25533a304645189000b6cf0f9f95b6b94a227f"
+      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.2-pre-alpha/go-gitmoji-cli_0.1.2-pre-alpha_Darwin_arm64.tar.gz"
+      sha256 "05e7fc6bd907db6bd59261317e53dadaf5e09253dd5111e17f4f3c30d93b9c1c"
 
       def install
         bin.install "go-gitmoji-cli"
@@ -39,8 +39,8 @@ class GoGitmojiCli < Formula
 
   on_linux do
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.1-pre-alpha/go-gitmoji-cli_0.1.1-pre-alpha_Linux_arm64.tar.gz"
-      sha256 "1fe15020e33a7c85659ac03f44fde187d58926ed951279c945d0fb94140ea23a"
+      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.2-pre-alpha/go-gitmoji-cli_0.1.2-pre-alpha_Linux_arm64.tar.gz"
+      sha256 "7e7f30199ca1ae67b465d297ce263d2c4f136b7e507cb924694db666c7cd84a2"
 
       def install
         bin.install "go-gitmoji-cli"
@@ -51,8 +51,8 @@ class GoGitmojiCli < Formula
       end
     end
     if Hardware::CPU.intel?
-      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.1-pre-alpha/go-gitmoji-cli_0.1.1-pre-alpha_Linux_x86_64.tar.gz"
-      sha256 "66344924792c77534fd6434a587ce3247346ae90fcfdebc04b9d96c2b8574c45"
+      url "https://github.com/AndreasAugustin/go-gitmoji-cli/releases/download/v0.1.2-pre-alpha/go-gitmoji-cli_0.1.2-pre-alpha_Linux_x86_64.tar.gz"
+      sha256 "0aa5d7d3a765ea835c670e123a080a4a26574db7bee7de9b3b8b9d0022300c2f"
 
       def install
         bin.install "go-gitmoji-cli"
