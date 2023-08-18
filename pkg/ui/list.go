@@ -29,8 +29,8 @@ func (m *listModel[K]) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch keypress := msg.String(); keypress {
 		case "ctrl+c":
 			m.quitting = true
-			log.Warn("ctrl + c pressed -> quitting")
-			os.Exit(0)
+			//log.Warn("ctrl + c pressed -> quitting")
+			//os.Exit(0)
 			return m, tea.Quit
 
 		case "enter":
@@ -68,6 +68,11 @@ func ListRun[K interface{ FilterValue() string }](settings ListSettings, input [
 	m.list.Title = settings.Title
 
 	p := tea.NewProgram(&m, tea.WithAltScreen())
+
+	if m.quitting {
+		log.Warn("ctrl + c pressed -> quitting")
+		os.Exit(0)
+	}
 
 	if _, err := p.Run(); err != nil {
 		log.Errorf("Error running program %s", err)

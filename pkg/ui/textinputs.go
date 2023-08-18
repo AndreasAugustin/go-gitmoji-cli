@@ -60,8 +60,6 @@ func (m *textInputsModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c", "esc":
 			m.quitting = true
-			log.Warn("ctrl + c -> quitting")
-			os.Exit(0)
 			return m, tea.Quit
 
 		// Change cursor mode
