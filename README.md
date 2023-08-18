@@ -138,10 +138,17 @@ go-gitmoji-cli --version
 
 ```bash
 # list the available gitmojis
-go-gitmoji-cli list
+go-gitmoji-cli list gitmojis
 ```
 
-![list](docs/assets/list.gif)
+![list](docs/assets/list_gitmojis.gif)
+
+```bash
+# list the available commit types
+go-gitmoji-cli list commit-types
+```
+
+![list](docs/assets/list_commit_types.gif)
 
 ### Commit
 

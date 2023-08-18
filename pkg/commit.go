@@ -39,8 +39,8 @@ type TextInputRes struct {
 type CommitFlagName string
 
 const (
-	SCOPE       CommitFlagName = "scope"
-	DESC        CommitFlagName = "desc"
+	SCOPE       CommitFlagName = "Scope"
+	DESC        CommitFlagName = "Desc"
 	TYPE        CommitFlagName = "type"
 	BODY        CommitFlagName = "body"
 	IS_BREAKING CommitFlagName = "is-breaking"
@@ -214,7 +214,7 @@ func (i InitialCommitValues) BuildTextInputsData(config Config) []TextInputData 
 	var textInputsData = []TextInputData{{Placeholder: "type", Charlimit: 64, Label: string(TYPE), InitialValue: i.Type}}
 
 	if config.ScopePrompt {
-		textInputsData = append(textInputsData, TextInputData{Placeholder: "scope", Charlimit: 64, Label: string(SCOPE), InitialValue: i.Scope})
+		textInputsData = append(textInputsData, TextInputData{Placeholder: "Scope", Charlimit: 64, Label: string(SCOPE), InitialValue: i.Scope})
 	}
 
 	textInputsData = append(textInputsData, TextInputData{Placeholder: "description", Charlimit: 64, Label: string(DESC), InitialValue: i.Desc})

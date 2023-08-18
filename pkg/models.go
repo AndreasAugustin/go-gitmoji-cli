@@ -101,3 +101,18 @@ type TextInputData struct {
 	InitialValue string
 	Label        string
 }
+
+type CommitType struct {
+	Type string `mapstructure:"TYPE" json:"type"`
+	Desc string `mapstructure:"DESC" json:"desc"`
+}
+
+func (i CommitType) FilterValue() string {
+	return i.Type + i.Desc
+}
+func (i CommitType) Title() string {
+	return i.Type
+}
+func (i CommitType) Description() string {
+	return i.Desc
+}

@@ -52,7 +52,7 @@
 #   Hide                            Hide the subsequent commands from the output
 #   Show                            Show the subsequent commands in the output
 
-Output assets/commit.gif
+Output assets/list_gitmojis.gif
 
 Require go-gitmoji-cli
 
@@ -62,21 +62,19 @@ Set Shell "zsh"
 # Set Height 600
 
 Sleep 500ms
-Type "go-gitmoji-cli commit --dry-run"
+Type "go-gitmoji-cli list gitmojis"
 Sleep 500ms
 Enter
-# gitmojis
-Sleep 1s
-Enter
-# commit types
-Sleep 1s
-# Type "feat"
-Enter
-# type and feat prompt
-Enter
-Type "this is an example"
+Type "[B"
+Type "[B"
+Type "[B"
+Type "[B"
+Type "[A"
+Type "[A"
 Sleep 500ms
-Enter
+Type "/"
+Sleep 1.5s
+Type "test"
 Sleep 500ms
 Enter
 Sleep 2s
