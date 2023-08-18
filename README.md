@@ -88,6 +88,7 @@ Download the related release [here][go-gitmoji-cli-releases] and unpack the rela
 It is possible to configure the cli either with a `.go-gitmoji-cli.json` file within the repo directory
 or with command line flags.
 Environment variables are supported (case insensitive). The key is the same like the parameter with a prefix **GO_GITMOJI_CLI_**.
+All parameters are able to be modified with flags.
 
 | **parameter**    | **description**                                                                                 | **default**                        |
 |------------------|-------------------------------------------------------------------------------------------------|------------------------------------|
@@ -98,6 +99,7 @@ Environment variables are supported (case insensitive). The key is the same like
 | body_prompt      | Prompt for adding the commit message body                                                       | `false`                            |
 | capitalize_title | If set to true the commit title description will be capitalized                                 | `false`                            |
 | gitmojis_url     | The URL of the gitmojis database                                                                | `https://gitmoji.dev/api/gitmojis` |
+| debug            | enable debug mode                                                                               | false                              |
 
 The configuration values can be changed with
 
@@ -114,6 +116,7 @@ Reading will follow the following order:
 - global config if exists
 - local config if exists
 - environment variables
+- command flags
 
 ## Usage
 
