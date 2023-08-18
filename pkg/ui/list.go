@@ -70,7 +70,7 @@ func ListRun[K interface{ FilterValue() string }](settings ListSettings, input [
 	p := tea.NewProgram(&m, tea.WithAltScreen())
 
 	if _, err := p.Run(); err != nil {
-		log.Errorf("Error running program:", err)
+		log.Errorf("Error running program %s", err)
 		os.Exit(1)
 	}
 	return m.choice
