@@ -67,14 +67,17 @@ func ListRun[K interface{ FilterValue() string }](settings ListSettings, input [
 
 	p := tea.NewProgram(&m, tea.WithAltScreen())
 
+	_, err := p.Run()
+
+	if err != nil {
+		log.Errorf("Error running program %s", err)
+		os.Exit(1)
+	}
+
 	if m.quitting {
 		log.Warn("ctrl + c pressed -> quitting")
 		os.Exit(0)
 	}
 
-	if _, err := p.Run(); err != nil {
-		log.Errorf("Error running program %s", err)
-		os.Exit(1)
-	}
 	return m.choice
 }

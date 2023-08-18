@@ -79,15 +79,16 @@ func (s *Spinner) Run() {
 	go func() {
 		_, err := s.program.Run()
 
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
 		if s.model.quitting {
 			log.Warn("ctrl + c -> quitting")
 			os.Exit(0)
 		}
 
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
 	}()
 
 }
