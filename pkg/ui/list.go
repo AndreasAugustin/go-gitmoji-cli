@@ -1,9 +1,9 @@
 package ui
 
 import (
-	"fmt"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
+	log "github.com/sirupsen/logrus"
 	"os"
 )
 
@@ -67,8 +67,13 @@ func ListRun[K interface{ FilterValue() string }](settings ListSettings, input [
 
 	p := tea.NewProgram(&m, tea.WithAltScreen())
 
+	if m.quitting {
+		log.Warn("ctrl + c pressed -> quitting")
+		os.Exit(0)
+	}
+
 	if _, err := p.Run(); err != nil {
-		fmt.Println("Error running program:", err)
+		log.Errorf("Error running program %s", err)
 		os.Exit(1)
 	}
 	return m.choice

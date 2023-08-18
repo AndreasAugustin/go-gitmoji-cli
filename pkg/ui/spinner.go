@@ -1,13 +1,11 @@
 package ui
 
-// A simple program demonstrating the spinner component from the Bubbles
-// component library.
-
 import (
 	"fmt"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	log "github.com/sirupsen/logrus"
 	"os"
 )
 
@@ -15,8 +13,9 @@ type errMsgSpinner error
 
 type spinnerModel struct {
 	spinner  spinner.Model
-	quitting bool
 	err      error
+	quitting bool
+	finished bool
 }
 
 func initialSpinnerModel() spinnerModel {
@@ -57,7 +56,7 @@ func (m *spinnerModel) View() string {
 		return m.err.Error()
 	}
 	str := fmt.Sprintf("\n\n   %s Loading ...press q to quit\n\n", m.spinner.View())
-	if m.quitting {
+	if m.quitting || m.finished {
 		return str + "\n"
 	}
 	return str
@@ -78,7 +77,14 @@ func NewSpinner() Spinner {
 
 func (s *Spinner) Run() {
 	go func() {
-		if _, err := s.program.Run(); err != nil {
+		_, err := s.program.Run()
+
+		if s.model.quitting {
+			log.Warn("ctrl + c -> quitting")
+			os.Exit(0)
+		}
+
+		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
@@ -87,6 +93,6 @@ func (s *Spinner) Run() {
 }
 
 func (s *Spinner) Stop() {
-	s.model.quitting = true
+	s.model.finished = true
 	s.program.Quit()
 }
