@@ -11,7 +11,7 @@ import (
 	"path"
 )
 
-var configIsInit = false
+var ConfigIsInit = false
 
 const ProgramName = "go-gitmoji-cli"
 
@@ -32,7 +32,7 @@ func ProgramNameFigure() {
 }
 
 func InitConfig() {
-	if configIsInit {
+	if ConfigIsInit {
 		return
 	}
 
@@ -45,7 +45,7 @@ func InitConfig() {
 		fmt.Println("Error:", err)
 		os.Exit(1)
 	}
-	configIsInit = true
+	ConfigIsInit = true
 }
 
 func getGlobalConfigPath() (string, error) {
@@ -73,13 +73,14 @@ func LoadConfig(configPaths []string) (err error) {
 
 		viper.SetConfigName(configName)
 		if expErr := viper.ReadInConfig(); expErr != nil {
-			// It's okay if there isn't a config file
+			log.Debug("issue reading config")
 			var configFileNotFoundError viper.ConfigFileNotFoundError
 			if !errors.As(expErr, &configFileNotFoundError) {
 				return
 			}
+		} else {
+			viper.WatchConfig()
 		}
-		viper.WatchConfig()
 	}
 
 	viper.AutomaticEnv()
@@ -89,7 +90,7 @@ func LoadConfig(configPaths []string) (err error) {
 
 func GetCurrentConfig() (config Config, err error) {
 	log.Debug("Get current config")
-	if !configIsInit {
+	if !ConfigIsInit {
 		InitConfig()
 	}
 	err = viper.Unmarshal(&config)
@@ -99,6 +100,7 @@ func GetCurrentConfig() (config Config, err error) {
 
 func UpdateConfig(config Config, isGlobalConfig bool) {
 	viper.Set(string(AUTO_ADD), config.AutoAdd)
+	viper.Set(string(AUTO_SIGN), config.AutoSign)
 	viper.Set(string(EMOJI_FORMAT), string(config.EmojiFormat))
 	viper.Set(string(SCOPE_PROMPT), config.ScopePrompt)
 	viper.Set(string(BODY_PROMPT), config.BodyPrompt)
@@ -125,5 +127,21 @@ func configFilePath(isGlobalConfig bool) string {
 		return path.Join(globalConfigPath, name)
 	} else {
 		return path.Join(configPath, name)
+	}
+}
+
+func DefaultCommitTypes() []CommitType {
+	return []CommitType{
+		{Type: "feat", Desc: "A  new feature"},
+		{Type: "fix", Desc: "A bug fix"},
+		{Type: "docs", Desc: "Documentation only changes"},
+		{Type: "style", Desc: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"},
+		{Type: "refactor", Desc: "A code change that neither fixes a bug nor adds a feature"},
+		{Type: "perf", Desc: "A code change that improves performance"},
+		{Type: "test", Desc: "Adding missing tests or correcting existing tests"},
+		{Type: "build", Desc: "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"},
+		{Type: "ci", Desc: "Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"},
+		{Type: "chore", Desc: "Other changes that don't modify src or test files"},
+		{Type: "revert", Desc: "Reverts a previous commit"},
 	}
 }
