@@ -52,7 +52,7 @@
 #   Hide                            Hide the subsequent commands from the output
 #   Show                            Show the subsequent commands in the output
 
-Output assets/list.gif
+Output assets/list_commit_types.gif
 
 Require go-gitmoji-cli
 
@@ -62,7 +62,7 @@ Set Shell "zsh"
 # Set Height 600
 
 Sleep 500ms
-Type "go-gitmoji-cli list"
+Type "go-gitmoji-cli list commit-types"
 Sleep 500ms
 Enter
 Type "[B"

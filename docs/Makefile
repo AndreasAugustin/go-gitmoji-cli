@@ -5,7 +5,7 @@ SHELL := /bin/bash
 # VARIABLES
 ###########################
 
-TAPES := commit.tape config.tape help.tape list.tape version.tape
+TAPES := commit.tape config.tape help.tape list_commit_types.tape list_gitmojis.tape version.tape
 
 ###########################
 # MAPPINGS
