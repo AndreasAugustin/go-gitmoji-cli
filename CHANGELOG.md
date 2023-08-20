@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.5-alpha...v0.2.6-alpha) (2023-08-20)
+
+
+### Bug Fixes
+
+* :bug: fix markdownlint issue ([dd63605](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/dd63605ba83e3403a8b75d29492cdd0c3d39081a))
+
 ## [0.2.5-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.4-alpha...v0.2.5-alpha) (2023-08-20)
 
 
