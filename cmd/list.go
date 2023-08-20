@@ -12,10 +12,14 @@ var ListCommitTypesCmd = &cobra.Command{
 	Use:   "commit-types",
 	Short: "List all the available commit types",
 	Long:  "The list from conventional commits is used",
+	PreRun: func(cmd *cobra.Command, args []string) {
+		programNameFigure()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("list commit-types called")
 		spin := ui.NewSpinner()
 		spin.Run()
+		defer func() { spin.Stop() }()
 		defaultTypes := pkg.DefaultCommitTypes()
 		spin.Stop()
 		listSettings := ui.ListSettings{Title: "Commit types", IsShowStatusBar: true, IsFilteringEnabled: true}

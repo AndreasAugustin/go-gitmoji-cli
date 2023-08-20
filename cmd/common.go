@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
+	"github.com/common-nighthawk/go-figure"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -23,4 +25,10 @@ func bindAndAddBoolFlag(cmd *cobra.Command, viperKey string, flagName string, us
 	if err != nil {
 		log.Fatalf("issue with binding flags %s", err)
 	}
+}
+
+func programNameFigure() {
+	programNameFigure := figure.NewColorFigure(pkg.ProgramName, "cybermedium", "purple", true)
+
+	programNameFigure.Print()
 }

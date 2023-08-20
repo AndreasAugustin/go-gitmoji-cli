@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
-	"github.com/common-nighthawk/go-figure"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"os"
@@ -24,12 +23,6 @@ var CommitSHA = ""
 const EnvPrefix = "GO_GITMOJI_CLI"
 const configName = ".gitmojirc"
 const configPath = "."
-
-func ProgramNameFigure() {
-	programNameFigure := figure.NewColorFigure(ProgramName, "cybermedium", "purple", true)
-
-	programNameFigure.Print()
-}
 
 func InitConfig() {
 	if ConfigIsInit {
