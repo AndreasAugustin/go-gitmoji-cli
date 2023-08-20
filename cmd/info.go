@@ -11,6 +11,9 @@ var InfoCmd = &cobra.Command{
 	Use:   "info",
 	Short: "Get some relevant information",
 	Long:  `Get some information like config or cache directory on your OS where the cli is writing configuration or cache.`,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		programNameFigure()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		config, err := pkg.GetCurrentConfig()
 		if err != nil {

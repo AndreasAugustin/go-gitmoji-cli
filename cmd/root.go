@@ -12,7 +12,9 @@ var debug bool
 
 var RootCmd = &cobra.Command{
 	Use: pkg.ProgramName,
-	//Version: pkg.Version,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		programNameFigure()
+	},
 	Short: "Cli to help managing gitmoji commit messages",
 	Long:  fmt.Sprintf(`See %s for more information about Gitmoji`, pkg.DefaultGitmojiUrl),
 }
@@ -37,8 +39,6 @@ func init() {
 
 	RootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "verbose logging")
 	viper.Set(string(pkg.DEBUG), debug)
-
-	pkg.ProgramNameFigure()
 
 	RootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		pkg.ToggleDebug(debug)

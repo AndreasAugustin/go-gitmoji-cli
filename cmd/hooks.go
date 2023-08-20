@@ -10,7 +10,6 @@ import (
 )
 
 var hook bool
-var hookCommitMessageFile string
 
 var HooksRemoveCmd = &cobra.Command{
 	Use:   "rm",
@@ -32,6 +31,9 @@ var HooksInitCmd = &cobra.Command{
 	Long:  `Install the commit hooks into the local .git/hooks/ directory.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks init called")
+		spin := ui.NewSpinner()
+		spin.Run()
+		defer func() { spin.Stop() }()
 		err := pkg.CreateAllHookFiles()
 		if err != nil {
 			log.Error(err)
@@ -44,17 +46,14 @@ var HooksCmd = &cobra.Command{
 	Use:   "hooks",
 	Short: fmt.Sprintf("Manage %s commit hooks", pkg.ProgramName),
 	Long:  `Manage git hooks for the cli`,
-	Args: func(cmd *cobra.Command, args []string) error {
-		log.Debugf("args: %v", args)
-		if hook {
-			hookCommitMessageFile = args[0]
-		}
-		return nil
+	PreRun: func(cmd *cobra.Command, args []string) {
+		programNameFigure()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks called")
 		log.Debugf("run: %v", args)
 		if hook {
+			hookCommitMessageFile := args[0]
 			hookCommit(hookCommitMessageFile)
 		}
 	},
@@ -109,7 +108,7 @@ func hookCommit(commitMsgFile string) {
 	log.Debugf("complete title: %s", commitValues.Title)
 
 	commitMsg := fmt.Sprintf("%s \n \n %s", commitValues.Title, commitValues.Body)
-	err = utils.WriteFile(hookCommitMessageFile, []byte(commitMsg))
+	err = utils.WriteFile(commitMsgFile, []byte(commitMsg))
 	if err != nil {
 		log.Fatalf("error writing commit hook file %s", err)
 	}
