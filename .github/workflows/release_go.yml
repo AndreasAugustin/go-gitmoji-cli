@@ -1,10 +1,12 @@
 name: goreleaser
 
 on:
-  push:
-    # run only against tags
-    tags:
-      - v*.*.*
+#  push:
+#    # run only against tags
+#    tags:
+#      - v*.*.*
+  release:
+    types: [ published ]
 
 permissions:
   contents: write

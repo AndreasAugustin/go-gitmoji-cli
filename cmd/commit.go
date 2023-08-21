@@ -45,7 +45,13 @@ var CommitCmd = &cobra.Command{
 		}
 		gitmojis := pkg.GetGitmojis(config)
 		defaultTypes := pkg.DefaultCommitTypes()
-		initialCommitValues := pkg.BuildInitialCommitValues(_type, scope, desc, body, commitMsg)
+		initialCommitValues := pkg.BuildInitialCommitValues(
+			_type,
+			scope,
+			desc,
+			body,
+			commitMsg,
+		)
 		listSettingsGitmojis := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
 		listSettingsCommitTypes := ui.ListSettings{Title: "Commit types", IsShowStatusBar: true, IsFilteringEnabled: true}
 		spin.Stop()
