@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.8-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.7-alpha...v0.2.8-alpha) (2023-08-21)
+
+
+### Bug Fixes
+
+* 🐛 ([#44](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/44)) issue with hook ([#45](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/45)) ([e475ff1](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/e475ff15f2dece8f5b1e85cc6212a0b708ffe701))
+
 ## [0.2.7-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.6-alpha...v0.2.7-alpha) (2023-08-21)
 
 
