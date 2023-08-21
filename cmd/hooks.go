@@ -54,6 +54,7 @@ var HooksCmd = &cobra.Command{
 		log.Infof("run: %v", args)
 		if hook {
 			hookCommitMessageFile := args[0]
+
 			hookCommit(hookCommitMessageFile)
 		}
 	},
