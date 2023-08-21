@@ -50,8 +50,8 @@ var HooksCmd = &cobra.Command{
 		programNameFigure()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Debug("hooks called")
-		log.Debugf("run: %v", args)
+		log.Info("hooks called")
+		log.Infof("run: %v", args)
 		if hook {
 			hookCommitMessageFile := args[0]
 			hookCommit(hookCommitMessageFile)
@@ -71,6 +71,7 @@ func hookCommit(commitMsgFile string) {
 	log.Debug(commitMsg)
 	spin := ui.NewSpinner()
 	spin.Run()
+	defer func() { spin.Stop() }()
 	existentHookFiles, err := pkg.HookFilesExistent()
 	if err != nil {
 		log.Fatalf("Error checking if hook files existent")
@@ -81,25 +82,34 @@ func hookCommit(commitMsgFile string) {
 		spin.Stop()
 		return
 	}
-	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile)
-	if err != nil {
-		log.Fatalf("issue reading and parsing the commit msg file %s", err)
-	}
 	config, err := pkg.GetCurrentConfig()
 	if err != nil {
 		log.Fatalf("get current config issue, %s", err)
 	}
+	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile)
+	if err != nil {
+		log.Fatalf("issue reading and parsing the commit msg file %s", err)
+	}
+
 	gitmojis := pkg.GetGitmojis(config)
-	spin.Stop()
+	defaultTypes := pkg.DefaultCommitTypes()
+
 	initialCommitValues := pkg.InitialCommitValues{
 		Type:  parsedMessages.Type,
 		Scope: parsedMessages.Scope,
 		Desc:  parsedMessages.Desc,
 		Body:  parsedMessages.Body,
 	}
-	listSettings := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
-	selectedGitmoji := ui.ListRun(listSettings, gitmojis.Gitmojis)
+	listSettingsGitmojis := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
+	listSettingsCommitTypes := ui.ListSettings{Title: "Commit types", IsShowStatusBar: true, IsFilteringEnabled: true}
+
+	spin.Stop()
+
+	selectedGitmoji := ui.ListRun(listSettingsGitmojis, gitmojis.Gitmojis)
 	log.Debugf("selected gitmoji %s", selectedGitmoji)
+	selectedDefaultType := ui.ListRun(listSettingsCommitTypes, defaultTypes)
+	log.Debugf("selected %s", selectedDefaultType)
+	initialCommitValues.Type = selectedDefaultType.Type
 	textInputsData := initialCommitValues.BuildTextInputsData(config)
 	inputsRes := ui.TextInputsRun("please add", textInputsData)
 
