@@ -50,12 +50,21 @@ var HooksCmd = &cobra.Command{
 		programNameFigure()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Info("hooks called")
-		log.Infof("run: %v", args)
+		log.Debug("hooks called")
+		log.Debugf("run: %v", args)
 		if hook {
+			if len(args) == 0 {
+				log.Fatalf("len(args) must not be 0 when using pre-commit-message hook https://git-scm.com/docs/githooks#_prepare_commit_msg")
+			}
 			hookCommitMessageFile := args[0]
-			log.Infof("hook commit message file %s", hookCommitMessageFile)
+			log.Debugf("hook commit message file %s", hookCommitMessageFile)
 			hookCommit(hookCommitMessageFile)
+		} else {
+			err := cmd.Help()
+			if err != nil {
+				log.Fatalf("issue with the help command %s", err)
+				return
+			}
 		}
 	},
 }
