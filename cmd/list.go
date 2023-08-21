@@ -32,6 +32,9 @@ var ListGitmojisCmd = &cobra.Command{
 	Use:   "gitmojis",
 	Short: "List all the available gitmojis",
 	Long:  fmt.Sprintf(`The list is queried from the api %s.`, pkg.DefaultGitmojiApiUrl),
+	PreRun: func(cmd *cobra.Command, args []string) {
+		programNameFigure()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("list gitmojis called")
 		spin := ui.NewSpinner()
@@ -52,9 +55,6 @@ var ListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all the available gitmojis",
 	Long:  fmt.Sprintf(`The list is queried from the api %s.`, pkg.DefaultGitmojiApiUrl),
-	Run: func(cmd *cobra.Command, args []string) {
-		log.Debug("list called")
-	},
 }
 
 func init() {
