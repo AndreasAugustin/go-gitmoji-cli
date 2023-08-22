@@ -43,4 +43,4 @@ jobs:
           echo "Run tests"
           container-structure-test test \
             --image ghcr.io/andreasaugustin/go-gitmoji-cli:${{ inputs.tag }} \
-            --config src/test-config.yaml
+            --config tests/docker/test-config.yaml
