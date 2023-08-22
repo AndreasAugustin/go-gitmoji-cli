@@ -9,6 +9,9 @@ on:
 
 name: test-docker-images
 
+permissions:
+  packages: read
+
 jobs:
   test-docker-images:
     runs-on: ubuntu-latest
