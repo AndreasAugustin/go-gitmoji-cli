@@ -5,6 +5,7 @@ on:
         description: 'The docker image tag'
         required: true
         type: string
+        default: v0.2.8-alpha
     push:
 
 name: test-docker-images
