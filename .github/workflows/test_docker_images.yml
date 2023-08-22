@@ -18,7 +18,7 @@ jobs:
       matrix:
         docker-image:
           - ghcr.io/andreasaugustin/go-gitmoji-cli
-          - andreasaugustin/go-gitmoji-cli
+          - andyaugustin/go-gitmoji-cli
     runs-on: ubuntu-latest
     steps:
       -
