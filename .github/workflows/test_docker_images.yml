@@ -35,6 +35,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       -
+        name: pull image
+        run: |
+          docker pull ghcr.io/andreasaugustin/go-gitmoji-cli:${{ inputs.tag }}
+      -
         name: run tests
         run: |
           echo "Install container tools"
@@ -43,6 +47,5 @@ jobs:
             && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
           echo "Run tests"
           container-structure-test test \
-            --pull \
             --image ghcr.io/andreasaugustin/go-gitmoji-cli:${{ inputs.tag }} \
             --config tests/docker/test-config.yaml
