@@ -14,6 +14,11 @@ permissions:
 
 jobs:
   test-docker-images:
+    strategy:
+      matrix:
+        docker-image:
+          - ghcr.io/andreasaugustin/go-gitmoji-cli
+          - andreasaugustin/go-gitmoji-cli
     runs-on: ubuntu-latest
     steps:
       -
@@ -37,7 +42,7 @@ jobs:
       -
         name: pull image
         run: |
-          docker pull ghcr.io/andreasaugustin/go-gitmoji-cli:${{ inputs.tag }}
+          docker pull ${{ matrix.docker-image }}:${{ inputs.tag }}
       -
         name: run tests
         run: |
@@ -47,5 +52,5 @@ jobs:
             && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
           echo "Run tests"
           container-structure-test test \
-            --image ghcr.io/andreasaugustin/go-gitmoji-cli:${{ inputs.tag }} \
+            --image ${{ matrix.docker-image }}:${{ inputs.tag }} \
             --config tests/docker/test-config.yaml
