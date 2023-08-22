@@ -42,5 +42,5 @@ jobs:
             && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
           echo "Run tests"
           container-structure-test test \
-            --image ghcr.io/andreasaugustin/go-gitmoji-cli:${{ input.tag }} \
+            --image ghcr.io/andreasaugustin/go-gitmoji-cli:${{ inputs.tag }} \
             --config src/test-config.yaml
