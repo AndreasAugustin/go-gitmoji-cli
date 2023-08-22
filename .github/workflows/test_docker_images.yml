@@ -5,12 +5,20 @@ on:
         description: 'The docker image tag'
         required: true
         type: string
-        default: v0.2.8-alpha
+        default: v0.2.8-alpha-amd64
 
 name: test-docker-images
 
+permissions:
+  packages: read
+
 jobs:
   test-docker-images:
+    strategy:
+      matrix:
+        docker-image:
+          - ghcr.io/andreasaugustin/go-gitmoji-cli
+          - andyaugustin/go-gitmoji-cli
     runs-on: ubuntu-latest
     steps:
       -
@@ -18,21 +26,23 @@ jobs:
         with:
           lfs: true
           fetch-depth: 0
-#      -
-#        name: Login to DockerHub
-#        if: github.event_name != 'pull_request'
-#        uses: docker/login-action@v2
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Login to GHCR
-        if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: pull image
+        run: |
+          docker pull ${{ matrix.docker-image }}:${{ inputs.tag }}
       -
         name: run tests
         run: |
@@ -42,5 +52,5 @@ jobs:
             && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
           echo "Run tests"
           container-structure-test test \
-            --image ghcr.io/andreasaugustin/go-gitmoji-cli:${{ input.tag }} \
-            --config src/test-config.yaml
+            --image ${{ matrix.docker-image }}:${{ inputs.tag }} \
+            --config tests/docker/test-config.yaml
