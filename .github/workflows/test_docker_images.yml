@@ -1,0 +1,46 @@
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'The docker image tag'
+        required: true
+        type: string
+        default: v0.2.8-alpha
+
+name: test-docker-images
+
+jobs:
+  test-docker-images:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+          fetch-depth: 0
+#      -
+#        name: Login to DockerHub
+#        if: github.event_name != 'pull_request'
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to GHCR
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: run tests
+        run: |
+          echo "Install container tools"
+          curl -LO https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64 \
+            && chmod +x container-structure-test-linux-amd64 \
+            && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
+          echo "Run tests"
+          container-structure-test test \
+            --image ghcr.io/andreasaugustin/go-gitmoji-cli:${{ input.tag }} \
+            --config src/test-config.yaml

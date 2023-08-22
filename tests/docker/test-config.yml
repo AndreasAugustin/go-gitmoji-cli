@@ -1,0 +1,6 @@
+schemaVersion: '2.0.0'
+commandTests:
+  - name: "go-gitmoji-cli is installed"
+    command: "which"
+    args: ["go-gitmoji-cli"]
+    expectedOutput: ["/bin/go-gitmoji-cli"]
