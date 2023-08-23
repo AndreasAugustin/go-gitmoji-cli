@@ -106,6 +106,7 @@ func hookCommit(commitMsgFile string) {
 	}
 	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile)
 	if parsedMessages != nil {
+
 		return
 	}
 	if err != nil {

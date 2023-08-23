@@ -46,7 +46,7 @@ func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
 			messages = append(messages, line)
 		}
 	}
-	log.Infof("messages: %v", messages)
+	log.Debugf("messages: %v", messages)
 	return ParseCommitMessages(messages)
 }
 
