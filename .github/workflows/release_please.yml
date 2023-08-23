@@ -1,20 +1,29 @@
+name: release-please
+
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    outputs:
+      release_created:
+        description: "Set if the release has been created"
+        value: ${{ jobs.release-please.outputs.release_created }}
+      tag_name:
+        description: "The tag name"
+        value: ${{ jobs.release-please.outputs.tag_name }}
+  workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
 
-name: release-please
-
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release-please.outputs.release_created }}
+      tag_name: ${{ }}
     steps:
       - uses: google-github-actions/release-please-action@v3
+        id: release-please
         with:
           release-type: go
           prerelease: true
-#          package-name: release-please-action

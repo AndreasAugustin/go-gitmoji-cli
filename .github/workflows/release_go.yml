@@ -2,15 +2,7 @@ name: goreleaser
 
 on:
   workflow_call:
-#    inputs:
-#      tag:
-#        description: 'The docker image tag'
-#        required: true
-#        type: string
     secrets:
-#      GITHUB_TOKEN:
-#        description: 'The github token'
-#        required: true
       DOCKERHUB_USERNAME:
         description: 'The dockerhub username'
         required: true
@@ -26,13 +18,7 @@ on:
       NFPM_DEFAULT_PASSPHRASE:
         description: 'The NFPM GPG pass phrase'
         required: true
-  #  push:
-#    # run only against tags
-#    tags:
-#      - v*.*.*
   workflow_dispatch:
-  release:
-    types: [ published ]
 
 permissions:
   contents: write

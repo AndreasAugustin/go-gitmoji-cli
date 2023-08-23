@@ -1,3 +1,5 @@
+name: test-docker-images
+
 on:
   workflow_call:
     inputs:
@@ -6,9 +8,6 @@ on:
         required: true
         type: string
     secrets:
-#      GITHUB_TOKEN:
-#        description: 'The github token'
-#        required: true
       DOCKERHUB_USERNAME:
         description: 'The dockerhub username'
         required: true
@@ -22,8 +21,6 @@ on:
         required: true
         type: string
         default: v0.2.8-alpha-amd64
-
-name: test-docker-images
 
 permissions:
   packages: read
