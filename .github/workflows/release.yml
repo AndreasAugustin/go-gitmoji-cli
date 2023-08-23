@@ -8,16 +8,44 @@ on:
         required: true
         type: string
         default: v0.2.8-alpha-amd64
+  push:
+    branches:
+      - main
 
 jobs:
   call-ci-go:
     uses: ./.github/workflows/ci_go.yml
   call-lint:
+    permissions:
+      contents: read
+      pull-requests: read
     uses: ./.github/workflows/lint.yml
-  call-test-docker-images:
+  release-please:
     needs:
       - call-ci-go
       - call-lint
-    uses: ./.github/workflows/ci_go.yml
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/release_please.yml
+  release-go:
+    if: ${{ needs.release-please.outputs.release_created }}
+    needs:
+      - release-please
+    permissions:
+      contents: write
+      packages: write
+      pull-requests: write
+    uses: ./.github/workflows/release_go.yml
+    secrets: inherit
+  call-test-docker-images:
+    if: ${{ needs.release-please.outputs.release_created || inputs.tag }}
+    needs:
+      - release-go
+      - release-please
+    permissions:
+      packages: read
+    uses: ./.github/workflows/test_docker_images.yml
     with:
-      tag: ${{ inputs.tag }}
+      tag: ${{ needs.release-please.outputs.tag_name || inputs.tag }}
+    secrets: inherit

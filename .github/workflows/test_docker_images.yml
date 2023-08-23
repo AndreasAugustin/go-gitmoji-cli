@@ -1,3 +1,5 @@
+name: test-docker-images
+
 on:
   workflow_call:
     inputs:
@@ -5,6 +7,13 @@ on:
         description: 'The docker image tag'
         required: true
         type: string
+    secrets:
+      DOCKERHUB_USERNAME:
+        description: 'The dockerhub username'
+        required: true
+      DOCKERHUB_TOKEN:
+        description: 'The dockerhub token'
+        required: true
   workflow_dispatch:
     inputs:
       tag:
@@ -12,8 +21,6 @@ on:
         required: true
         type: string
         default: v0.2.8-alpha-amd64
-
-name: test-docker-images
 
 permissions:
   packages: read

@@ -1,6 +1,9 @@
 name: ci_go
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_call:
 
 jobs:
   go:
