@@ -182,6 +182,10 @@ The development environment targets are located in the [Makefile](Makefile)
 make help
 ```
 
+## Deployments
+
+A push/merge to `main` branch is triggering the deployment. The release action can be found [here][go-gitmoji-cli-actions-release]
+
 ## Used libraries and tools
 
 Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
@@ -212,6 +216,7 @@ Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
 [go-gitmoji-cli-docker-hub]: https://hub.docker.com/repository/docker/andyaugustin/go-gitmoji-cli/general
 [go-gitmoji-cli-docker-ghcr]: https://github.com/AndreasAugustin/go-gitmoji-cli/pkgs/container/go-gitmoji-cli
 [go-gitmoji-cli-aur]: https://aur.archlinux.org/packages/go-gitmoji-cli-bin
+[go-gitmoji-cli-actions-release]: https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/release.yml
 
 ## Contributors ✨
 
