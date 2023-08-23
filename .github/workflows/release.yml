@@ -8,9 +8,9 @@ on:
         required: true
         type: string
         default: v0.2.8-alpha-amd64
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
 
 jobs:
   call-ci-go:
