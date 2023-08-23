@@ -52,7 +52,7 @@ pamac install go-gitmoji-cli-bin
 
 ### Docker
 
-There are 2 docker registries available. Just pull the image to have a local test setup available.
+The image is available within 2 docker registries available. Just pull the image to have a local test setup available.
 To use it, mount the current dir into the working dir.
 
 - [dockerhub][go-gitmoji-cli-docker-hub]
