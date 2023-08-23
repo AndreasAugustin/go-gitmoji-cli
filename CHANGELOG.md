@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.9-alpha...v0.3.0-alpha) (2023-08-23)
+
+
+### Features
+
+* :construction_worker: ([#40](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/40)) preparations for nice release workflow ([#56](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/56)) ([216d16c](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/216d16cb9c842ba2364d795f68131b945d3dc007))
+
 ## [0.2.9-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.8-alpha...v0.2.9-alpha) (2023-08-23)
 
 
