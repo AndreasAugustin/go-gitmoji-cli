@@ -102,8 +102,8 @@ func TestRemoveAllHookFilesReturnsCorrectError(t *testing.T) {
 	assert.Equal(t, expErr, pkg.RemoveAllHookFiles())
 }
 
-func TestReadCommitEditMsgEquExpected(t *testing.T) {
-	parsedMessages, err := pkg.ReadAndParseCommitEditMsg("./test_data/COMMIT_EDITMSG")
+func TestReadCommitEditMsgWithTitleBodyFooterEquExpected(t *testing.T) {
+	parsedMessages, err := pkg.ReadAndParseCommitEditMsg("./test_data/COMMIT_EDITMSG_title_header_footer")
 	assert.NoError(t, err)
 
 	exp := pkg.ParsedMessages{
@@ -113,5 +113,20 @@ func TestReadCommitEditMsgEquExpected(t *testing.T) {
 		Scope:      "hooks",
 		IsBreaking: true,
 		Desc:       "this is my message"}
+	assert.Equal(t, exp, *parsedMessages)
+}
+
+func TestReadCommitEditMsgNoMsgEquExpected(t *testing.T) {
+	parsedMessages, err := pkg.ReadAndParseCommitEditMsg("./test_data/COMMIT_EDITMSG_no_msg_provided")
+	assert.NoError(t, err)
+
+	exp := pkg.ParsedMessages{
+		Body:       "",
+		Footer:     "",
+		Type:       "",
+		Scope:      "",
+		IsBreaking: false,
+		Desc:       "",
+	}
 	assert.Equal(t, exp, *parsedMessages)
 }

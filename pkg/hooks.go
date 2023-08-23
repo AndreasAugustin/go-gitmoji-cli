@@ -47,6 +47,9 @@ func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
 		}
 	}
 	log.Debugf("messages: %v", messages)
+	if messages == nil {
+		return &ParsedMessages{}, nil
+	}
 	return ParseCommitMessages(messages)
 }
 

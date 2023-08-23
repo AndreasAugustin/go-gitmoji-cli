@@ -105,10 +105,7 @@ func hookCommit(commitMsgFile string) {
 		log.Fatalf("get current config issue, %s", err)
 	}
 	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile)
-	if parsedMessages != nil {
 
-		return
-	}
 	if err != nil {
 		log.Fatalf("issue reading and parsing the commit msg file %s", err)
 	}
