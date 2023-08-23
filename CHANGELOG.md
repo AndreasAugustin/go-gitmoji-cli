@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.3.0-alpha...v0.3.1-alpha) (2023-08-23)
+
+
+### Bug Fixes
+
+* :construction_worker: ([#40](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/40),[#47](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/47)) fix for workflow run ([bc6c6fd](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/bc6c6fd54dfae3ec8c90733b0d3700799119a426))
+
 ## [0.3.0-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.9-alpha...v0.3.0-alpha) (2023-08-23)
 
 
