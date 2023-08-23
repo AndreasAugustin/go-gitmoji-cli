@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg/utils"
+	log "github.com/sirupsen/logrus"
 	"path/filepath"
 	"regexp"
 )
@@ -31,6 +32,8 @@ var ErrInvalidGitHooksDirectoryPath = errors.New("invalid git hooks directory pa
 
 func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
 	file, err := utils.ReadFile(filePath)
+	log.Debugf("file content of %s", filePath)
+	log.Infof("%s", string(file))
 	if err != nil {
 		return nil, err
 	}

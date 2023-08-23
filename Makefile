@@ -61,7 +61,7 @@ clean:  ## clean
 	go mod tidy
 
 .PHONY: install
-install: ## install the package
+install: build ## install the package
 	go install
 
 .PHONY: create-gifs
