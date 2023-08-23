@@ -17,11 +17,16 @@ var HooksRemoveCmd = &cobra.Command{
 	Long:  `Delete the commit hooks which are created by the cli`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks rm called")
+		spin := ui.NewSpinner()
+		spin.Run()
+		defer func() { spin.Stop() }()
 		err := pkg.RemoveAllHookFiles()
 		if err != nil {
 			log.Error(err)
 			return
 		}
+		log.Info("The hook is now removed")
+		log.Infof("happy coding %s", "🚀")
 	},
 }
 
@@ -33,12 +38,16 @@ var HooksInitCmd = &cobra.Command{
 		log.Debug("hooks init called")
 		spin := ui.NewSpinner()
 		spin.Run()
-		defer func() { spin.Stop() }()
+		defer func() {
+			spin.Stop()
+		}()
 		err := pkg.CreateAllHookFiles()
 		if err != nil {
 			log.Error(err)
 			return
 		}
+		log.Info("The hook is now initialized")
+		log.Infof("happy coding %s", "🚀")
 	},
 }
 
@@ -89,7 +98,6 @@ func hookCommit(commitMsgFile string) {
 	if len(existentHookFiles) == 0 {
 		log.Infof("There are no hook files existent for %s", existentHookFiles)
 		log.Infof("Please use commit command or create hooks with %s hooks init", pkg.ProgramName)
-		spin.Stop()
 		return
 	}
 	config, err := pkg.GetCurrentConfig()
@@ -97,6 +105,7 @@ func hookCommit(commitMsgFile string) {
 		log.Fatalf("get current config issue, %s", err)
 	}
 	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile)
+
 	if err != nil {
 		log.Fatalf("issue reading and parsing the commit msg file %s", err)
 	}
