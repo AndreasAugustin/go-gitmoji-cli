@@ -17,6 +17,12 @@ jobs:
       contents: read
       pull-requests: read
     uses: ./.github/workflows/lint.yml
+  release-go:
+    permissions:
+      contents: write
+      packages: write
+      pull-requests: write
+    uses: ./.github/workflows/release_go.yml
   call-test-docker-images:
     permissions:
       packages: read
