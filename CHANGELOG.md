@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.9-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.8-alpha...v0.2.9-alpha) (2023-08-23)
+
+
+### Bug Fixes
+
+* :bug: ([#51](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/51)) fix issue with hook when no message was provided with `-m` flag ([#52](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/52)) ([a9f988c](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/a9f988c9bc14072f270c3cdafd4eb6821e794e68))
+
 ## [0.2.8-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.2.7-alpha...v0.2.8-alpha) (2023-08-21)
 
 
