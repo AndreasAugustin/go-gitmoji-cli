@@ -25,4 +25,4 @@ jobs:
       - call-lint
     uses: ./.github/workflows/ci_go.yml
     with:
-      tag: v0.2.8-alpha-amd64
+      tag: ${{ inputs.tag }}
