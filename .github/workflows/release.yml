@@ -29,9 +29,9 @@ jobs:
       pull-requests: write
     uses: ./.github/workflows/release_please.yml
   release-go:
-    if: ${{ jobs.release-please.outputs.release_created }}
+    if: ${{ needs.release-please.outputs.release_created }}
     needs:
-      - release-go
+      - release-please
     permissions:
       contents: write
       packages: write
@@ -39,12 +39,13 @@ jobs:
     uses: ./.github/workflows/release_go.yml
     secrets: inherit
   call-test-docker-images:
-    if: ${{ jobs.release-please.outputs.release_created || inputs.tag }}
+    if: ${{ needs.release-please.outputs.release_created || inputs.tag }}
     needs:
       - release-go
+      - release-please
     permissions:
       packages: read
     uses: ./.github/workflows/test_docker_images.yml
     with:
-      tag: ${{ jobs.release-please.outputs.tag_name || inputs.tag }}
+      tag: ${{ needs.release-please.outputs.tag_name || inputs.tag }}
     secrets: inherit
