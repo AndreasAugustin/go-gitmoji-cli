@@ -5,6 +5,7 @@ on:
 #    # run only against tags
 #    tags:
 #      - v*.*.*
+  workflow_dispatch:
   release:
     types: [ published ]
 
