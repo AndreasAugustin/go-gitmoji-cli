@@ -1,13 +1,6 @@
 name: release
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'The docker image tag'
-        required: true
-        type: string
-        default: v0.2.8-alpha-amd64
   push:
     branches:
       - main
@@ -39,7 +32,7 @@ jobs:
     uses: ./.github/workflows/release_go.yml
     secrets: inherit
   call-test-docker-images:
-    if: ${{ needs.release-please.outputs.release_created || inputs.tag }}
+    if: ${{ needs.release-please.outputs.release_created }}
     needs:
       - release-go
       - release-please
@@ -47,5 +40,5 @@ jobs:
       packages: read
     uses: ./.github/workflows/test_docker_images.yml
     with:
-      tag: ${{ needs.release-please.outputs.tag_name || inputs.tag }}
+      tag: ${{ needs.release-please.outputs.tag_name }}-amd64
     secrets: inherit
