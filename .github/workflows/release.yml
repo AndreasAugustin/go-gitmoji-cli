@@ -23,6 +23,6 @@ jobs:
     needs:
       - call-ci-go
       - call-lint
-    uses: ./.github/workflows/ci_go.yml
+    uses: ./.github/workflows/test_docker_images.yml
     with:
       tag: ${{ inputs.tag }}

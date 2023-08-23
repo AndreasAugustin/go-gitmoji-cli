@@ -5,7 +5,6 @@ on:
         description: 'The docker image tag'
         required: true
         type: string
-        default: v0.2.8-alpha-amd64
   workflow_dispatch:
     inputs:
       tag:
