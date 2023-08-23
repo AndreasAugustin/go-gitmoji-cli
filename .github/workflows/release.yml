@@ -17,12 +17,12 @@ jobs:
       contents: read
       pull-requests: read
     uses: ./.github/workflows/lint.yml
-#  call-test-docker-images:
-#    permissions:
-#      packages: read
-#    needs:
-#      - call-ci-go
-#      - call-lint
-#    uses: ./.github/workflows/ci_go.yml
-#    with:
-#      tag: ${{ inputs.tag }}
+  call-test-docker-images:
+    permissions:
+      packages: read
+    needs:
+      - call-ci-go
+      - call-lint
+    uses: ./.github/workflows/ci_go.yml
+    with:
+      tag: v0.2.8-alpha-amd64
