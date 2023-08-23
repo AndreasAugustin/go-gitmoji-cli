@@ -23,6 +23,7 @@ jobs:
       packages: write
       pull-requests: write
     uses: ./.github/workflows/release_go.yml
+    secrets: inherit
   call-test-docker-images:
     permissions:
       packages: read
@@ -32,3 +33,4 @@ jobs:
     uses: ./.github/workflows/test_docker_images.yml
     with:
       tag: ${{ inputs.tag }}
+    secrets: inherit
