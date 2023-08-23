@@ -7,6 +7,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 var gitHooks = [...]string{
@@ -33,7 +34,7 @@ var ErrInvalidGitHooksDirectoryPath = errors.New("invalid git hooks directory pa
 func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
 	file, err := utils.ReadFile(filePath)
 	log.Debugf("file content of %s", filePath)
-	log.Infof("%s", string(file))
+	log.Debugf("%s", string(file))
 	if err != nil {
 		return nil, err
 	}
@@ -41,10 +42,11 @@ func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
 	lines := regexp.MustCompile("\r?\n").Split(fileStr, -1)
 	var messages []string
 	for _, line := range lines {
-		if line != "" {
+		if line != "" && !strings.HasPrefix(line, "#") {
 			messages = append(messages, line)
 		}
 	}
+	log.Infof("messages: %v", messages)
 	return ParseCommitMessages(messages)
 }
 
