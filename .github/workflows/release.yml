@@ -1,0 +1,23 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'The docker image tag'
+        required: true
+        type: string
+        default: v0.2.8-alpha-amd64
+
+jobs:
+  call-ci-go:
+    uses: ./.github/workflows/ci_go.yml
+  call-lint:
+    uses: ./.github/workflows/lint.yml
+  call-test-docker-images:
+    needs:
+      - call-ci-go
+      - call-lint
+    uses: ./.github/workflows/ci_go.yml
+    with:
+      tag: ${{ inputs.tag }}
