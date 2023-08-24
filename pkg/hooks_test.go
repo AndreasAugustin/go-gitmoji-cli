@@ -96,12 +96,6 @@ func TestCreateAllHookFilesCreatesCorrectHooks(t *testing.T) {
 	}
 }
 
-func TestRemoveAllHookFilesReturnsCorrectError(t *testing.T) {
-	t.Skip("need to be checked")
-	var expErr error
-	assert.Equal(t, expErr, pkg.RemoveAllHookFiles())
-}
-
 func TestReadCommitEditMsgWithTitleBodyFooterEquExpected(t *testing.T) {
 	parsedMessages, err := pkg.ReadAndParseCommitEditMsg("./test_data/COMMIT_EDITMSG_title_header_footer")
 	assert.NoError(t, err)
