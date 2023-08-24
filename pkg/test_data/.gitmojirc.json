@@ -1,8 +1,11 @@
 {
   "auto_add": true,
+  "auto_sign": false,
+  "body_prompt": true,
+  "capitalize_title": true,
+  "debug": true,
   "emoji_format": "emoji",
-  "scope_prompt": true,
-  "message_prompt": false,
-  "capitalize_title": false,
-  "gitmojis_url": "http://from.file"
+  "gitmojis_url": "http://from.file",
+  "is_default_merge_message": false,
+  "scope_prompt": true
 }

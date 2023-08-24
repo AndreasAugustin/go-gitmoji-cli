@@ -45,14 +45,15 @@ func (i YesNo) Description() string {
 type ConfigEnum string
 
 const (
-	AUTO_ADD         ConfigEnum = "AUTO_ADD"
-	AUTO_SIGN        ConfigEnum = "AUTO_SIGN"
-	EMOJI_FORMAT     ConfigEnum = "EMOJI_FORMAT"
-	SCOPE_PROMPT     ConfigEnum = "SCOPE_PROMPT"
-	GITMOJIS_URL     ConfigEnum = "GITMOJIS_URL"
-	BODY_PROMPT      ConfigEnum = "BODY_PROMPT"
-	CAPITALIZE_TITLE ConfigEnum = "CAPITALIZE_TITLE"
-	DEBUG            ConfigEnum = "DEBUG"
+	AUTO_ADD                 ConfigEnum = "AUTO_ADD"
+	AUTO_SIGN                ConfigEnum = "AUTO_SIGN"
+	EMOJI_FORMAT             ConfigEnum = "EMOJI_FORMAT"
+	SCOPE_PROMPT             ConfigEnum = "SCOPE_PROMPT"
+	GITMOJIS_URL             ConfigEnum = "GITMOJIS_URL"
+	BODY_PROMPT              ConfigEnum = "BODY_PROMPT"
+	CAPITALIZE_TITLE         ConfigEnum = "CAPITALIZE_TITLE"
+	IS_DEFAULT_MERGE_MESSAGE ConfigEnum = "IS_DEFAULT_MERGE_MESSAGE"
+	DEBUG                    ConfigEnum = "DEBUG"
 )
 
 type EmojiCommitFormats string
@@ -85,14 +86,15 @@ func (i EmojiCommitFormats) Description() string {
 }
 
 type Config struct {
-	AutoAdd         bool               `mapstructure:"AUTO_ADD" json:"auto_add"`
-	AutoSign        bool               `mapstructure:"AUTO_SIGN" json:"auto_sign"`
-	EmojiFormat     EmojiCommitFormats `mapstructure:"EMOJI_FORMAT" json:"emoji_format"`
-	ScopePrompt     bool               `mapstructure:"SCOPE_PROMPT" json:"scope_prompt"`
-	BodyPrompt      bool               `mapstructure:"BODY_PROMPT" json:"body_prompt"`
-	CapitalizeTitle bool               `mapstructure:"CAPITALIZE_TITLE" json:"capitalize_title"`
-	GitmojisUrl     string             `mapstructure:"GITMOJIS_URL" json:"gitmojis_url"`
-	Debug           bool               `mapstructure:"DEBUG" json:"debug"`
+	AutoAdd               bool               `mapstructure:"AUTO_ADD" json:"auto_add"`
+	AutoSign              bool               `mapstructure:"AUTO_SIGN" json:"auto_sign"`
+	EmojiFormat           EmojiCommitFormats `mapstructure:"EMOJI_FORMAT" json:"emoji_format"`
+	ScopePrompt           bool               `mapstructure:"SCOPE_PROMPT" json:"scope_prompt"`
+	BodyPrompt            bool               `mapstructure:"BODY_PROMPT" json:"body_prompt"`
+	CapitalizeTitle       bool               `mapstructure:"CAPITALIZE_TITLE" json:"capitalize_title"`
+	GitmojisUrl           string             `mapstructure:"GITMOJIS_URL" json:"gitmojis_url"`
+	IsDefaultMergeMessage bool               `mapstructure:"IS_DEFAULT_MERGE_MESSAGE" json:"is_default_merge_message"`
+	Debug                 bool               `mapstructure:"DEBUG" json:"debug"`
 }
 
 type TextInputData struct {
