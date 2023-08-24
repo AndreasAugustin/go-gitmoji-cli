@@ -2,6 +2,7 @@ package pkg_test
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
@@ -11,6 +12,14 @@ import (
 	"strings"
 	"testing"
 )
+
+func hooksTestGitmojis(t *testing.T) []pkg.Gitmoji {
+	gitmojis := pkg.Gitmojis{}
+
+	err := json.Unmarshal([]byte(testGitmojisStr), &gitmojis)
+	assert.NoError(t, err)
+	return gitmojis.Gitmojis
+}
 
 var expHookFileScript = `#!/bin/sh
 # go-gitmoji-cli
@@ -97,7 +106,8 @@ func TestCreateAllHookFilesCreatesCorrectHooks(t *testing.T) {
 }
 
 func TestReadCommitEditMsgWithTitleBodyFooterEquExpected(t *testing.T) {
-	parsedMessages, err := pkg.ReadAndParseCommitEditMsg("./test_data/COMMIT_EDITMSG_title_header_footer")
+	gitmojis := hooksTestGitmojis(t)
+	parsedMessages, err := pkg.ReadAndParseCommitEditMsg("./test_data/COMMIT_EDITMSG_title_header_footer", gitmojis)
 	assert.NoError(t, err)
 
 	exp := pkg.ParsedMessages{
@@ -111,7 +121,8 @@ func TestReadCommitEditMsgWithTitleBodyFooterEquExpected(t *testing.T) {
 }
 
 func TestReadCommitEditMsgNoMsgEquExpected(t *testing.T) {
-	parsedMessages, err := pkg.ReadAndParseCommitEditMsg("./test_data/COMMIT_EDITMSG_no_msg_provided")
+	gitmojis := hooksTestGitmojis(t)
+	parsedMessages, err := pkg.ReadAndParseCommitEditMsg("./test_data/COMMIT_EDITMSG_no_msg_provided", gitmojis)
 	assert.NoError(t, err)
 
 	exp := pkg.ParsedMessages{

@@ -44,27 +44,16 @@ var CommitCmd = &cobra.Command{
 			log.Fatalf("get current config issue, %s", err)
 		}
 		gitmojis := pkg.GetGitmojis(config)
-		defaultTypes := pkg.DefaultCommitTypes()
 		initialCommitValues := pkg.BuildInitialCommitValues(
 			_type,
 			scope,
 			desc,
 			body,
 			commitMsg,
+			gitmojis.Gitmojis,
 		)
-		listSettingsGitmojis := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
-		listSettingsCommitTypes := ui.ListSettings{Title: "Commit types", IsShowStatusBar: true, IsFilteringEnabled: true}
 		spin.Stop()
-		selectedGitmoji := ui.ListRun(listSettingsGitmojis, gitmojis.Gitmojis)
-		log.Debugf("selected gitmoji %s", selectedGitmoji)
-		selectedDefaultType := ui.ListRun(listSettingsCommitTypes, defaultTypes)
-		log.Debugf("selected %s", selectedDefaultType)
-		initialCommitValues.Type = selectedDefaultType.Type
-		textInputsData := initialCommitValues.BuildTextInputsData(config)
-		inputsRes := ui.TextInputsRun("please add", textInputsData)
-
-		commitValues := pkg.CreateMessage(inputsRes, selectedGitmoji, initialCommitValues, config, isBreaking)
-
+		commitValues := ui.CommitPrompt(config, gitmojis.Gitmojis, initialCommitValues, isBreaking)
 		log.Debugf("complete title: %s", commitValues.Title)
 		if isDryRun {
 			log.Infof("The commit title: %s", commitValues.Title)

@@ -104,14 +104,14 @@ func hookCommit(commitMsgFile string) {
 	if err != nil {
 		log.Fatalf("get current config issue, %s", err)
 	}
-	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile)
+
+	gitmojis := pkg.GetGitmojis(config)
+
+	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile, gitmojis.Gitmojis)
 
 	if err != nil {
 		log.Fatalf("issue reading and parsing the commit msg file %s", err)
 	}
-
-	gitmojis := pkg.GetGitmojis(config)
-	defaultTypes := pkg.DefaultCommitTypes()
 
 	initialCommitValues := pkg.InitialCommitValues{
 		Type:  parsedMessages.Type,
@@ -119,23 +119,8 @@ func hookCommit(commitMsgFile string) {
 		Desc:  parsedMessages.Desc,
 		Body:  parsedMessages.Body,
 	}
-	listSettingsGitmojis := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
-	listSettingsCommitTypes := ui.ListSettings{Title: "Commit types", IsShowStatusBar: true, IsFilteringEnabled: true}
-
 	spin.Stop()
-
-	selectedGitmoji := ui.ListRun(listSettingsGitmojis, gitmojis.Gitmojis)
-	log.Debugf("selected gitmoji %s", selectedGitmoji)
-	selectedDefaultType := ui.ListRun(listSettingsCommitTypes, defaultTypes)
-	log.Debugf("selected %s", selectedDefaultType)
-	initialCommitValues.Type = selectedDefaultType.Type
-	textInputsData := initialCommitValues.BuildTextInputsData(config)
-	inputsRes := ui.TextInputsRun("please add", textInputsData)
-
-	commitValues := pkg.CreateMessage(inputsRes, selectedGitmoji, initialCommitValues, config, isBreaking)
-
-	log.Debugf("complete title: %s", commitValues.Title)
-
+	commitValues := ui.CommitPrompt(config, gitmojis.Gitmojis, initialCommitValues, isBreaking)
 	commitMsg := fmt.Sprintf("%s \n \n %s", commitValues.Title, commitValues.Body)
 	err = utils.WriteFile(commitMsgFile, []byte(commitMsg))
 	if err != nil {

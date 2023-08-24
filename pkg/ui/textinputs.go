@@ -155,7 +155,7 @@ func (m *textInputsModel) View() string {
 	b.WriteString(cursorModeHelpStyle.Render(m.cursorMode.String()))
 	b.WriteString(helpStyle.Render(" (ctrl+r to change style)"))
 
-	return b.String()
+	return docStyle.Render(b.String())
 }
 
 func TextInputsRun(title string, textInputsData []pkg.TextInputData) []pkg.TextInputRes {
