@@ -26,7 +26,7 @@ var UpdateGitmojisCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalf("get current config issue, %s", err)
 		}
-		gitmojis := pkg.GetGitmojis(config)
+		gitmojis := pkg.UpdateGitmojis(config)
 		pkg.CacheGitmojis(gitmojis)
 		log.Info("done updating the cached gitmojis file")
 	},
