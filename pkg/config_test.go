@@ -33,17 +33,18 @@ func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
 	config, err := pkg.GetCurrentConfig()
 	assert.NoError(t, err)
 	expected := pkg.Config{
-		EmojiFormat:     pkg.CODE,
-		AutoAdd:         false,
-		ScopePrompt:     false,
-		BodyPrompt:      false,
-		CapitalizeTitle: false,
-		GitmojisUrl:     "https://gitmoji.dev/api/gitmojis",
+		EmojiFormat:           pkg.CODE,
+		AutoAdd:               false,
+		ScopePrompt:           false,
+		BodyPrompt:            false,
+		CapitalizeTitle:       false,
+		GitmojisUrl:           "https://gitmoji.dev/api/gitmojis",
+		UseDefaultGitMessages: true,
 	}
 	assert.Equal(t, expected, config)
 }
 
-func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
+func TestConfigEnvVariablesEqualsExpected(t *testing.T) {
 	var autoadd = true
 	var emojiFormat = pkg.EMOJI
 	var scopePrompt = true
@@ -51,6 +52,8 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 	var capitalizeTitle = true
 	var gitmojisUrl = "http://foo.bar"
 	var autoSign = true
+	var useDefaultGitMessages = false
+	var debug = true
 
 	var configIsInitPers = pkg.ConfigIsInit
 	pkg.ConfigIsInit = true
@@ -65,18 +68,22 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 	t.Setenv(addEnvPrefix(string(pkg.CAPITALIZE_TITLE)), strconv.FormatBool(capitalizeTitle))
 	t.Setenv(addEnvPrefix(string(pkg.GITMOJIS_URL)), gitmojisUrl)
 	t.Setenv(addEnvPrefix(string(pkg.AUTO_SIGN)), strconv.FormatBool(autoSign))
+	t.Setenv(addEnvPrefix(string(pkg.USE_DEFAULT_GIT_MESSAGES)), strconv.FormatBool(useDefaultGitMessages))
+	t.Setenv(addEnvPrefix(string(pkg.DEBUG)), strconv.FormatBool(debug))
 	err1 := pkg.LoadConfig([]string{})
 	assert.NoError(t, err1)
 	config, err := pkg.GetCurrentConfig()
 	assert.NoError(t, err)
 	expected := pkg.Config{
-		EmojiFormat:     emojiFormat,
-		AutoAdd:         autoadd,
-		AutoSign:        autoSign,
-		ScopePrompt:     scopePrompt,
-		BodyPrompt:      bodyPrompt,
-		CapitalizeTitle: capitalizeTitle,
-		GitmojisUrl:     gitmojisUrl,
+		EmojiFormat:           emojiFormat,
+		AutoAdd:               autoadd,
+		AutoSign:              autoSign,
+		ScopePrompt:           scopePrompt,
+		BodyPrompt:            bodyPrompt,
+		CapitalizeTitle:       capitalizeTitle,
+		GitmojisUrl:           gitmojisUrl,
+		UseDefaultGitMessages: useDefaultGitMessages,
+		Debug:                 debug,
 	}
 	assert.Equal(t, expected, config)
 }
@@ -93,12 +100,14 @@ func TestConfigConfigFileEqualsExpected(t *testing.T) {
 	config, err := pkg.GetCurrentConfig()
 	assert.NoError(t, err)
 	expected := pkg.Config{
-		EmojiFormat:     pkg.EMOJI,
-		AutoAdd:         true,
-		ScopePrompt:     true,
-		BodyPrompt:      false,
-		CapitalizeTitle: false,
-		GitmojisUrl:     "http://from.file",
+		EmojiFormat:           pkg.EMOJI,
+		AutoAdd:               true,
+		ScopePrompt:           true,
+		BodyPrompt:            true,
+		CapitalizeTitle:       true,
+		GitmojisUrl:           "http://from.file",
+		UseDefaultGitMessages: false,
+		Debug:                 true,
 	}
 	assert.Equal(t, expected, config)
 }

@@ -54,6 +54,7 @@ func LoadConfig(configPaths []string) (err error) {
 	viper.SetDefault(string(BODY_PROMPT), false)
 	viper.SetDefault(string(CAPITALIZE_TITLE), false)
 	viper.SetDefault(string(GITMOJIS_URL), DefaultGitmojiApiUrl)
+	viper.SetDefault(string(USE_DEFAULT_GIT_MESSAGES), true)
 	viper.SetDefault(string(DEBUG), false)
 
 	viper.SetEnvPrefix(EnvPrefix)
@@ -71,8 +72,6 @@ func LoadConfig(configPaths []string) (err error) {
 			if !errors.As(expErr, &configFileNotFoundError) {
 				return
 			}
-		} else {
-			viper.WatchConfig()
 		}
 	}
 
@@ -99,6 +98,7 @@ func UpdateConfig(config Config, isGlobalConfig bool) {
 	viper.Set(string(BODY_PROMPT), config.BodyPrompt)
 	viper.Set(string(CAPITALIZE_TITLE), config.CapitalizeTitle)
 	viper.Set(string(GITMOJIS_URL), config.GitmojisUrl)
+	viper.Set(string(USE_DEFAULT_GIT_MESSAGES), config.UseDefaultGitMessages)
 	viper.Set(string(DEBUG), config.Debug)
 
 	pathToWrite := configFilePath(isGlobalConfig)

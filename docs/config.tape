@@ -83,6 +83,9 @@ Enter
 # body prompt
 Sleep 2.5s
 Enter
+# is default merge message
+Sleep 2s
+Enter
 # debug mode
 Sleep 1s
 Type "[B"

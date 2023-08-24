@@ -39,10 +39,12 @@ func getHooksDirectory() (string, error) {
 }
 
 func Commit(commitCommand string) {
-	_, err := RunCommand(commitCommand)
+	resultOutput, err := RunCommand(commitCommand)
 	if err != nil {
-		log.Fatalf("Error while commiting %s", err)
+		log.Errorf("Error while commiting %s", err)
+		log.Fatalf("result output: %s", resultOutput)
 	}
+	log.Infof("commit done: %s", resultOutput)
 }
 
 func BuildGitCommitCommandStr(isAutoAdd bool, isSignCommit bool, title string, body string) (string, error) {
