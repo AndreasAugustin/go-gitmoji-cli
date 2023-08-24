@@ -11,15 +11,19 @@ func CommitPrompt(config pkg.Config, gitmojis []pkg.Gitmoji, initialValues pkg.I
 	listSettingsCommitTypes := ListSettings{Title: "Commit types", IsShowStatusBar: true, IsFilteringEnabled: true}
 
 	selectedGitmoji := ListRun(listSettingsGitmojis, gitmojis)
-	log.Debugf("selected gitmoji %s", selectedGitmoji)
-	selectedDefaultType := ListRun(listSettingsCommitTypes, defaultTypes)
-	log.Debugf("selected %s", selectedDefaultType)
-	initialValues.Type = selectedDefaultType.Type
+	log.Debugf("selected gitmoji %v", selectedGitmoji)
+	if initialValues.Type == "" {
+		log.Debug("no type provided with `-m` flag. Starting type prompt")
+		selectedPromptType := ListRun(listSettingsCommitTypes, defaultTypes)
+		log.Debugf("selected %s", selectedPromptType)
+		initialValues.Type = selectedPromptType.Type
+	}
+
 	textInputsData := initialValues.BuildTextInputsData(config)
-	inputsRes := TextInputsRun("please add", textInputsData)
+	inputsRes := TextInputsRun("please add the related information", textInputsData)
 
 	commitValues := pkg.CreateMessage(inputsRes, selectedGitmoji, initialValues, config, isBreaking)
 
-	log.Debugf("complete title: %s", commitValues.Title)
+	log.Debugf("complete title: %v", commitValues.Title)
 	return commitValues
 }

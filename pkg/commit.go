@@ -14,16 +14,17 @@ type ParsedMessages struct {
 	Scope      string
 	Desc       string
 	IsBreaking bool
-	Gitmoji    Gitmoji
+	Gitmoji    *Gitmoji
 	Body       string
 	Footer     string
 }
 
 type InitialCommitValues struct {
-	Type  string
-	Scope string
-	Desc  string
-	Body  string
+	Type    string
+	Scope   string
+	Desc    string
+	Body    string
+	Gitmoji *Gitmoji
 }
 
 type CommitValues struct {
@@ -70,10 +71,11 @@ func BuildInitialCommitValues(_type string, scope string, desc string, body stri
 		log.Fatalf("parsing the messages did not work %s", err)
 	}
 	return InitialCommitValues{
-		Type:  stringEmptyOrOption(_type, parsedMessages.Type),
-		Scope: stringEmptyOrOption(scope, parsedMessages.Scope),
-		Desc:  stringEmptyOrOption(desc, parsedMessages.Desc),
-		Body:  stringEmptyOrOption(body, parsedMessages.Body),
+		Type:    stringEmptyOrOption(_type, parsedMessages.Type),
+		Scope:   stringEmptyOrOption(scope, parsedMessages.Scope),
+		Desc:    stringEmptyOrOption(desc, parsedMessages.Desc),
+		Body:    stringEmptyOrOption(body, parsedMessages.Body),
+		Gitmoji: parsedMessages.Gitmoji,
 	}
 }
 
@@ -128,18 +130,12 @@ func ParseCommitMessages(messages []string, gitmojis []Gitmoji) (*ParsedMessages
 	} else {
 		matchedCode := matchEmoji[0]
 		parsedMessage.Desc = strings.TrimLeft(strings.ReplaceAll(descEventualEmoji, matchedCode, ""), " ")
-		//config, err := GetCurrentConfig()
-		//if err != nil {
-		//	log.Warnf("error while getting config %s", err)
-		//	return &parsedMessage, nil
-		//}
-		//gitmojis := GetGitmojis(config)
 		foundGitmoji := FindGitmoji(matchedCode, gitmojis)
 		if foundGitmoji == nil {
 			log.Warnf("no gitmoji for %s has been found", matchedCode)
 			return &parsedMessage, nil
 		}
-		parsedMessage.Gitmoji = *foundGitmoji
+		parsedMessage.Gitmoji = foundGitmoji
 	}
 
 	return &parsedMessage, nil
