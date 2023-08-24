@@ -32,7 +32,7 @@ Per default the format is [conventional-commits][conventional-commits] with emoj
 
 ## Installation
 
-:warning: Currently the package is in state `pre-alpha` please be aware that some functionality may change and some bugs may happen.
+:warning: Currently the package is in state `alpha` please be aware that some functionality may change and some bugs may happen.
 
 ### brew
 
@@ -193,6 +193,10 @@ The development environment targets are located in the [Makefile](Makefile)
 make help
 ```
 
+## Deployments
+
+A push/merge to `main` branch is triggering the deployment. The release action can be found [here][go-gitmoji-cli-actions-release]
+
 ## Used libraries and tools
 
 Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
@@ -224,6 +228,7 @@ Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
 [go-gitmoji-cli-docker-ghcr]: https://github.com/AndreasAugustin/go-gitmoji-cli/pkgs/container/go-gitmoji-cli
 [go-gitmoji-cli-aur]: https://aur.archlinux.org/packages/go-gitmoji-cli-bin
 [net/http]: https://pkg.go.dev/net/http
+[go-gitmoji-cli-actions-release]: https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/release.yml
 
 ## Contributors ✨
 
