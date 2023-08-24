@@ -44,7 +44,7 @@ func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
 	assert.Equal(t, expected, config)
 }
 
-func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
+func TestConfigEnvVariablesEqualsExpected(t *testing.T) {
 	var autoadd = true
 	var emojiFormat = pkg.EMOJI
 	var scopePrompt = true

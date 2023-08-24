@@ -59,6 +59,10 @@ var HooksCmd = &cobra.Command{
 		programNameFigure()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		config, err := pkg.GetCurrentConfig()
+		if err != nil {
+			log.Fatalf("get current config issue, %s", err)
+		}
 		log.Debug("hooks called")
 		log.Debugf("run: %v", args)
 		if hook {
@@ -66,24 +70,23 @@ var HooksCmd = &cobra.Command{
 				log.Fatalf("len(args) must not be 0 when using pre-commit-message hook https://git-scm.com/docs/githooks#_prepare_commit_msg")
 			}
 			hookCommitMessageFile := args[0]
-			hookCommitMsgSource := args[1]
 			log.Debugf("hook message file %s", hookCommitMessageFile)
-			log.Debugf("hook message source %s", hookCommitMsgSource)
-			config, err := pkg.GetCurrentConfig()
-			if err != nil {
-				log.Fatalf("get current config issue, %s", err)
-			}
-			if config.UseDefaultGitMessages {
-				log.Debugf("Default git messages used")
-				switch hookCommitMsgSource {
-				case string(pkg.MERGE):
-					log.Infof("Merge commit, using default git message")
-					return
-				case string(pkg.SQUASH):
-					log.Infof("Squash commit, using default git message")
-					return
+			if len(args) > 1 {
+				hookCommitMsgSource := args[1]
+				log.Debugf("hook message source %s", hookCommitMsgSource)
+				if config.UseDefaultGitMessages {
+					log.Debugf("Default git messages used")
+					switch hookCommitMsgSource {
+					case string(pkg.MERGE):
+						log.Infof("Merge commit, using default git message")
+						return
+					case string(pkg.SQUASH):
+						log.Infof("Squash commit, using default git message")
+						return
+					}
 				}
 			}
+
 			hookCommit(hookCommitMessageFile, config)
 		} else {
 			err := cmd.Help()
