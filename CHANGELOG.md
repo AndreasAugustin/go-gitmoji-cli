@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.3.2-alpha...v0.4.0-alpha) (2023-08-24)
+
+
+### Features
+
+* ✨ ([#64](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/64)) type is now also possible to be used with flag ([#70](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/70)) ([4957c46](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/4957c46026d6265bfd0cb2033f430053fd8a0ce2))
+
 ## [0.3.2-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.3.1-alpha...v0.3.2-alpha) (2023-08-24)
 
 
