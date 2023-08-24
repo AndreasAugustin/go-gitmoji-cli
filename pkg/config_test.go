@@ -39,7 +39,7 @@ func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
 		BodyPrompt:            false,
 		CapitalizeTitle:       false,
 		GitmojisUrl:           "https://gitmoji.dev/api/gitmojis",
-		IsDefaultMergeMessage: true,
+		UseDefaultGitMessages: true,
 	}
 	assert.Equal(t, expected, config)
 }
@@ -52,7 +52,7 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 	var capitalizeTitle = true
 	var gitmojisUrl = "http://foo.bar"
 	var autoSign = true
-	var isDefaultMessage = false
+	var useDefaultGitMessages = false
 	var debug = true
 
 	var configIsInitPers = pkg.ConfigIsInit
@@ -68,7 +68,7 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 	t.Setenv(addEnvPrefix(string(pkg.CAPITALIZE_TITLE)), strconv.FormatBool(capitalizeTitle))
 	t.Setenv(addEnvPrefix(string(pkg.GITMOJIS_URL)), gitmojisUrl)
 	t.Setenv(addEnvPrefix(string(pkg.AUTO_SIGN)), strconv.FormatBool(autoSign))
-	t.Setenv(addEnvPrefix(string(pkg.IS_DEFAULT_MERGE_MESSAGE)), strconv.FormatBool(isDefaultMessage))
+	t.Setenv(addEnvPrefix(string(pkg.USE_DEFAULT_GIT_MESSAGES)), strconv.FormatBool(useDefaultGitMessages))
 	t.Setenv(addEnvPrefix(string(pkg.DEBUG)), strconv.FormatBool(debug))
 	err1 := pkg.LoadConfig([]string{})
 	assert.NoError(t, err1)
@@ -82,7 +82,7 @@ func TestConfigEvnVariablesEqualsExpected(t *testing.T) {
 		BodyPrompt:            bodyPrompt,
 		CapitalizeTitle:       capitalizeTitle,
 		GitmojisUrl:           gitmojisUrl,
-		IsDefaultMergeMessage: isDefaultMessage,
+		UseDefaultGitMessages: useDefaultGitMessages,
 		Debug:                 debug,
 	}
 	assert.Equal(t, expected, config)
@@ -106,7 +106,7 @@ func TestConfigConfigFileEqualsExpected(t *testing.T) {
 		BodyPrompt:            true,
 		CapitalizeTitle:       true,
 		GitmojisUrl:           "http://from.file",
-		IsDefaultMergeMessage: false,
+		UseDefaultGitMessages: false,
 		Debug:                 true,
 	}
 	assert.Equal(t, expected, config)

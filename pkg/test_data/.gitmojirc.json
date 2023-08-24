@@ -6,6 +6,6 @@
   "debug": true,
   "emoji_format": "emoji",
   "gitmojis_url": "http://from.file",
-  "is_default_merge_message": false,
+  "use_default_git_messages": false,
   "scope_prompt": true
 }

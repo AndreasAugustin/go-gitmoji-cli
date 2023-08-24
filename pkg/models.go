@@ -52,7 +52,7 @@ const (
 	GITMOJIS_URL             ConfigEnum = "GITMOJIS_URL"
 	BODY_PROMPT              ConfigEnum = "BODY_PROMPT"
 	CAPITALIZE_TITLE         ConfigEnum = "CAPITALIZE_TITLE"
-	IS_DEFAULT_MERGE_MESSAGE ConfigEnum = "IS_DEFAULT_MERGE_MESSAGE"
+	USE_DEFAULT_GIT_MESSAGES ConfigEnum = "USE_DEFAULT_GIT_MESSAGES"
 	DEBUG                    ConfigEnum = "DEBUG"
 )
 
@@ -93,7 +93,7 @@ type Config struct {
 	BodyPrompt            bool               `mapstructure:"BODY_PROMPT" json:"body_prompt"`
 	CapitalizeTitle       bool               `mapstructure:"CAPITALIZE_TITLE" json:"capitalize_title"`
 	GitmojisUrl           string             `mapstructure:"GITMOJIS_URL" json:"gitmojis_url"`
-	IsDefaultMergeMessage bool               `mapstructure:"IS_DEFAULT_MERGE_MESSAGE" json:"is_default_merge_message"`
+	UseDefaultGitMessages bool               `mapstructure:"USE_DEFAULT_GIT_MESSAGES" json:"use_default_git_messages"`
 	Debug                 bool               `mapstructure:"DEBUG" json:"debug"`
 }
 
@@ -118,3 +118,13 @@ func (i CommitType) Title() string {
 func (i CommitType) Description() string {
 	return i.Desc
 }
+
+type CommitMessageSource string
+
+const (
+	MESSAGE  CommitMessageSource = "message"
+	TEMPLATE CommitMessageSource = "template"
+	MERGE    CommitMessageSource = "merge"
+	SQUASH   CommitMessageSource = "squash"
+	COMMIT   CommitMessageSource = "commit"
+)

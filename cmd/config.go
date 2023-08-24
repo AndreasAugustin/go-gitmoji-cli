@@ -30,7 +30,7 @@ var ConfigCmd = &cobra.Command{
 		emojiFormat := runEmojiSelectionPrompt("Select how emojis should be used in commits. For a comparison please visit https://gitmoji.dev/specification")
 		scopePrompt := runConfigConfirmationPrompt("Enable scope prompt", config.ScopePrompt)
 		bodyPrompt := runConfigConfirmationPrompt("Enable body prompt", config.BodyPrompt)
-		isDefaultMergeMsg := runConfigConfirmationPrompt("Use default merge message", config.IsDefaultMergeMessage)
+		useDefaultGitMessages := runConfigConfirmationPrompt("Use default git messages (merge, squash,..)", config.UseDefaultGitMessages)
 		debug := runConfigConfirmationPrompt("debug mode", config.Debug)
 		capitalizeTitle := runConfigConfirmationPrompt("Capitalize title", config.CapitalizeTitle)
 		gitmojisApiUrl := runGitmojiUrlInputPrompt("Set gitmojis api url", "https://gitmoji.dev/api/gitmojis")
@@ -42,7 +42,7 @@ var ConfigCmd = &cobra.Command{
 			CapitalizeTitle:       capitalizeTitle,
 			GitmojisUrl:           gitmojisApiUrl,
 			BodyPrompt:            bodyPrompt,
-			IsDefaultMergeMessage: isDefaultMergeMsg,
+			UseDefaultGitMessages: useDefaultGitMessages,
 			Debug:                 debug,
 		}
 		pkg.UpdateConfig(config, isConfigGlobal)
