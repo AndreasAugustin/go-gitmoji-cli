@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.4.0-alpha...v0.5.0-alpha) (2023-08-24)
+
+
+### Features
+
+* ✨ ([#55](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/55)) merge commits are now configurable to use default message ([#73](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/73)) ([4f9092d](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/4f9092d1d4f582363b849c58f90d52556a781a12))
+
 ## [0.4.0-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.3.2-alpha...v0.4.0-alpha) (2023-08-24)
 
 
