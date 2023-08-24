@@ -1,12 +1,21 @@
 package pkg_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/AndreasAugustin/go-gitmoji-cli/pkg"
 	"github.com/stretchr/testify/assert"
 	"strconv"
 	"testing"
 )
+
+func commitTestGitmojis(t *testing.T) []pkg.Gitmoji {
+	gitmojis := pkg.Gitmojis{}
+
+	err := json.Unmarshal([]byte(testGitmojisStr), &gitmojis)
+	assert.NoError(t, err)
+	return gitmojis.Gitmojis
+}
 
 func buildCommitTestConfig(emojiFormat pkg.EmojiCommitFormats) pkg.Config {
 	return pkg.Config{
@@ -99,10 +108,11 @@ func TestParseMessagesLenWrongHasError(t *testing.T) {
 	var empty []string
 	var tooHuge = []string{"head", "body", "footer", "not right"}
 	var casesArgs = [][]string{empty, tooHuge}
+	gitmojis := commitTestGitmojis(t)
 
 	var testFkt = func(messages []string) func(t *testing.T) {
 		return func(t *testing.T) {
-			_, err := pkg.ParseCommitMessages(messages)
+			_, err := pkg.ParseCommitMessages(messages, gitmojis)
 			assert.Error(t, err, "the amount of messages is to low or to high")
 		}
 	}
@@ -115,7 +125,8 @@ func TestParseMessagesLenWrongHasError(t *testing.T) {
 func TestParseMessagesHasHeaderDescEqualsExp(t *testing.T) {
 	desc := "only have description"
 	exp := pkg.ParsedMessages{Desc: desc}
-	res, err := pkg.ParseCommitMessages([]string{desc})
+	gitmojis := commitTestGitmojis(t)
+	res, err := pkg.ParseCommitMessages([]string{desc}, gitmojis)
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -124,8 +135,9 @@ func TestParseMessagesHasHeaderDescBodyFooterEqualsExp(t *testing.T) {
 	desc := "only have description"
 	body := "I am a body"
 	footer := "I am a footer"
+	gitmojis := commitTestGitmojis(t)
 	exp := pkg.ParsedMessages{Desc: desc, Body: body, Footer: footer}
-	res, err := pkg.ParseCommitMessages([]string{desc, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{desc, body, footer}, gitmojis)
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -136,8 +148,9 @@ func TestParseMessagesHasHeaderTypeDescBodyFooterEqualsExp(t *testing.T) {
 	header := fmt.Sprintf("%s:%s", _type, desc)
 	body := "I am a body"
 	footer := "I am a footer"
+	gitmojis := commitTestGitmojis(t)
 	exp := pkg.ParsedMessages{Desc: desc, Body: body, Footer: footer, Type: _type}
-	res, err := pkg.ParseCommitMessages([]string{header, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{header, body, footer}, gitmojis)
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -148,8 +161,9 @@ func TestParseMessagesHasHeaderTypeDescIsBreakingBodyFooterEqualsExp(t *testing.
 	header := fmt.Sprintf("%s!:%s", _type, desc)
 	body := "I am a body"
 	footer := "I am a footer"
+	gitmojis := commitTestGitmojis(t)
 	exp := pkg.ParsedMessages{IsBreaking: true, Desc: desc, Body: body, Footer: footer, Type: _type}
-	res, err := pkg.ParseCommitMessages([]string{header, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{header, body, footer}, gitmojis)
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
@@ -161,15 +175,14 @@ func TestParseMessagesHasHeaderTypeDescIsBreakingScopeBodyFooterEqualsExp(t *tes
 	header := fmt.Sprintf("%s(%s)!:%s", _type, scope, desc)
 	body := "I am a body"
 	footer := "I am a footer"
+	gitmojis := hooksTestGitmojis(t)
 	exp := pkg.ParsedMessages{Scope: scope, IsBreaking: true, Desc: desc, Body: body, Footer: footer, Type: _type}
-	res, err := pkg.ParseCommitMessages([]string{header, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{header, body, footer}, gitmojis)
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }
 
-// FIXME
 func TestParseMessagesHasHeaderTypeDescEmojiIsBreakingScopeBodyFooterEqualsExp(t *testing.T) {
-	t.Skip("skipped due to race conditions. The test eventually fails under circumstances when the gitmoji cache is not present. Need some redesign.")
 	_type := "feat"
 	scope := "api"
 	descEmoji := ":rocket:"
@@ -178,9 +191,10 @@ func TestParseMessagesHasHeaderTypeDescEmojiIsBreakingScopeBodyFooterEqualsExp(t
 	header := fmt.Sprintf("%s(%s):%s", _type, scope, descCombined)
 	body := "I am a body"
 	footer := "I am a footer"
+	gitmojis := commitTestGitmojis(t)
 	expEmoji := pkg.Gitmoji{Emoji: "🚀", Entity: "&#x1f680;", Code: ":rocket:", Desc: "Deploy stuff.", Name: "rocket", Semver: ""}
 	exp := pkg.ParsedMessages{Scope: scope, IsBreaking: false, Desc: desc, Body: body, Footer: footer, Type: _type, Gitmoji: expEmoji}
-	res, err := pkg.ParseCommitMessages([]string{header, body, footer})
+	res, err := pkg.ParseCommitMessages([]string{header, body, footer}, gitmojis)
 	assert.NoError(t, err)
 	assert.Equal(t, exp, *res)
 }

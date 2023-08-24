@@ -51,6 +51,7 @@ var CommitCmd = &cobra.Command{
 			desc,
 			body,
 			commitMsg,
+			gitmojis.Gitmojis,
 		)
 		listSettingsGitmojis := ui.ListSettings{IsShowStatusBar: true, IsFilteringEnabled: true, Title: "Gitmojis"}
 		listSettingsCommitTypes := ui.ListSettings{Title: "Commit types", IsShowStatusBar: true, IsFilteringEnabled: true}

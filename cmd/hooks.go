@@ -104,14 +104,14 @@ func hookCommit(commitMsgFile string) {
 	if err != nil {
 		log.Fatalf("get current config issue, %s", err)
 	}
-	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile)
+
+	gitmojis := pkg.GetGitmojis(config)
+	defaultTypes := pkg.DefaultCommitTypes()
+	parsedMessages, err := pkg.ReadAndParseCommitEditMsg(commitMsgFile, gitmojis.Gitmojis)
 
 	if err != nil {
 		log.Fatalf("issue reading and parsing the commit msg file %s", err)
 	}
-
-	gitmojis := pkg.GetGitmojis(config)
-	defaultTypes := pkg.DefaultCommitTypes()
 
 	initialCommitValues := pkg.InitialCommitValues{
 		Type:  parsedMessages.Type,

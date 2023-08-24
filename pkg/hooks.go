@@ -31,7 +31,7 @@ fi`
 var hookFileContents = []byte(hookFileScript)
 var ErrInvalidGitHooksDirectoryPath = errors.New("invalid git hooks directory path")
 
-func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
+func ReadAndParseCommitEditMsg(filePath string, gitmojis []Gitmoji) (*ParsedMessages, error) {
 	file, err := utils.ReadFile(filePath)
 	log.Debugf("file content of %s", filePath)
 	log.Debugf("%s", string(file))
@@ -50,7 +50,7 @@ func ReadAndParseCommitEditMsg(filePath string) (*ParsedMessages, error) {
 	if messages == nil {
 		return &ParsedMessages{}, nil
 	}
-	return ParseCommitMessages(messages)
+	return ParseCommitMessages(messages, gitmojis)
 }
 
 func CreateAllHookFiles() error {

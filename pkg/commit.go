@@ -46,7 +46,7 @@ const (
 	IS_BREAKING CommitFlagName = "is-breaking"
 )
 
-func BuildInitialCommitValues(_type string, scope string, desc string, body string, commitMsg []string) InitialCommitValues {
+func BuildInitialCommitValues(_type string, scope string, desc string, body string, commitMsg []string, gitmojis []Gitmoji) InitialCommitValues {
 	var stringEmptyOrOption = func(input string, option string) string {
 		if input != "" {
 			return input
@@ -65,7 +65,7 @@ func BuildInitialCommitValues(_type string, scope string, desc string, body stri
 		}
 	}
 
-	parsedMessages, err := ParseCommitMessages(commitMsg)
+	parsedMessages, err := ParseCommitMessages(commitMsg, gitmojis)
 	if err != nil {
 		log.Fatalf("parsing the messages did not work %s", err)
 	}
@@ -77,7 +77,7 @@ func BuildInitialCommitValues(_type string, scope string, desc string, body stri
 	}
 }
 
-func ParseCommitMessages(messages []string) (*ParsedMessages, error) {
+func ParseCommitMessages(messages []string, gitmojis []Gitmoji) (*ParsedMessages, error) {
 	if len(messages) == 0 || len(messages) > 3 {
 		return nil, errors.New("the amount of messages is to low or to high")
 	}
@@ -128,13 +128,13 @@ func ParseCommitMessages(messages []string) (*ParsedMessages, error) {
 	} else {
 		matchedCode := matchEmoji[0]
 		parsedMessage.Desc = strings.TrimLeft(strings.ReplaceAll(descEventualEmoji, matchedCode, ""), " ")
-		config, err := GetCurrentConfig()
-		if err != nil {
-			log.Warnf("error while getting config %s", err)
-			return &parsedMessage, nil
-		}
-		gitmojis := GetGitmojis(config)
-		foundGitmoji := FindGitmoji(matchedCode, gitmojis.Gitmojis)
+		//config, err := GetCurrentConfig()
+		//if err != nil {
+		//	log.Warnf("error while getting config %s", err)
+		//	return &parsedMessage, nil
+		//}
+		//gitmojis := GetGitmojis(config)
+		foundGitmoji := FindGitmoji(matchedCode, gitmojis)
 		if foundGitmoji == nil {
 			log.Warnf("no gitmoji for %s has been found", matchedCode)
 			return &parsedMessage, nil
