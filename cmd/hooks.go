@@ -137,8 +137,8 @@ func hookCommit(commitMsgFile string, config pkg.Config) {
 	}
 	spin.Stop()
 	commitValues := ui.CommitPrompt(config, gitmojis.Gitmojis, initialCommitValues, isBreaking)
-	commitMsg := fmt.Sprintf("%s \n \n %s", commitValues.Title, commitValues.Body)
-	err = utils.WriteFile(commitMsgFile, []byte(commitMsg))
+	commitMessage := fmt.Sprintf("%s\n\n%s", commitValues.Title, commitValues.Body)
+	err = utils.WriteFile(commitMsgFile, []byte(commitMessage))
 	if err != nil {
 		log.Fatalf("error writing commit hook file %s", err)
 	}
