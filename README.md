@@ -32,7 +32,7 @@ Per default the format is [conventional-commits][conventional-commits] with emoj
 
 ## Installation
 
-:warning: Currently the package is in state `pre-alpha` please be aware that some functionality may change and some bugs may happen.
+:warning: Currently the package is in state `alpha` please be aware that some functionality may change and some bugs may happen.
 
 ### brew
 
@@ -119,6 +119,17 @@ Reading will follow the following order:
 - command flags
 
 ## Usage
+
+### Proxy
+
+The cli is firing at first usage or with the `update gitmojis` command a http query to the
+configured gitmoji api url to receive a list of available gitmojis.
+The cli is using [net/http][net/http] package which is per default respecting the standard system proxy settings done
+with environment variables.
+
+- HTTP_PROXY
+- HTTPS_PROXY
+- NO_PROXY
 
 ### basic commands
 
@@ -216,6 +227,7 @@ Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
 [go-gitmoji-cli-docker-hub]: https://hub.docker.com/repository/docker/andyaugustin/go-gitmoji-cli/general
 [go-gitmoji-cli-docker-ghcr]: https://github.com/AndreasAugustin/go-gitmoji-cli/pkgs/container/go-gitmoji-cli
 [go-gitmoji-cli-aur]: https://aur.archlinux.org/packages/go-gitmoji-cli-bin
+[net/http]: https://pkg.go.dev/net/http
 [go-gitmoji-cli-actions-release]: https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/release.yml
 
 ## Contributors ✨

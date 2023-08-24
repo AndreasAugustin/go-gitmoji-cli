@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 	"io"
 	"net/http"
+	"os"
 	"path"
 	"regexp"
 )
@@ -38,16 +39,22 @@ func CacheGitmojis(gitmojis Gitmojis) {
 	cacheGitmojisTo(gitmojisCachePath, gitmojis)
 }
 
+func UpdateGitmojis(config Config) (gitmojis Gitmojis) {
+	log.Info("update gitmojis local cache")
+	log.Infof("Reading from %s and write to cache", config.GitmojisUrl)
+	gitmojis, err := getGitmojisHttp(config)
+	if err != nil {
+		log.Fatalf("Some error happened %s", err)
+	}
+	CacheGitmojis(gitmojis)
+	return
+}
+
 func GetGitmojis(config Config) (gitmojis Gitmojis) {
 	gitmojis, err := GetGitmojisCache()
 	if err != nil {
 		log.Info("Haven't been able to read gitmojis from cache")
-		log.Infof("Reading from %s and write to cache", config.GitmojisUrl)
-		gitmojis, err = getGitmojisHttp(config)
-		if err != nil {
-			log.Fatalf("Some error happened %s", err)
-		}
-		CacheGitmojis(gitmojis)
+		UpdateGitmojis(config)
 	}
 	return
 }
@@ -76,6 +83,8 @@ func getGitmojisCacheFrom(cachePath string) (gitmojis Gitmojis, err error) {
 }
 
 func getGitmojisHttp(config Config) (gitmojis Gitmojis, err error) {
+	log.Info(os.Getenv("HTTP_PROXY"))
+	log.Info(os.Getenv("HTTPS_PROXY"))
 	res, err := http.Get(config.GitmojisUrl)
 	if err != nil {
 		fmt.Println("error", err)

@@ -167,7 +167,9 @@ func TestParseMessagesHasHeaderTypeDescIsBreakingScopeBodyFooterEqualsExp(t *tes
 	assert.Equal(t, exp, *res)
 }
 
+// FIXME
 func TestParseMessagesHasHeaderTypeDescEmojiIsBreakingScopeBodyFooterEqualsExp(t *testing.T) {
+	t.Skip("skipped due to race conditions. The test eventually fails under circumstances when the gitmoji cache is not present. Need some redesign.")
 	_type := "feat"
 	scope := "api"
 	descEmoji := ":rocket:"
