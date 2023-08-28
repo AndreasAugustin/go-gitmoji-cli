@@ -55,6 +55,10 @@ func GetGitmojis(config Config) (gitmojis Gitmojis) {
 	if err != nil {
 		log.Info("Haven't been able to read gitmojis from cache")
 		UpdateGitmojis(config)
+		gitmojis, err = GetGitmojisCache()
+		if err != nil {
+			log.Fatalf("getting gitmojis from cache did not work after update cache %s", err)
+		}
 	}
 	return
 }
