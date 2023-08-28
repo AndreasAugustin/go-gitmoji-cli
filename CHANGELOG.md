@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.5.0-alpha...v0.5.1-alpha) (2023-08-28)
+
+
+### Bug Fixes
+
+* :bug: ([#76](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/76)) issue with quotes in commit msg title ([#79](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/79)) ([3057bcf](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/3057bcf0529d103c1168ee8f5885d7131325a0f1))
+* :bug: issue when gitmojis is not in cache ([1ca0dd7](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/1ca0dd72a965fb117982f997b45e20f8ffeb1c85))
+
 ## [0.5.0-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.4.0-alpha...v0.5.0-alpha) (2023-08-24)
 
 
