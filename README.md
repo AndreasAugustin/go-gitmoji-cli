@@ -41,6 +41,19 @@ brew tap AndreasAugustin/go-gitmoji-cli https://github.com/AndreasAugustin/go-gi
 brew install AndreasAugustin/go-gitmoji-cli/go-gitmoji-cli
 ```
 
+**Remark** :warning:
+
+When you receive an error like *This repository is configured for Git LFS but 'git-lfs' was not found on your path*
+you most likely have `git-lfs` installed globally. Do the following
+
+```bash
+git lfs uninstall
+# <cd to the repo, which uses lfs>
+git lfs install --local
+```
+
+[github issue][brew-tap-issue-git-lfs]
+
 ### Aur
 
 The package is located [here][go-gitmoji-cli-aur]
@@ -230,6 +243,7 @@ Special thanks to [gitmoji][gitmoji] and [gitmoji-cli][gitmoji-cli]
 [go-gitmoji-cli-aur]: https://aur.archlinux.org/packages/go-gitmoji-cli-bin
 [net/http]: https://pkg.go.dev/net/http
 [go-gitmoji-cli-actions-release]: https://github.com/AndreasAugustin/go-gitmoji-cli/actions/workflows/release.yml
+[brew-tap-issue-git-lfs]: https://github.com/Homebrew/brew/issues/4988
 
 ## Contributors ✨
 
