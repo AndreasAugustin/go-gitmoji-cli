@@ -52,7 +52,7 @@ jobs:
         env:
           NFPM_GPG_KEY: ${{ secrets.NFPM_GPG_KEY }}
       - uses: anchore/sbom-action/download-syft@v0.14.3
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         with:
           go-version: stable
       # More assembly might be required: Docker logins, GPG, etc. It all depends
