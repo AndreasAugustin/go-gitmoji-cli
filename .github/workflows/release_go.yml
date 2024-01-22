@@ -51,7 +51,7 @@ jobs:
           echo "$NFPM_GPG_KEY" > ${{ runner.temp }}/nfpm_gpg.key
         env:
           NFPM_GPG_KEY: ${{ secrets.NFPM_GPG_KEY }}
-      - uses: anchore/sbom-action/download-syft@v0.15.2
+      - uses: anchore/sbom-action/download-syft@v0.15.4
       - uses: actions/setup-go@v5
         with:
           go-version: stable
