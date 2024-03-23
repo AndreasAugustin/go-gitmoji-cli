@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine3.18
+FROM golang:1.22-alpine3.18
 # install packages
 RUN apk add --update --no-cache bash make git zsh curl tmux
 
