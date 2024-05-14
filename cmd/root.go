@@ -11,10 +11,7 @@ import (
 var debug bool
 
 var RootCmd = &cobra.Command{
-	Use: pkg.ProgramName,
-	PreRun: func(cmd *cobra.Command, args []string) {
-		programNameFigure()
-	},
+	Use:   pkg.ProgramName,
 	Short: "Cli to help managing gitmoji commit messages",
 	Long:  fmt.Sprintf(`See %s for more information about Gitmoji`, pkg.DefaultGitmojiUrl),
 }

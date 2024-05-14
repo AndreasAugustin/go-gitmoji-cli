@@ -20,9 +20,6 @@ var CommitCmd = &cobra.Command{
 	Use:   "commit",
 	Short: "Interactively commit using prompts",
 	Long:  `Do the commit. This command is disabled when you are using commit hooks`,
-	PreRun: func(cmd *cobra.Command, args []string) {
-		programNameFigure()
-	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("commit called")
 		log.Debug(commitMsg)

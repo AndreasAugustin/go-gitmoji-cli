@@ -16,9 +16,6 @@ var ConfigCmd = &cobra.Command{
 	Long: `Configure the cli.
 			There are default options available which are overwritten
 			by the local configuration file or a global configuration file within your OS config folder (use the info command to get the information where it is stored)`,
-	PreRun: func(cmd *cobra.Command, args []string) {
-		programNameFigure()
-	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("config called")
 		config, err := pkg.GetCurrentConfig()

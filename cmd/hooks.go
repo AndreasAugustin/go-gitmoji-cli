@@ -55,9 +55,6 @@ var HooksCmd = &cobra.Command{
 	Use:   "hooks",
 	Short: fmt.Sprintf("Manage %s commit hooks", pkg.ProgramName),
 	Long:  `Manage git hooks for the cli`,
-	PreRun: func(cmd *cobra.Command, args []string) {
-		programNameFigure()
-	},
 	Run: func(cmd *cobra.Command, args []string) {
 		config, err := pkg.GetCurrentConfig()
 		if err != nil {

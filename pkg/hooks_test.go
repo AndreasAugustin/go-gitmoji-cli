@@ -28,6 +28,13 @@ var expHookFileScript = `#!/bin/sh
 hookName=` + "`basename \"$0\"`" + `
 gitParams="$*"
 
+IS_AMEND=$(ps -ocommand= -p $PPID | grep -e '--amend');
+
+if [ -n "$IS_AMEND" ]; then
+  echo "Using amend, skipping use of go-gitmoji-cli"
+  exit 0;
+fi
+
 if command -v go-gitmoji-cli >/dev/null 2>&1; then
   go-gitmoji-cli hooks --hook $gitParams
 else

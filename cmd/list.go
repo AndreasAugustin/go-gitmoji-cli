@@ -12,9 +12,6 @@ var ListCommitTypesCmd = &cobra.Command{
 	Use:   "commit-types",
 	Short: "List all the available commit types",
 	Long:  "The list from conventional commits is used",
-	PreRun: func(cmd *cobra.Command, args []string) {
-		programNameFigure()
-	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("list commit-types called")
 		spin := ui.NewSpinner()
@@ -32,9 +29,6 @@ var ListGitmojisCmd = &cobra.Command{
 	Use:   "gitmojis",
 	Short: "List all the available gitmojis",
 	Long:  fmt.Sprintf(`The list is queried from the api %s.`, pkg.DefaultGitmojiApiUrl),
-	PreRun: func(cmd *cobra.Command, args []string) {
-		programNameFigure()
-	},
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("list gitmojis called")
 		spin := ui.NewSpinner()
