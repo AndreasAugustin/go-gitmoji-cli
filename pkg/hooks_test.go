@@ -28,10 +28,15 @@ var expHookFileScript = `#!/bin/sh
 hookName=` + "`basename \"$0\"`" + `
 gitParams="$*"
 
-IS_AMEND=$(ps -ocommand= -p $PPID | grep -e '--amend');
+GIT_CMD=$(ps -ocommand= -p $PPID);
+IS_AMEND=$(echo "${GIT_CMD}" | grep -e '--amend');
+IS_REBASE=$(echo "${GIT_CMD}" | grep -e 'rebase');
 
 if [ -n "$IS_AMEND" ]; then
   echo "Using amend, skipping use of go-gitmoji-cli"
+  exit 0;
+elif [ -n "$IS_REBASE" ]; then
+  echo "Using rebase, skipping use of go-gitmoji-cli"
   exit 0;
 fi
 
