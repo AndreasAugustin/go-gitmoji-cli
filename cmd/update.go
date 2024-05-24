@@ -9,10 +9,7 @@ import (
 )
 
 var UpdateGitmojisCmd = &cobra.Command{
-	Use: "gitmojis",
-	PreRun: func(cmd *cobra.Command, args []string) {
-		programNameFigure()
-	},
+	Use:   "gitmojis",
 	Short: fmt.Sprintf("update the local gitmoji database %s", pkg.ProgramName),
 	Long:  fmt.Sprintf(`Update the gitmojis local cache from %s.`, pkg.DefaultGitmojiApiUrl),
 	Run: func(cmd *cobra.Command, args []string) {
@@ -33,10 +30,7 @@ var UpdateGitmojisCmd = &cobra.Command{
 }
 
 var updateCmd = &cobra.Command{
-	Use: "update",
-	PreRun: func(cmd *cobra.Command, args []string) {
-		programNameFigure()
-	},
+	Use:   "update",
 	Short: fmt.Sprintf("Manage %s updates", pkg.ProgramName),
 	Long:  `Update command for the cli.`,
 }
