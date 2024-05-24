@@ -9,11 +9,11 @@ var docStyle = lipgloss.NewStyle().Margin(1, 2)
 var (
 	textInputFocusedStyle  = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
 	textInputsBlurredStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("240"))
-	textInputsCursorStyle  = textInputFocusedStyle.Copy()
+	textInputsCursorStyle  = textInputFocusedStyle
 	noStyle                = lipgloss.NewStyle()
-	helpStyle              = textInputsBlurredStyle.Copy()
+	helpStyle              = textInputsBlurredStyle
 	cursorModeHelpStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("244"))
 
-	focusedButton = textInputFocusedStyle.Copy().Render("[ Submit ]")
+	focusedButton = textInputFocusedStyle.Render("[ Submit ]")
 	blurredButton = fmt.Sprintf("[ %s ]", textInputsBlurredStyle.Render("Submit"))
 )
