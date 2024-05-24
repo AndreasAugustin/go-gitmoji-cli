@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.5.1-alpha...v0.5.2-alpha) (2024-05-24)
+
+
+### Bug Fixes
+
+* **#131:** :bug: issue with hook when amending or rebasing ([#136](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/136)) ([99f7282](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/99f7282214dfb0f0196460b8d7a4e11b652e73ee))
+
 ## [0.5.1-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.5.0-alpha...v0.5.1-alpha) (2023-08-28)
 
 
