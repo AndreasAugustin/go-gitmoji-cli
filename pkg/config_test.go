@@ -35,6 +35,7 @@ func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
 	expected := pkg.Config{
 		EmojiFormat:           pkg.CODE,
 		AutoAdd:               false,
+		AutoSignature:         true,
 		ScopePrompt:           false,
 		BodyPrompt:            false,
 		CapitalizeTitle:       false,
@@ -46,6 +47,7 @@ func TestConfigDefaultValuesEqualsExpected(t *testing.T) {
 
 func TestConfigEnvVariablesEqualsExpected(t *testing.T) {
 	var autoadd = true
+	var autoSignature = true
 	var emojiFormat = pkg.EMOJI
 	var scopePrompt = true
 	var bodyPrompt = true
@@ -62,6 +64,7 @@ func TestConfigEnvVariablesEqualsExpected(t *testing.T) {
 	}()
 
 	t.Setenv(addEnvPrefix(string(pkg.AUTO_ADD)), strconv.FormatBool(autoadd))
+	t.Setenv(addEnvPrefix(string(pkg.AUTO_SIGNATURE)), strconv.FormatBool(autoSignature))
 	t.Setenv(addEnvPrefix(string(pkg.EMOJI_FORMAT)), string(emojiFormat))
 	t.Setenv(addEnvPrefix(string(pkg.SCOPE_PROMPT)), strconv.FormatBool(scopePrompt))
 	t.Setenv(addEnvPrefix(string(pkg.BODY_PROMPT)), strconv.FormatBool(bodyPrompt))
@@ -78,6 +81,7 @@ func TestConfigEnvVariablesEqualsExpected(t *testing.T) {
 		EmojiFormat:           emojiFormat,
 		AutoAdd:               autoadd,
 		AutoSign:              autoSign,
+		AutoSignature:         autoSignature,
 		ScopePrompt:           scopePrompt,
 		BodyPrompt:            bodyPrompt,
 		CapitalizeTitle:       capitalizeTitle,
@@ -102,6 +106,7 @@ func TestConfigConfigFileEqualsExpected(t *testing.T) {
 	expected := pkg.Config{
 		EmojiFormat:           pkg.EMOJI,
 		AutoAdd:               true,
+		AutoSignature:         true,
 		ScopePrompt:           true,
 		BodyPrompt:            true,
 		CapitalizeTitle:       true,

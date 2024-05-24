@@ -24,6 +24,7 @@ var ConfigCmd = &cobra.Command{
 		}
 		autoAdd := runConfigConfirmationPrompt("Enable automatic 'git add .'", config.AutoAdd)
 		autoSign := runConfigConfirmationPrompt("Automatically sign commits (add '-S' flag)", config.AutoSign)
+		autoSignature := runConfigConfirmationPrompt("Automatically add signature to commits (add '-s' flag)", config.AutoSignature)
 		emojiFormat := runEmojiSelectionPrompt("Select how emojis should be used in commits. For a comparison please visit https://gitmoji.dev/specification")
 		scopePrompt := runConfigConfirmationPrompt("Enable scope prompt", config.ScopePrompt)
 		bodyPrompt := runConfigConfirmationPrompt("Enable body prompt", config.BodyPrompt)
@@ -34,6 +35,7 @@ var ConfigCmd = &cobra.Command{
 		config = pkg.Config{
 			AutoAdd:               autoAdd,
 			AutoSign:              autoSign,
+			AutoSignature:         autoSignature,
 			EmojiFormat:           emojiFormat,
 			ScopePrompt:           scopePrompt,
 			CapitalizeTitle:       capitalizeTitle,

@@ -154,7 +154,7 @@ func CreateMessage(inputsRes []TextInputRes, selectedGitmoji Gitmoji, initialCom
 }
 
 func ExecuteCommit(title string, body string, config Config) {
-	commitCmd, err := utils.BuildGitCommitCommandStr(config.AutoAdd, config.AutoSign, title, body)
+	commitCmd, err := utils.BuildGitCommitCommandStr(config.AutoAdd, config.AutoSign, config.AutoSignature, title, body)
 	if err != nil {
 		log.Fatalf("error building commit message: %s", err)
 	}

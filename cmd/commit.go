@@ -74,6 +74,7 @@ func init() {
 
 	bindAndAddBoolFlagP(CommitCmd, string(pkg.AUTO_ADD), "auto-add", "a", "call git add . before commit")
 	bindAndAddBoolFlagP(CommitCmd, string(pkg.AUTO_SIGN), "auto-sign", "S", "add -S flag to git commit")
+	bindAndAddBoolFlagP(CommitCmd, string(pkg.AUTO_SIGNATURE), "auto-signature", "s", "add -s flag to add signature to git commit")
 	bindAndAddBoolFlag(CommitCmd, string(pkg.CAPITALIZE_TITLE), "capitalize-title", "capitalize the title")
 	bindAndAddBoolFlag(CommitCmd, string(pkg.SCOPE_PROMPT), "scope-prompt", "enable scope prompt")
 	bindAndAddBoolFlag(CommitCmd, string(pkg.BODY_PROMPT), "body-prompt", "enable body prompt")
