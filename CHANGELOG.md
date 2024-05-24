@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.5.2-alpha...v0.6.0-alpha) (2024-05-24)
+
+
+### Features
+
+* **#137:** :sparkles: possible to add a commit signature ([#140](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/140)) ([b939c3c](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/b939c3cb4f382c81e3c4670316dc447951c0ac03))
+
 ## [0.5.2-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.5.1-alpha...v0.5.2-alpha) (2024-05-24)
 
 
