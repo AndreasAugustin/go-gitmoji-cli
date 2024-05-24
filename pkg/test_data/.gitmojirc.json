@@ -1,6 +1,7 @@
 {
   "auto_add": true,
   "auto_sign": false,
+  "auto_signature": true,
   "body_prompt": true,
   "capitalize_title": true,
   "debug": true,

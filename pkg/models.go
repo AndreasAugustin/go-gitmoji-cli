@@ -47,6 +47,7 @@ type ConfigEnum string
 const (
 	AUTO_ADD                 ConfigEnum = "AUTO_ADD"
 	AUTO_SIGN                ConfigEnum = "AUTO_SIGN"
+	AUTO_SIGNATURE           ConfigEnum = "AUTO_SIGNATURE"
 	EMOJI_FORMAT             ConfigEnum = "EMOJI_FORMAT"
 	SCOPE_PROMPT             ConfigEnum = "SCOPE_PROMPT"
 	GITMOJIS_URL             ConfigEnum = "GITMOJIS_URL"
@@ -88,6 +89,7 @@ func (i EmojiCommitFormats) Description() string {
 type Config struct {
 	AutoAdd               bool               `mapstructure:"AUTO_ADD" json:"auto_add"`
 	AutoSign              bool               `mapstructure:"AUTO_SIGN" json:"auto_sign"`
+	AutoSignature         bool               `mapstructure:"AUTO_SIGNATURE" json:"auto_signature"`
 	EmojiFormat           EmojiCommitFormats `mapstructure:"EMOJI_FORMAT" json:"emoji_format"`
 	ScopePrompt           bool               `mapstructure:"SCOPE_PROMPT" json:"scope_prompt"`
 	BodyPrompt            bool               `mapstructure:"BODY_PROMPT" json:"body_prompt"`

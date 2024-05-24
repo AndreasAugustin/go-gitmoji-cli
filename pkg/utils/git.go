@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	log "github.com/sirupsen/logrus"
 	"strings"
 )
@@ -47,11 +48,14 @@ func Commit(commitCommand string) {
 	log.Infof("commit done: %s", resultOutput)
 }
 
-func BuildGitCommitCommandStr(isAutoAdd bool, isSignCommit bool, title string, body string) (string, error) {
+func BuildGitCommitCommandStr(isAutoAdd bool, isSignCommit bool, isCommitSignature bool, title string, body string) (string, error) {
 	var str strings.Builder
 	str.WriteString("git commit ")
 	if isAutoAdd {
 		str.WriteString("-a ")
+	}
+	if isCommitSignature {
+		str.WriteString("-s ")
 	}
 	if isSignCommit {
 		str.WriteString("-S ")
@@ -60,11 +64,11 @@ func BuildGitCommitCommandStr(isAutoAdd bool, isSignCommit bool, title string, b
 		return "", errors.New("the title must not be empty")
 	}
 	str.WriteString("-m ")
-	str.WriteString(title)
+	str.WriteString(fmt.Sprintf("'%s'", title))
 	str.WriteString(" ")
 	if body != "" {
 		str.WriteString("-m ")
-		str.WriteString(body)
+		str.WriteString(fmt.Sprintf("'%s'", body))
 	}
 	return str.String(), nil
 }
