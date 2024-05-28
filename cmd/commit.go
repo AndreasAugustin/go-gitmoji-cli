@@ -23,9 +23,9 @@ var CommitCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("commit called")
 		log.Debug(commitMsg)
-		spin := ui.NewSpinner()
-		spin.Run()
-		defer func() { spin.Stop() }()
+		//spin := ui.NewSpinner()
+		//spin.Run()
+		//defer func() { spin.Stop() }()
 		existentHookFiles, err := pkg.HookFilesExistent()
 		if err != nil {
 			log.Fatalf("Error checking if hook files existent")
@@ -33,7 +33,7 @@ var CommitCmd = &cobra.Command{
 		if len(existentHookFiles) > 0 {
 			log.Infof("There are hook files existent for %s", existentHookFiles)
 			log.Infof("Please use git commit command or remove the hooks with %s hooks rm", pkg.ProgramName)
-			spin.Stop()
+			//spin.Stop()
 			return
 		}
 		config, err := pkg.GetCurrentConfig()
@@ -49,7 +49,7 @@ var CommitCmd = &cobra.Command{
 			commitMsg,
 			gitmojis.Gitmojis,
 		)
-		spin.Stop()
+		//spin.Stop()
 		commitValues := ui.CommitPrompt(config, gitmojis.Gitmojis, initialCommitValues, isBreaking)
 		log.Debugf("complete title: %s", commitValues.Title)
 		if isDryRun {

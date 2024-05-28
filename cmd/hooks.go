@@ -17,9 +17,9 @@ var HooksRemoveCmd = &cobra.Command{
 	Long:  `Delete the commit hooks which are created by the cli`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks rm called")
-		spin := ui.NewSpinner()
-		spin.Run()
-		defer func() { spin.Stop() }()
+		//spin := ui.NewSpinner()
+		//spin.Run()
+		//defer func() { spin.Stop() }()
 		err := pkg.RemoveAllHookFiles()
 		if err != nil {
 			log.Error(err)
@@ -36,11 +36,11 @@ var HooksInitCmd = &cobra.Command{
 	Long:  `Install the commit hooks into the local .git/hooks/ directory.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("hooks init called")
-		spin := ui.NewSpinner()
-		spin.Run()
-		defer func() {
-			spin.Stop()
-		}()
+		//spin := ui.NewSpinner()
+		//spin.Run()
+		//defer func() {
+		//	spin.Stop()
+		//}()
 		err := pkg.CreateAllHookFiles()
 		if err != nil {
 			log.Error(err)
@@ -105,9 +105,9 @@ func init() {
 func hookCommit(commitMsgFile string, config pkg.Config) {
 	log.Debug("hook --hooks called")
 	log.Debug(commitMsg)
-	spin := ui.NewSpinner()
-	spin.Run()
-	defer func() { spin.Stop() }()
+	//spin := ui.NewSpinner()
+	//spin.Run()
+	//defer func() { spin.Stop() }()
 	existentHookFiles, err := pkg.HookFilesExistent()
 	if err != nil {
 		log.Fatalf("Error checking if hook files existent")
@@ -132,7 +132,7 @@ func hookCommit(commitMsgFile string, config pkg.Config) {
 		Desc:  parsedMessages.Desc,
 		Body:  parsedMessages.Body,
 	}
-	spin.Stop()
+	//spin.Stop()
 	commitValues := ui.CommitPrompt(config, gitmojis.Gitmojis, initialCommitValues, isBreaking)
 	commitMessage := fmt.Sprintf("%s\n\n%s", commitValues.Title, commitValues.Body)
 	err = utils.WriteFile(commitMsgFile, []byte(commitMessage))
