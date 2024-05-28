@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.6.0-alpha...v0.6.1-alpha) (2024-05-28)
+
+
+### Bug Fixes
+
+* **#146:** :bug: issue with spinner ([#147](https://github.com/AndreasAugustin/go-gitmoji-cli/issues/147)) ([5a4d0ff](https://github.com/AndreasAugustin/go-gitmoji-cli/commit/5a4d0ff6567e67f6b56863cf2474221bd68d1d70))
+
 ## [0.6.0-alpha](https://github.com/AndreasAugustin/go-gitmoji-cli/compare/v0.5.2-alpha...v0.6.0-alpha) (2024-05-24)
 
 
