@@ -1,7 +1,7 @@
 #######################################
 # image for dev build environment
 ######################################
-FROM golang:1.22-alpine3.18 as DEV
+FROM golang:1.22-alpine3.18 AS dev
 # install packages
 RUN apk add --update --no-cache bash make git zsh curl tmux
 
@@ -17,7 +17,7 @@ WORKDIR /app
 # image for creating the documentation
 ######################################
 
-FROM node:22.5.1-alpine as DOCS
+FROM node:22.5.1-alpine AS docs
 
 # install packages
 RUN apk add --update --no-cache bash make git zsh curl tmux
